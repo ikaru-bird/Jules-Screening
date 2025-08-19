@@ -1,9 +1,25 @@
 import yfinance as yf
 import pandas as pd
+import warnings
+
+# Suppress known, harmless warnings from dependencies for a cleaner output
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=UserWarning, message="pkg_resources is deprecated")
+
 import pandas_ta as ta
 import matplotlib.pyplot as plt
+import matplotlib.font_manager
 import argparse
 import sys
+
+
+def get_jp_font():
+    """Checks for a common Japanese font and returns its name if found."""
+    jp_font = 'IPAexGothic'
+    available_fonts = [f.name for f in matplotlib.font_manager.fontManager.ttflist]
+    if jp_font in available_fonts:
+        return jp_font
+    return None
 
 def generate_stock_chart(symbol):
     """
@@ -27,28 +43,28 @@ def generate_stock_chart(symbol):
         name = info.get('longName', 'N/A')
         sector = info.get('sector', 'N/A')
 
-        # Financials
-        latest_revenue = q_financials.loc['Total Revenue'].iloc[-4:].to_list() if 'Total Revenue' in q_financials.index else ['N/A']*4
-        latest_eps = q_earnings['Earnings'].iloc[-4:].to_list() if not q_earnings.empty else ['N/A']*4
-
-        # Format financial data for display
-        financial_summary = "Latest 4Q Results (Revenue | EPS):\n"
-        for i in range(4):
-            rev_str = f"${latest_revenue[i]/1e9:.2f}B" if isinstance(latest_revenue[i], (int, float)) else "N/A"
-            eps_str = f"${latest_eps[i]:.2f}" if isinstance(latest_eps[i], (int, float)) else "N/A"
-            financial_summary += f"Q{i-4}: {rev_str} | {eps_str}\n"
+        # Financials (Robust check for None)
+        latest_revenue = q_financials.loc['Total Revenue'].iloc[-4:].to_list() if q_financials is not None and not q_financials.empty and 'Total Revenue' in q_financials.index else ['N/A']*4
+        latest_eps = q_earnings['Earnings'].iloc[-4:].to_list() if q_earnings is not None and not q_earnings.empty else ['N/A']*4
 
         # Technical Indicators (MACD)
         hist.ta.macd(append=True)
 
         # --- 3. Create Plot ---
-        # Attempt to use a Japanese-supporting font
-        try:
-            plt.rcParams['font.family'] = 'IPAexGothic'
-            jp_font_found = True
-        except:
-            print("Warning: Japanese font not found. Using default font.", file=sys.stderr)
-            jp_font_found = False
+        # Check for Japanese font and set labels accordingly to avoid warnings
+        jp_font = get_jp_font()
+        if jp_font:
+            plt.rcParams['font.family'] = jp_font
+            sector_label = 'セクター'
+        else:
+            sector_label = 'Sector'
+
+        # Format financial data for display
+        financial_summary = f"Latest 4Q Results (Revenue | EPS):\n"
+        for i in range(4):
+            rev_str = f"${latest_revenue[i]/1e9:.2f}B" if isinstance(latest_revenue[i], (int, float)) else "N/A"
+            eps_str = f"${latest_eps[i]:.2f}" if isinstance(latest_eps[i], (int, float)) else "N/A"
+            financial_summary += f"Q{i-4}: {rev_str} | {eps_str}\n"
 
         fig, axes = plt.subplots(3, 1, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [3, 1, 1.5]})
         fig.suptitle(f"{symbol} - {name}", fontsize=20, y=0.98)
@@ -61,7 +77,7 @@ def generate_stock_chart(symbol):
         ax1.grid(True)
 
         # Add text info box
-        info_text = f"{'セクター' if jp_font_found else 'Sector'}: {sector}\n\n{financial_summary.strip()}"
+        info_text = f"{sector_label}: {sector}\n\n{financial_summary.strip()}"
         ax1.text(0.01, 0.98, info_text, transform=ax1.transAxes, fontsize=10,
                  verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.1))
 
