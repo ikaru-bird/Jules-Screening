@@ -12,16 +12,16 @@ def get_tickers_from_finviz():
     base_url = "https://finviz.com/screener.ashx?v=152&f=fa_epsqoq_o10,fa_epsyoy_o10,ind_stocksonly,sh_price_o10&ft=2&o=-marketcap&c=0,1,2,3,4,6,7,8,65,67,68"
 
     tickers = []
-    page = 1
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
 
-    while True:
+    # Limit to first 5 pages as per user's final instruction
+    for page in range(1, 6):
         # Finviz pagination is done by adding '&r=' where r is the starting rank
         url = f"{base_url}&r={(page-1)*20 + 1}"
-        print(f"Scraping page {page}: {url}")
+        print(f"Scraping page {page}/5: {url}")
 
         try:
             response = requests.get(url, headers=headers)
