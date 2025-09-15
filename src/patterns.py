@@ -121,6 +121,11 @@ def check_cup_with_handle(df_hist):
     """
     Checks for a Cup With Handle (CWH) chart pattern.
     This function is a refactored, more readable version of the original logic.
+
+    Returns:
+        A tuple containing:
+        - status (str): "FAIL", "WATCH", or "BREAKOUT"
+        - reason (str): A description of the result.
     """
     # Ensure data is sorted and has the required MA50
     df = df_hist.sort_index()
@@ -129,21 +134,26 @@ def check_cup_with_handle(df_hist):
 
     # Stage 1: Find the major low and subsequent high that form the cup.
     cup_bottom_date, cup_high_date, err = _find_cup_low_and_high(df)
-    if err: return False, f"Stage 1 (Cup Shape): {err}"
+    if err:
+        return "FAIL", f"Stage 1 (Cup Shape): {err}"
 
     cup_high_price = df.loc[cup_high_date, 'High']
 
     # Stage 2: Verify the consolidation base.
     base_start_date, err = _check_base_formation(df, cup_high_date, cup_high_price)
-    if err: return False, f"Stage 2 (Base): {err}"
+    if err:
+        return "FAIL", f"Stage 2 (Base): {err}"
 
     # Stage 3: Check for the handle formation.
     handle_low_date, pivot_price, err = _check_handle_formation(df, base_start_date, cup_high_price)
-    if err: return False, f"Stage 3 (Handle): {err}"
+    if err:
+        return "FAIL", f"Stage 3 (Handle): {err}"
 
     # Stage 4: Look for a pivot breakout.
     is_breakout, reason = _check_pivot_breakout(df, handle_low_date, pivot_price)
     if not is_breakout:
-        return False, f"Stage 4 (Pivot): {reason}"
+        # Passed stages 1-3, but hasn't broken out yet. This is a "watch" case.
+        return "WATCH", f"Awaiting Breakout: {reason}"
 
-    return True, reason
+    # Passed all stages, including breakout.
+    return "BREAKOUT", reason

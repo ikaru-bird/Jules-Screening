@@ -17,7 +17,7 @@ def _get_jp_font():
         return jp_font
     return None
 
-def _plot_price_and_info(ax, hist, symbol, info, financial_summary):
+def _plot_price_and_info(ax, hist, symbol, info, financial_summary, status):
     """Plots the price chart and info box on the given axes."""
     jp_font = _get_jp_font()
     sector_label = 'セクター' if jp_font else 'Sector'
@@ -25,9 +25,11 @@ def _plot_price_and_info(ax, hist, symbol, info, financial_summary):
     name = info.get('longName', 'N/A')
     sector = info.get('sector', 'N/A')
 
+    title_status = f" - {status}" if status else ""
+    ax.set_title(f"{symbol} - {name}{title_status}\nPrice, Volume, MACD")
+
     ax.plot(hist.index, hist['Close'], label='Close Price', color='blue')
     ax.set_ylabel("Price (USD)")
-    ax.set_title(f"{symbol} - {name}\nPrice, Volume, MACD")
     ax.grid(True)
 
     info_text = f"{sector_label}: {sector}\n\n{financial_summary.strip()}"
@@ -49,31 +51,36 @@ def _plot_macd(ax, hist):
     ax.legend()
     ax.grid(True)
 
-def generate_stock_chart(symbol):
+def generate_stock_chart(symbol, status=None):
     """
     Generates and saves a detailed stock chart for a given symbol.
     The chart includes price, volume, MACD, and key financial info.
+    An optional status can be provided to be included in the title and filename.
     """
     try:
         ticker = yf.Ticker(symbol)
         info = ticker.info
         hist = ticker.history(period="1y", interval="1d")
         q_financials = ticker.quarterly_financials
-        q_earnings = ticker.quarterly_earnings
 
         if hist.empty:
             print(f"Error: No historical data found for {symbol}", file=sys.stderr)
             return
 
         # Prepare financial data for display
-        latest_revenue = q_financials.loc['Total Revenue'].iloc[-4:].to_list() if q_financials is not None and not q_financials.empty and 'Total Revenue' in q_financials.index else ['N/A']*4
-        latest_eps = q_earnings['Earnings'].iloc[-4:].to_list() if q_earnings is not None and not q_earnings.empty else ['N/A']*4
+        latest_revenue = ['N/A']*4
+        if q_financials is not None and not q_financials.empty and 'Total Revenue' in q_financials.index:
+            latest_revenue = q_financials.loc['Total Revenue'].iloc[:4].to_list()
+
+        latest_eps = ['N/A']*4
+        if q_financials is not None and not q_financials.empty and 'Basic EPS' in q_financials.index:
+            latest_eps = q_financials.loc['Basic EPS'].iloc[:4].to_list()
 
         financial_summary = "Latest 4Q Results (Revenue | EPS):\n"
         for i in range(4):
             rev_str = f"${latest_revenue[i]/1e9:.2f}B" if isinstance(latest_revenue[i], (int, float)) else "N/A"
             eps_str = f"${latest_eps[i]:.2f}" if isinstance(latest_eps[i], (int, float)) else "N/A"
-            financial_summary += f"Q{i-4}: {rev_str} | {eps_str}\n"
+            financial_summary += f"Q{i-3}: {rev_str} | {eps_str}\n"
 
         # Calculate technical indicators
         hist.ta.macd(append=True)
@@ -85,7 +92,7 @@ def generate_stock_chart(symbol):
 
         fig, axes = plt.subplots(3, 1, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [3, 1, 1.5]})
 
-        _plot_price_and_info(axes[0], hist, symbol, info, financial_summary)
+        _plot_price_and_info(axes[0], hist, symbol, info, financial_summary, status)
         _plot_volume(axes[1], hist)
         _plot_macd(axes[2], hist)
 
@@ -93,7 +100,8 @@ def generate_stock_chart(symbol):
         fig.tight_layout(rect=[0, 0, 1, 0.96])
 
         # Save figure
-        filename = f"{symbol}.png"
+        filename_status = f"_{status}" if status else ""
+        filename = f"{symbol}{filename_status}.png"
         plt.savefig(filename)
         plt.close(fig) # Close the figure to free memory
         print(f"Chart for {symbol} saved as {filename}")

@@ -65,19 +65,25 @@ def run_screening(tickers):
             hist_df = ticker.history(period=config.CWH_LOOKBACK_PERIOD)
             # Convert index to timezone-naive to prevent comparison errors
             hist_df.index = hist_df.index.tz_localize(None)
-            cwh_ok, reason = check_cup_with_handle(hist_df.copy())
-            if not cwh_ok:
+
+            status, reason = check_cup_with_handle(hist_df.copy())
+
+            if status == "FAIL":
                 logging.info(f"Skipping {symbol}: Failed CWH check. Reason: {reason}")
                 continue
 
-            # --- Qualification ---
-            logging.info(f"QUALIFIED: {symbol}. Reason: {reason}")
-            print(f"\nQUALIFIED: {symbol} - {reason}")
-            qualified_stocks.append(symbol)
+            # --- Qualification (WATCH or BREAKOUT) ---
+            logging.info(f"MATCH ({status}): {symbol}. Reason: {reason}")
+            print(f"\nMATCH ({status}): {symbol} - {reason}")
+            qualified_stocks.append({
+                'Ticker': symbol,
+                'Status': status,
+                'Reason': reason
+            })
 
             # Generate chart for the qualified stock
-            print(f"Generating chart for {symbol}...")
-            generate_stock_chart(symbol)
+            print(f"Generating chart for {symbol} ({status})...")
+            generate_stock_chart(symbol, status)
 
             time.sleep(random.uniform(1, 3)) # Be polite to the API
 
@@ -87,9 +93,9 @@ def run_screening(tickers):
 
     # --- Save Results ---
     if qualified_stocks:
-        results_df = pd.DataFrame(qualified_stocks, columns=['Ticker'])
+        results_df = pd.DataFrame(qualified_stocks)
         results_df.to_csv(config.RESULTS_FILE, index=False)
-        print(f"\nScreening complete. Found {len(qualified_stocks)} qualified stocks.")
+        print(f"\nScreening complete. Found {len(qualified_stocks)} stocks to watch or that broke out.")
         print(f"Final list saved to {config.RESULTS_FILE}")
         print("Charts for these stocks have been generated in the root directory.")
     else:
