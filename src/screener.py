@@ -63,6 +63,8 @@ def run_screening(tickers):
 
             # --- Apply Chart Pattern Analysis ---
             hist_df = ticker.history(period=config.CWH_LOOKBACK_PERIOD)
+            # Convert index to timezone-naive to prevent comparison errors
+            hist_df.index = hist_df.index.tz_localize(None)
             cwh_ok, reason = check_cup_with_handle(hist_df.copy())
             if not cwh_ok:
                 logging.info(f"Skipping {symbol}: Failed CWH check. Reason: {reason}")
