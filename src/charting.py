@@ -3,6 +3,7 @@ import pandas_ta as ta
 import matplotlib.pyplot as plt
 import matplotlib.font_manager
 import sys
+import os
 import warnings
 
 # Suppress known, harmless warnings from dependencies for a cleaner output
@@ -100,11 +101,16 @@ def generate_stock_chart(symbol, status=None):
         fig.tight_layout(rect=[0, 0, 1, 0.96])
 
         # Save figure
+        output_dir = "output"
+        os.makedirs(output_dir, exist_ok=True)
+
         filename_status = f"_{status}" if status else ""
         filename = f"{symbol}{filename_status}.png"
-        plt.savefig(filename)
+        filepath = os.path.join(output_dir, filename)
+
+        plt.savefig(filepath)
         plt.close(fig) # Close the figure to free memory
-        print(f"Chart for {symbol} saved as {filename}")
+        print(f"Chart for {symbol} saved as {filepath}")
 
     except Exception as e:
         print(f"An error occurred while generating chart for {symbol}: {e}", file=sys.stderr)
