@@ -43,6 +43,7 @@ def run_screening(ticker_df):
             stock_data = {
                 'ticker': symbol,
                 'name': stock.Name,
+                'sector': stock.Sector,
                 'industry': stock.Industry
             }
 
@@ -87,6 +88,7 @@ def run_screening(ticker_df):
             qualified_stocks.append({
                 'Ticker': symbol,
                 'Name': stock.Name,
+                'Sector': stock.Sector,
                 'Industry': stock.Industry,
                 'Status': status,
                 'Reason': reason

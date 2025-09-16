@@ -20,12 +20,10 @@ def _get_jp_font():
 
 def _plot_price_and_info(ax, hist, stock_data, financial_summary, status):
     """Plots the price chart and info box on the given axes."""
-    jp_font = _get_jp_font()
-    industry_label = 'Industry' if not jp_font else '業種'
-
     # Use data passed from our input file
     symbol = stock_data['ticker']
     name = stock_data['name']
+    sector = stock_data['sector']
     industry = stock_data['industry']
 
     title_status = f" - {status}" if status else ""
@@ -35,10 +33,11 @@ def _plot_price_and_info(ax, hist, stock_data, financial_summary, status):
     ax.set_ylabel("Price (USD)")
     ax.grid(True)
 
-    # Display Company Name and Industry in the info box
+    # Display Company Name, Sector, and Industry in the info box
     info_text = (
         f"Company: {name}\n"
-        f"{industry_label}: {industry}\n\n"
+        f"Sector: {sector}\n"
+        f"Industry: {industry}\n\n"
         f"{financial_summary.strip()}"
     )
     ax.text(0.01, 0.98, info_text, transform=ax.transAxes, fontsize=10,

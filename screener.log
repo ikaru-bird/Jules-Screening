@@ -1,0 +1,6 @@
+2025-09-16 12:47:46,341 - INFO - Screening initiated for 5 tickers.
+2025-09-16 12:47:47,408 - INFO - Skipping NVDA: Failed CWH check. Reason: Stage 2 (Base): Base duration (34 days) is out of range
+2025-09-16 12:47:48,114 - INFO - Skipping MSFT: Failed financial check. Reason: 3Y EPS CAGR 12.20% < 15%
+2025-09-16 12:47:48,736 - INFO - Skipping GOOG: Failed financial check. Reason: 3Y EPS CAGR 12.61% < 15%
+2025-09-16 12:47:49,488 - INFO - Skipping GOOGL: Failed financial check. Reason: 3Y EPS CAGR 12.61% < 15%
+2025-09-16 12:47:50,315 - INFO - MATCH (WATCH): AMZN. Reason: Awaiting Breakout: No pivot breakout within the lookahead period
