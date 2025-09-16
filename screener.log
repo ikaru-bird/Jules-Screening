@@ -1,6 +1,0 @@
-2025-09-14 23:47:52,664 - INFO - Screening initiated for 5 tickers.
-2025-09-14 23:47:53,253 - INFO - Skipping AAPL: Failed financial check. Reason: Not enough quarterly data
-2025-09-14 23:47:53,629 - INFO - Skipping MSFT: Failed financial check. Reason: Not enough quarterly data
-2025-09-14 23:47:53,976 - INFO - Skipping NVDA: Failed financial check. Reason: Not enough quarterly data
-2025-09-14 23:47:54,366 - INFO - Skipping TSLA: Failed financial check. Reason: ROE 0.08177 < 0.15
-2025-09-14 23:47:54,796 - INFO - Skipping AMD: Failed financial check. Reason: ROE 0.04699 < 0.15
