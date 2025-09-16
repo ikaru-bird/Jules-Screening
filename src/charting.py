@@ -18,13 +18,15 @@ def _get_jp_font():
         return jp_font
     return None
 
-def _plot_price_and_info(ax, hist, symbol, info, financial_summary, status):
+def _plot_price_and_info(ax, hist, stock_data, financial_summary, status):
     """Plots the price chart and info box on the given axes."""
     jp_font = _get_jp_font()
-    sector_label = 'セクター' if jp_font else 'Sector'
+    industry_label = 'Industry' if not jp_font else '業種'
 
-    name = info.get('longName', 'N/A')
-    sector = info.get('sector', 'N/A')
+    # Use data passed from our input file
+    symbol = stock_data['ticker']
+    name = stock_data['name']
+    industry = stock_data['industry']
 
     title_status = f" - {status}" if status else ""
     ax.set_title(f"{symbol} - {name}{title_status}\nPrice, Volume, MACD")
@@ -33,7 +35,12 @@ def _plot_price_and_info(ax, hist, symbol, info, financial_summary, status):
     ax.set_ylabel("Price (USD)")
     ax.grid(True)
 
-    info_text = f"{sector_label}: {sector}\n\n{financial_summary.strip()}"
+    # Display Company Name and Industry in the info box
+    info_text = (
+        f"Company: {name}\n"
+        f"{industry_label}: {industry}\n\n"
+        f"{financial_summary.strip()}"
+    )
     ax.text(0.01, 0.98, info_text, transform=ax.transAxes, fontsize=10,
              verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.1))
 
@@ -52,15 +59,15 @@ def _plot_macd(ax, hist):
     ax.legend()
     ax.grid(True)
 
-def generate_stock_chart(symbol, status=None):
+def generate_stock_chart(stock_data, status=None):
     """
-    Generates and saves a detailed stock chart for a given symbol.
+    Generates and saves a detailed stock chart for a given stock.
     The chart includes price, volume, MACD, and key financial info.
     An optional status can be provided to be included in the title and filename.
     """
+    symbol = stock_data['ticker']
     try:
         ticker = yf.Ticker(symbol)
-        info = ticker.info
         hist = ticker.history(period="1y", interval="1d")
         q_financials = ticker.quarterly_financials
 
@@ -93,7 +100,8 @@ def generate_stock_chart(symbol, status=None):
 
         fig, axes = plt.subplots(3, 1, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [3, 1, 1.5]})
 
-        _plot_price_and_info(axes[0], hist, symbol, info, financial_summary, status)
+        # Pass the entire stock_data object to the plotting function
+        _plot_price_and_info(axes[0], hist, stock_data, financial_summary, status)
         _plot_volume(axes[1], hist)
         _plot_macd(axes[2], hist)
 
