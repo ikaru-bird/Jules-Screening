@@ -25,35 +25,31 @@ MIN_ROE = 0.12 # Strict: 0.15
 MIN_Q_EPS_GROWTH = 0.15 # Strict: 0.25
 MIN_ANNUAL_EPS_GROWTH_CAGR = 0.15 # Strict: 0.25
 
-# -- Cup With Handle (CWH) Pattern Parameters --
+# -- Cup With Handle (CWH) Pattern Parameters (REVISED) --
 CWH_LOOKBACK_PERIOD = "2y" # Data period to fetch for pattern analysis
+
+# Prior Uptrend parameters
+UPTREND_LOOKBACK_DAYS = 90 # Look back 3 months for a prior uptrend
+UPTREND_MIN_RISE_FACTOR = 1.3 # Must have risen at least 30%
 
 # Cup parameters
 # Using 'Standard' profile. 'Strict' value is commented out.
-CUP_MIN_DEPTH_FACTOR = 1.2 # The peak of the cup must be at least 20% higher. Strict: 1.3
-
-# Base (consolidation period) parameters
-# Defines the allowable range for the base consolidation, relative to the cup's high.
-# e.g., MIN_FACTOR=0.75 means the base can't be deeper than 25% from the high.
-BASE_DEPTH_MIN_FACTOR = 0.75 # Max depth of consolidation relative to cup peak
-BASE_DEPTH_MAX_FACTOR = 1.05 # Max height of consolidation relative to cup peak
-BASE_MIN_DURATION_DAYS = 49  # 7 weeks
-BASE_MAX_DURATION_DAYS = 455 # 65 weeks
-# Using 'Standard' profile. 'Strict' value is commented out.
-BASE_MAX_VOLATILITY = 0.20   # Max price volatility (std dev / mean) during base formation. Strict: 0.15
-
-# Cup lip formation parameters
-CUP_LIP_MIN_FACTOR = 0.95 # The price should approach the old high
-CUP_LIP_MAX_FACTOR = 1.05 # But not exceed it by too much before the handle
+CUP_MIN_DEPTH_FACTOR = 1.25 # The peak must be >= 25% higher than the bottom. Strict: 1.3
+CUP_MIN_DURATION_DAYS = 49  # 7 weeks
+CUP_MAX_DURATION_DAYS = 455 # 65 weeks
+# The two lips of the cup should be close in price
+CUP_LIP_MAX_DEVIATION = 1.10 # Right lip can be max 10% higher than left
+CUP_LIP_MIN_DEVIATION = 0.90 # Right lip can be min 10% lower than left
+# To ensure a "U" shape, not a "V"
+CUP_MIN_ROUNDED_POINTS = 5 # At least 5 days must be near the cup's low point
 
 # Handle parameters
-HANDLE_MAX_DURATION_DAYS = 60
-HANDLE_MIN_DURATION_DAYS = 5
-# Defines the allowable pullback of the handle.
-# e.g., MIN=0.85 allows a pullback of up to 15% from the handle's peak.
-# e.g., MAX=0.98 requires a pullback of at least 2%.
-HANDLE_DEPTH_MIN_FACTOR = 0.85 # How far the handle can pull back from its own little peak
-HANDLE_DEPTH_MAX_FACTOR = 0.98
+HANDLE_MAX_DURATION_DAYS = 60 # 12 weeks
+HANDLE_MIN_DURATION_DAYS = 5   # 1 week
+# Defines the allowable pullback of the handle relative to the cup's high.
+# e.g., MIN=0.85 allows a pullback of up to 15%.
+HANDLE_DEPTH_MIN_FACTOR = 0.85 # Max pullback depth
+HANDLE_DEPTH_MAX_FACTOR = 1.00 # Handle shouldn't be higher than the cup's high
 
 # Pivot (breakout) parameters
 PIVOT_LOOKAHEAD_DAYS = 30    # How many days to look for a pivot breakout after the handle
