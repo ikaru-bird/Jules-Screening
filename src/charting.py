@@ -11,11 +11,14 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning, message="pkg_resources is deprecated")
 
 def _get_jp_font():
-    """Checks for a common Japanese font and returns its name if found."""
-    jp_font = 'IPAexGothic'
+    """Checks for common Japanese fonts and returns the name of the first one found."""
+    jp_fonts = ['IPAexGothic', 'MS Gothic', 'Yu Gothic', 'Hiragino Sans', 'Osaka']
     available_fonts = [f.name for f in matplotlib.font_manager.fontManager.ttflist]
-    if jp_font in available_fonts:
-        return jp_font
+
+    for font in jp_fonts:
+        if font in available_fonts:
+            return font
+
     return None
 
 def _plot_price_and_info(ax, hist, stock_data, financial_summary, status):
@@ -96,6 +99,8 @@ def generate_stock_chart(stock_data, status=None):
         jp_font = _get_jp_font()
         if jp_font:
             plt.rcParams['font.family'] = jp_font
+        else:
+            print(f"Warning: No Japanese font found. Japanese characters may not render correctly.", file=sys.stderr)
 
         fig, axes = plt.subplots(3, 1, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [3, 1, 1.5]})
 
