@@ -1,0 +1,5 @@
+2025-09-23 11:02:34,378 - INFO - Screening initiated for 4 tickers.
+2025-09-23 11:02:35,164 - INFO - Skipping AAPL: Failed financial checks (Passed 2/4). Reasons: Q EPS: Q EPS Growth 12.14% < 15%; Annual EPS: 3Y EPS CAGR 2.52% < 15%
+2025-09-23 11:02:35,815 - INFO - MATCH (OK): GOOG. Reason: Financials Passed
+2025-09-23 11:02:42,399 - INFO - MATCH (OK): RIVN. Reason: Financials Passed
+2025-09-23 11:02:47,838 - INFO - Skipping BCAL: Failed financial checks (Passed 2/4). Reasons: ROE: ROE 7.44% < 12%; Annual EPS: 3Y EPS CAGR -33.26% < 15%
