@@ -99,7 +99,7 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     # 4. Future Estimates
     info = stock_data.get('info', {})
     calendar = stock_data.get('calendar', {})
-    estimates_summary = "\n\nGudance | Rev | EPS:\n"
+    estimates_summary = "\n\nGuidance | Rev | EPS:\n"
     next_q_eps = calendar.get('Earnings Average', '--')
     next_q_rev = calendar.get('Revenue Average', '--')
     fwd_eps = info.get('forwardEps', '--')
@@ -110,8 +110,8 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     eps_y_str = f"${fwd_eps:.2f}" if isinstance(fwd_eps, (int, float)) else "--"
     rev_y_str = f"{rev_growth:.2%}" if isinstance(rev_growth, (int, float)) else "--"
 
-    estimates_summary += f" Next Q | {rev_q_str:<8} | {eps_q_str:<5}\n"
-    estimates_summary += f" Annual | {rev_y_str:<8} | {eps_y_str:<5}\n"
+    estimates_summary += f"  Next Q | {rev_q_str:<8} | {eps_q_str:<5}\n"
+    estimates_summary += f"  Annual | {rev_y_str:<8} | {eps_y_str:<5}\n"
     info_text += estimates_summary
 
     # Plotting
