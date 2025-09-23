@@ -91,7 +91,7 @@ def generate_stock_chart(stock_data, status=None):
             rev_str = f"${latest_revenue[i]/1e9:.2f}B" if isinstance(latest_revenue[i], (int, float)) else "N/A"
             eps_str = f"${latest_eps[i]:.2f}" if isinstance(latest_eps[i], (int, float)) else "N/A"
             q_num = i - 3
-            financial_summary += f"Q{q_num: >2}: {rev_str} | {eps_str}\n"
+            financial_summary += f"Q{str(q_num) if q_num != 0 else '-0'}: {rev_str}  |  {eps_str}\n"
 
         # Calculate technical indicators
         hist.ta.macd(append=True)
