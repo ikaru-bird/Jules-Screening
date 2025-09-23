@@ -105,49 +105,61 @@ def get_annual_eps_cagr_data(ticker: yf.Ticker, years: int = 3):
 
 
 def check_price(ticker_info):
-    """Checks if the stock price is above the minimum threshold."""
+    """
+    Checks if the stock price is above the minimum threshold.
+    Returns (True, '--') if data is unavailable.
+    """
     try:
         price = ticker_info.get('currentPrice')
-        if price is not None and price >= config.MIN_PRICE:
+        if price is None:
+            return True, "--"  # Treat as OK if data is missing
+        if price >= config.MIN_PRICE:
             return True, f"Price {price:.2f} >= {config.MIN_PRICE}"
-        return False, f"Price {price} < {config.MIN_PRICE}"
+        else:
+            return False, f"Price {price:.2f} < {config.MIN_PRICE}"
     except Exception:
-        return False, "Could not check price"
+        return True, "--"  # Treat as OK on error
 
 def check_roe(ticker_info):
-    """Checks if the Return on Equity is above the minimum threshold."""
+    """
+    Checks if the Return on Equity is above the minimum threshold.
+    Returns (True, '--') if data is unavailable.
+    """
     try:
         roe = ticker_info.get('returnOnEquity')
-        if roe is not None and roe >= config.MIN_ROE:
-            return True, f"ROE {roe:.2f} >= {config.MIN_ROE}"
-        return False, f"ROE {roe} < {config.MIN_ROE}"
+        if roe is None:
+            return True, "--" # Treat as OK if data is missing
+        if roe >= config.MIN_ROE:
+            return True, f"ROE {roe:.2%} >= {config.MIN_ROE:.0%}"
+        else:
+            return False, f"ROE {roe:.2%} < {config.MIN_ROE:.0%}"
     except Exception:
-        return False, "Could not check ROE"
+        return True, "--" # Treat as OK on error
 
 def check_quarterly_eps_growth(ticker: yf.Ticker):
     """
-    Checks if the most recent quarterly EPS has grown sufficiently YoY
-    by using a robust data fetching method.
+    Checks if the most recent quarterly EPS has grown sufficiently YoY.
+    Returns (True, '--') if data is unavailable.
     """
     growth, reason = get_quarterly_eps_growth_data(ticker)
 
     if growth is None:
-        return False, reason  # reason will contain the failure message
+        return True, "--"  # Treat as OK if data is missing
 
     if growth >= config.MIN_Q_EPS_GROWTH:
-        return True, f"Quarterly EPS Growth {growth:.2%} >= {config.MIN_Q_EPS_GROWTH:.0%}"
+        return True, f"Q EPS Growth {growth:.2%} >= {config.MIN_Q_EPS_GROWTH:.0%}"
     else:
-        return False, f"Quarterly EPS Growth {growth:.2%} < {config.MIN_Q_EPS_GROWTH:.0%}"
+        return False, f"Q EPS Growth {growth:.2%} < {config.MIN_Q_EPS_GROWTH:.0%}"
 
 def check_annual_eps_growth(ticker: yf.Ticker):
     """
-    Checks if the 3-year average annual EPS growth (CAGR) is sufficient
-    by using a robust data fetching method.
+    Checks if the 3-year average annual EPS growth (CAGR) is sufficient.
+    Returns (True, '--') if data is unavailable.
     """
     cagr, reason = get_annual_eps_cagr_data(ticker, years=3)
 
     if cagr is None:
-        return False, reason  # reason will contain the failure message
+        return True, "--"  # Treat as OK if data is missing
 
     if cagr >= config.MIN_ANNUAL_EPS_GROWTH_CAGR:
         return True, f"3Y EPS CAGR {cagr:.2%} >= {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
