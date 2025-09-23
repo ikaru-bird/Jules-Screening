@@ -44,7 +44,8 @@ def _plot_price_and_info(ax, hist, stock_data, financial_summary, status):
         f"{financial_summary.strip()}"
     )
     ax.text(0.01, 0.98, info_text, transform=ax.transAxes, fontsize=10,
-             verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.1))
+             verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.1),
+             fontfamily='monospace')
 
 def _plot_volume(ax, hist):
     """Plots the volume chart on the given axes."""
@@ -91,7 +92,7 @@ def generate_stock_chart(stock_data, status=None):
             rev_str = f"${latest_revenue[i]/1e9:.2f}B" if isinstance(latest_revenue[i], (int, float)) else "N/A"
             eps_str = f"${latest_eps[i]:.2f}" if isinstance(latest_eps[i], (int, float)) else "N/A"
             q_num = i - 3
-            financial_summary += f"Q{str(q_num) if q_num != 0 else '-0'}: {rev_str}  |  {eps_str}\n"
+            financial_summary += f"Q{str(q_num) if q_num != 0 else '-0'}: {rev_str} | {eps_str}\n"
 
         # Calculate technical indicators
         hist.ta.macd(append=True)
