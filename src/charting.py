@@ -58,7 +58,7 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     earnings_dates = stock_data.get('earnings_dates')
     financial_summary = ""
     if q_financials is not None and not q_financials.empty:
-        financial_summary += "Recent Results (vs. Estimate):\n"
+        financial_summary += "Earnings | Rev | EPS(vs. Estimate):\n"
         if earnings_dates is not None and not earnings_dates.empty:
             earnings_dates.index = pd.to_datetime(earnings_dates.index).tz_localize(None)
 
@@ -92,14 +92,14 @@ def _plot_price_and_info(ax, hist, stock_data, status):
                         eps_beat_miss_str = f" vs {estimate_eps:.2f} ({indicator})"
 
             q_date_str = q_date.strftime('%Y-%m')
-            financial_summary += f" {q_date_str} | Rev: {rev_str:<8} | EPS: {eps_str}{eps_beat_miss_str}\n"
+            financial_summary += f" {q_date_str} | {rev_str:<8} | {eps_str}{eps_beat_miss_str}\n"
 
     info_text += financial_summary.strip()
 
     # 4. Future Estimates
     info = stock_data.get('info', {})
     calendar = stock_data.get('calendar', {})
-    estimates_summary = "\n\nEstimates:\n"
+    estimates_summary = "\n\nEstimates Rev | EPS:\n"
     next_q_eps = calendar.get('Earnings Average', '--')
     next_q_rev = calendar.get('Revenue Average', '--')
     fwd_eps = info.get('forwardEps', '--')
@@ -111,7 +111,7 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     rev_y_str = f"{rev_growth:.2%}" if isinstance(rev_growth, (int, float)) else "--"
 
     estimates_summary += f"  Next Q: {rev_q_str:<8} | {eps_q_str:<5}\n"
-    estimates_summary += f"  Annual: {rev_y_str:<8} | {eps_y_str:<5} (EPS)\n"
+    estimates_summary += f"  Annual: {rev_y_str:<8} | {eps_y_str:<5}\n"
     info_text += estimates_summary
 
     # Plotting
