@@ -185,3 +185,229 @@ def check_cup_with_handle(df_hist):
 
     # Passed all stages, including breakout.
     return "BREAKOUT", breakout_reason
+
+
+def _check_prior_downtrend(df, first_trough_date):
+    """
+    Checks for a significant downtrend prior to the Double Bottom formation.
+    The price should have dropped by at least DB_DOWNTREND_MIN_DROP_FACTOR.
+    """
+    downtrend_start_date = first_trough_date - dt.timedelta(days=config.DB_DOWNTREND_LOOKBACK_DAYS)
+    downtrend_df = df.loc[downtrend_start_date:first_trough_date]
+
+    if downtrend_df.empty:
+        return False, "Not enough data for downtrend check"
+
+    start_price = downtrend_df['High'].iloc[0]
+    end_price = df.loc[first_trough_date, 'Low']
+
+    if start_price >= end_price * config.DB_DOWNTREND_MIN_DROP_FACTOR:
+        return True, "Prior downtrend confirmed"
+    else:
+        return False, f"Price did not drop enough in the {config.DB_DOWNTREND_LOOKBACK_DAYS} days prior to the first trough"
+
+
+def _check_trough_roundness(df, trough_date, trough_price):
+    """
+    Checks if a trough has a rounded bottom.
+    """
+    trough_period_start = trough_date - dt.timedelta(days=10)
+    trough_period_end = trough_date + dt.timedelta(days=10)
+    trough_df = df.loc[trough_period_start:trough_period_end]
+
+    low_points_count = trough_df[trough_df['Low'] < trough_price * 1.05].shape[0]
+
+    if low_points_count < config.DB_MIN_ROUNDED_POINTS:
+        return False, f"Trough at {trough_date.date()} is too sharp (V-shaped), not enough rounding ({low_points_count} points)"
+
+    return True, None
+
+
+def _find_double_bottom_shape(df):
+    """
+    Identifies a valid Double Bottom shape (W-shape).
+    """
+    if len(df) < config.DB_DURATION_MIN_DAYS:
+        return None, None, None, None, "Not enough historical data"
+
+    # Find the first trough (lowest point in the first half of the period)
+    first_half_df = df.iloc[:int(len(df) * 0.75)]
+    first_trough_date = first_half_df['Low'].idxmin()
+    first_trough_price = first_half_df['Low'].min()
+
+    # Check roundness of the first trough
+    is_rounded, reason = _check_trough_roundness(df, first_trough_date, first_trough_price)
+    if not is_rounded:
+        return None, None, None, None, reason
+
+    # Define a search period for the peak, which must occur after the first trough
+    peak_search_start_date = first_trough_date + dt.timedelta(days=5) # Allow some time to rise
+    peak_search_end_date = first_trough_date + dt.timedelta(days=config.DB_DURATION_MAX_DAYS / 2)
+    peak_search_df = df.loc[peak_search_start_date:peak_search_end_date]
+
+    if peak_search_df.empty:
+        return None, None, None, None, "No data to search for a peak"
+
+    peak_date = peak_search_df['High'].idxmax()
+    peak_price = peak_search_df['High'].max()
+
+    # The peak must be a significant rise from the first trough
+    if not peak_price >= first_trough_price * config.DB_PEAK_MIN_RISE_FACTOR:
+        return None, None, None, None, f"Peak at {peak_date.date()} is not high enough relative to the first trough."
+
+    # Find the second trough, which must occur after the peak
+    second_trough_search_start_date = peak_date + dt.timedelta(days=5)
+    second_trough_search_df = df.loc[second_trough_search_start_date:]
+
+    if second_trough_search_df.empty:
+        return None, None, None, None, "No data after peak to find second trough"
+
+    second_trough_date = second_trough_search_df['Low'].idxmin()
+    second_trough_price = second_trough_search_df['Low'].min()
+
+    # Check roundness of the second trough
+    is_rounded, reason = _check_trough_roundness(df, second_trough_date, second_trough_price)
+    if not is_rounded:
+        return None, None, None, None, reason
+
+    # The two troughs must be close in price
+    if not (second_trough_price <= first_trough_price * config.DB_TROUGH_MAX_DEVIATION and \
+            second_trough_price >= first_trough_price / config.DB_TROUGH_MAX_DEVIATION):
+        return None, None, None, None, f"Troughs are not at a similar price level ({first_trough_price:.2f} vs {second_trough_price:.2f})"
+
+    # Check duration between troughs
+    duration = (second_trough_date - first_trough_date).days
+    if not (config.DB_DURATION_MIN_DAYS <= duration <= config.DB_DURATION_MAX_DAYS):
+        return None, None, None, None, f"Duration between troughs ({duration} days) is out of range"
+
+    # # Check for diminishing volume on the second trough
+    # first_trough_volume_df = df.loc[first_trough_date - dt.timedelta(days=10):first_trough_date + dt.timedelta(days=10)]
+    # second_trough_volume_df = df.loc[second_trough_date - dt.timedelta(days=10):second_trough_date + dt.timedelta(days=10)]
+
+    # if first_trough_volume_df.empty or second_trough_volume_df.empty:
+    #     return None, None, None, None, "Not enough data for volume analysis"
+
+    # first_trough_avg_vol = first_trough_volume_df['Volume'].mean()
+    # second_trough_avg_vol = second_trough_volume_df['Volume'].mean()
+
+    # if second_trough_avg_vol > first_trough_avg_vol * config.DB_VOLUME_DROP_FACTOR:
+    #     return None, None, None, None, "Volume did not diminish on the second trough"
+
+    return first_trough_date, peak_date, second_trough_date, peak_price, None
+
+
+def check_double_bottom(df_hist):
+    """
+    Checks for a Double Bottom (DB) chart pattern.
+
+    Returns:
+        A tuple containing:
+        - status (str): "FAIL", "WATCH", or "BREAKOUT"
+        - reason (str): A description of the result.
+    """
+    df = df_hist.sort_index()
+
+    # Stage 1: Find a valid W-shape.
+    first_trough_date, peak_date, second_trough_date, pivot_price, err = _find_double_bottom_shape(df)
+    if err:
+        return "FAIL", f"Stage 1 (W-Shape): {err}"
+
+    # Stage 2: Check for a prior downtrend.
+    is_downtrend, reason = _check_prior_downtrend(df, first_trough_date)
+    if not is_downtrend:
+        return "FAIL", f"Stage 2 (Prior Trend): {reason}"
+
+    # Stage 3: Look for a pivot breakout.
+    is_breakout, breakout_reason = _check_pivot_breakout(df, second_trough_date, pivot_price)
+    if is_breakout:
+        return "BREAKOUT", breakout_reason
+
+    # Stage 4: If no breakout, check if price is consolidating near the pivot
+    last_close = df['Close'].iloc[-1]
+    if last_close >= pivot_price * config.DB_PIVOT_PROXIMITY_FACTOR:
+        return "WATCH", f"Price consolidating near pivot point of {pivot_price:.2f}"
+
+    return "FAIL", "W-shape formed but price is not near pivot"
+
+
+def _find_vcp_contractions(df):
+    """
+    Identifies a series of volatility contractions (VCP).
+    """
+    # Find the initial high point
+    initial_high_price = df['High'].max()
+    initial_high_date = df['High'].idxmax()
+
+    contractions = []
+    current_date = initial_high_date
+
+    for i, expected_contraction in enumerate(config.VCP_CONTRACTIONS):
+        # Find the next trough
+        search_df = df.loc[current_date:]
+        if search_df.empty or len(search_df) < 5: # Need some data to find a trough
+            return None, None, f"Not enough data to find contraction {i+1}"
+
+        trough_date = search_df['Low'].idxmin()
+        trough_price = search_df['Low'].min()
+
+        # Check the depth of the contraction
+        contraction_depth = (initial_high_price - trough_price) / initial_high_price
+
+        # Allow some deviation
+        if not (expected_contraction / config.VCP_CONTRACTION_MAX_DEVIATION <= contraction_depth <= expected_contraction * config.VCP_CONTRACTION_MAX_DEVIATION):
+            return None, None, f"Contraction {i+1} depth ({contraction_depth:.2%}) is out of range for expected {expected_contraction:.2%}"
+
+        contractions.append({'trough_date': trough_date, 'depth': contraction_depth})
+
+        # Find the next peak (recovery)
+        recovery_df = df.loc[trough_date:]
+        if recovery_df.empty:
+            return None, None, "No data after last trough"
+
+        peak_date = recovery_df['High'].idxmax()
+
+        # The new high should not exceed the initial high
+        if recovery_df['High'].max() > initial_high_price * 1.03: # Allow 3% tolerance
+             return None, None, "Price broke out prematurely"
+
+        current_date = peak_date
+
+    # After all contractions, check for a final tight consolidation
+    final_tightening_df = df.loc[current_date:]
+    if final_tightening_df.empty or len(final_tightening_df) > config.VCP_TIGHTENING_MAX_DAYS:
+        return None, None, "Final consolidation is too long or no data"
+
+    pivot_price = initial_high_price
+    last_date = final_tightening_df.index[-1]
+
+    return last_date, pivot_price, None
+
+
+def check_vcp(df_hist):
+    """
+    Checks for a Volatility Contraction Pattern (VCP).
+    """
+    df = df_hist.sort_index()
+    if 'MA50' not in df:
+        df['MA50'] = df['Close'].rolling(window=50).mean()
+    if 'MA200' not in df:
+        df['MA200'] = df['Close'].rolling(window=200).mean()
+
+    # Stage 1: Find a valid series of contractions.
+    last_date, pivot_price, err = _find_vcp_contractions(df)
+    if err:
+        return "FAIL", f"Stage 1 (Contractions): {err}"
+
+    # Stage 2: Check for a prior uptrend.
+    # We check the uptrend leading to the start of the VCP formation (the first high)
+    vcp_start_date = df['High'].idxmax()
+    is_uptrend, reason = _check_prior_uptrend(df, vcp_start_date)
+    if not is_uptrend:
+        return "FAIL", f"Stage 2 (Prior Trend): {reason}"
+
+    # Stage 3: Look for a pivot breakout.
+    is_breakout, breakout_reason = _check_pivot_breakout(df, last_date, pivot_price)
+    if not is_breakout:
+        return "WATCH", "Awaiting breakout from VCP consolidation"
+
+    return "BREAKOUT", breakout_reason
