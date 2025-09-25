@@ -1,0 +1,924 @@
+NVDA~NVIDIA Corp~Technology~Semiconductors
+MSFT~Microsoft Corporation~Technology~Software - Infrastructure
+GOOG~Alphabet Inc~Communication Services~Internet Content & Information
+GOOGL~Alphabet Inc~Communication Services~Internet Content & Information
+AMZN~Amazon.com Inc~Consumer Cyclical~Internet Retail
+META~Meta Platforms Inc~Communication Services~Internet Content & Information
+AVGO~Broadcom Inc~Technology~Semiconductors
+TSM~Taiwan Semiconductor Manufacturing ADR~Technology~Semiconductors
+LLY~Lilly(Eli) & Co~Healthcare~Drug Manufacturers - General
+V~Visa Inc~Financial~Credit Services
+MA~Mastercard Incorporated~Financial~Credit Services
+NFLX~Netflix Inc~Communication Services~Entertainment
+PLTR~Palantir Technologies Inc~Technology~Software - Infrastructure
+ASML~ASML Holding NV~Technology~Semiconductor Equipment & Materials
+SAP~Sap SE ADR~Technology~Software - Application
+GE~GE Aerospace~Industrials~Aerospace & Defense
+TMUS~T-Mobile US Inc~Communication Services~Telecom Services
+WFC~Wells Fargo & Co~Financial~Banks - Diversified
+PM~Philip Morris International Inc~Consumer Defensive~Tobacco
+AMD~Advanced Micro Devices Inc~Technology~Semiconductors
+MS~Morgan Stanley~Financial~Capital Markets
+AZN~Astrazeneca plc ADR~Healthcare~Drug Manufacturers - General
+GS~Goldman Sachs Group, Inc~Financial~Capital Markets
+NVS~Novartis AG ADR~Healthcare~Drug Manufacturers - General
+ABT~Abbott Laboratories~Healthcare~Medical Devices
+CRM~Salesforce Inc~Technology~Software - Application
+DIS~Walt Disney Co~Communication Services~Entertainment
+RY~Royal Bank Of Canada~Financial~Banks - Diversified
+APP~Applovin Corp~Communication Services~Advertising Agencies
+NOW~ServiceNow Inc~Technology~Software - Application
+SHOP~Shopify Inc~Technology~Software - Application
+NVO~Novo Nordisk ADR~Healthcare~Drug Manufacturers - General
+C~Citigroup Inc~Financial~Banks - Diversified
+INTU~Intuit Inc~Technology~Software - Application
+MU~Micron Technology Inc~Technology~Semiconductors
+ANET~Arista Networks Inc~Technology~Computer Hardware
+QCOM~Qualcomm, Inc~Technology~Semiconductors
+SCHW~Charles Schwab Corp~Financial~Capital Markets
+BA~Boeing Co~Industrials~Aerospace & Defense
+ISRG~Intuitive Surgical Inc~Healthcare~Medical Instruments & Supplies
+BSX~Boston Scientific Corp~Healthcare~Medical Devices
+SAN~Banco Santander S.A. ADR~Financial~Banks - Diversified
+ADBE~Adobe Inc~Technology~Software - Application
+PGR~Progressive Corp~Financial~Insurance - Property & Casualty
+APH~Amphenol Corp~Technology~Electronic Components
+COF~Capital One Financial Corp~Financial~Credit Services
+GILD~Gilead Sciences, Inc~Healthcare~Drug Manufacturers - General
+UBS~UBS Group AG~Financial~Banks - Diversified
+ADI~Analog Devices Inc~Technology~Semiconductors
+WELL~Welltower Inc~Real Estate~REIT - Healthcare Facilities
+DASH~DoorDash Inc~Consumer Cyclical~Internet Retail
+SE~Sea Ltd ADR~Consumer Cyclical~Internet Retail
+ENB~Enbridge Inc~Energy~Oil & Gas Midstream
+SMFG~Sumitomo Mitsui Financial Group Inc ADR~Financial~Banks - Diversified
+VRTX~Vertex Pharmaceuticals, Inc~Healthcare~Biotechnology
+ICE~Intercontinental Exchange Inc~Financial~Financial Data & Stock Exchanges
+NTES~NetEase Inc ADR~Communication Services~Electronic Gaming & Multimedia
+HCA~HCA Healthcare Inc~Healthcare~Medical Care Facilities
+MSTR~Strategy Inc~Technology~Software - Application
+RCL~Royal Caribbean Group~Consumer Cyclical~Travel Services
+BAM~Brookfield Asset Management Ltd~Financial~Asset Management
+BMO~Bank of Montreal~Financial~Banks - Diversified
+TT~Trane Technologies plc~Industrials~Building Products & Equipment
+GD~General Dynamics Corp~Industrials~Aerospace & Defense
+NEM~Newmont Corp~Basic Materials~Gold
+DELL~Dell Technologies Inc~Technology~Computer Hardware
+GSK~GSK Plc ADR~Healthcare~Drug Manufacturers - General
+PNC~PNC Financial Services Group Inc~Financial~Banks - Regional
+CVNA~Carvana Co~Consumer Cyclical~Auto & Truck Dealerships
+EQIX~Equinix Inc~Real Estate~REIT - Specialty
+AEM~Agnico Eagle Mines Ltd~Basic Materials~Gold
+USB~U.S. Bancorp~Financial~Banks - Regional
+NU~Nu Holdings Ltd~Financial~Banks - Regional
+BK~Bank Of New York Mellon Corp~Financial~Banks - Diversified
+HWM~Howmet Aerospace Inc~Industrials~Aerospace & Defense
+CM~Canadian Imperial Bank Of Commerce~Financial~Banks - Diversified
+FI~Fiserv, Inc~Technology~Information Technology Services
+BCS~Barclays plc ADR~Financial~Banks - Diversified
+WMB~Williams Cos Inc~Energy~Oil & Gas Midstream
+DB~Deutsche Bank AG~Financial~Banks - Regional
+NGG~National Grid Plc ADR~Utilities~Utilities - Regulated Electric
+CP~Canadian Pacific Kansas City Limited~Industrials~Railroads
+ADSK~Autodesk Inc~Technology~Software - Application
+GLW~Corning, Inc~Technology~Electronic Components
+HLT~Hilton Worldwide Holdings Inc~Consumer Cyclical~Lodging
+FCX~Freeport-McMoRan Inc~Basic Materials~Copper
+PYPL~PayPal Holdings Inc~Financial~Credit Services
+MNST~Monster Beverage Corp~Consumer Defensive~Beverages - Non-Alcoholic
+AMX~America Movil S.A.B.DE C.V. ADR~Communication Services~Telecom Services
+TEL~TE Connectivity plc~Technology~Electronic Components
+KMI~Kinder Morgan Inc~Energy~Oil & Gas Midstream
+WDAY~Workday Inc~Technology~Software - Application
+DLR~Digital Realty Trust Inc~Real Estate~REIT - Specialty
+CPNG~Coupang Inc~Consumer Cyclical~Internet Retail
+COR~Cencora Inc~Healthcare~Medical Distribution
+NWG~NatWest Group Plc ADR~Financial~Banks - Regional
+TFC~Truist Financial Corporation~Financial~Banks - Regional
+MRVL~Marvell Technology Inc~Technology~Semiconductors
+PWR~Quanta Services, Inc~Industrials~Engineering & Construction
+FAST~Fastenal Co~Industrials~Industrial Distribution
+NDAQ~Nasdaq Inc~Financial~Financial Data & Stock Exchanges
+ALL~Allstate Corp~Financial~Insurance - Property & Casualty
+VRT~Vertiv Holdings Co~Industrials~Electrical Equipment & Parts
+IDXX~Idexx Laboratories, Inc~Healthcare~Diagnostics & Research
+D~Dominion Energy Inc~Utilities~Utilities - Regulated Electric
+CTVA~Corteva Inc~Basic Materials~Agricultural Inputs
+B~Barrick Mining Corp~Basic Materials~Gold
+CBRE~CBRE Group Inc~Real Estate~Real Estate Services
+WPM~Wheaton Precious Metals Corp~Basic Materials~Gold
+RDDT~Reddit Inc~Communication Services~Internet Content & Information
+TAK~Takeda Pharmaceutical Co ADR~Healthcare~Drug Manufacturers - Specialty & Generic
+PBR~Petroleo Brasileiro S.A. Petrobras ADR~Energy~Oil & Gas Integrated
+WBD~Warner Bros. Discovery Inc~Communication Services~Entertainment
+TEAM~Atlassian Corporation~Technology~Software - Application
+TTWO~Take-Two Interactive Software, Inc~Communication Services~Electronic Gaming & Multimedia
+VEEV~Veeva Systems Inc~Healthcare~Health Information Services
+MSCI~MSCI Inc~Financial~Financial Data & Stock Exchanges
+AIG~American International Group Inc~Financial~Insurance - Diversified
+CCI~Crown Castle Inc~Real Estate~REIT - Specialty
+EBAY~EBay Inc~Consumer Cyclical~Internet Retail
+CCL~Carnival Corp~Consumer Cyclical~Travel Services
+TKO~TKO Group Holdings Inc~Communication Services~Entertainment
+MPWR~Monolithic Power System Inc~Technology~Semiconductors
+RMD~Resmed Inc~Healthcare~Medical Instruments & Supplies
+DKNG~DraftKings Inc~Consumer Cyclical~Gambling
+HEI~Heico Corp~Industrials~Aerospace & Defense
+FNV~Franco-Nevada Corporation~Basic Materials~Gold
+HEI-A~Heico Corp~Industrials~Aerospace & Defense
+ALAB~Astera Labs Inc~Technology~Semiconductors
+HIG~Hartford Insurance Group Inc.(The)~Financial~Insurance - Property & Casualty
+FICO~Fair Isaac Corp~Technology~Software - Application
+LVS~Las Vegas Sands Corp~Consumer Cyclical~Resorts & Casinos
+TRGP~Targa Resources Corp~Energy~Oil & Gas Midstream
+PUK~Prudential plc ADR~Financial~Insurance - Life
+ONC~BeOne Medicines Ltd ADR~Healthcare~Biotechnology
+XYL~Xylem Inc~Industrials~Specialty Industrial Machinery
+CCJ~Cameco Corp~Energy~Uranium
+FWONK~Liberty Media Corp~Communication Services~Entertainment
+FWONA~Liberty Media Corp~Communication Services~Entertainment
+GFI~Gold Fields Ltd ADR~Basic Materials~Gold
+SLF~Sun Life Financial, Inc~Financial~Insurance - Diversified
+VG~Venture Global Inc~Energy~Oil & Gas Midstream
+EXR~Extra Space Storage Inc~Real Estate~REIT - Industrial
+VTR~Ventas Inc~Real Estate~REIT - Healthcare Facilities
+WAB~Westinghouse Air Brake Technologies Corp~Industrials~Railroads
+EQT~EQT Corp~Energy~Oil & Gas E&P
+RYAAY~Ryanair Holdings Plc ADR~Industrials~Airlines
+MTB~M & T Bank Corp~Financial~Banks - Regional
+PBR-A~Petroleo Brasileiro S.A. Petrobras ADR~Energy~Oil & Gas Integrated
+IX~Orix Corporation ADR~Financial~Financial Conglomerates
+DXCM~Dexcom Inc~Healthcare~Medical Devices
+KGC~Kinross Gold Corp~Basic Materials~Gold
+IBKR~Interactive Brokers Group Inc~Financial~Capital Markets
+EME~Emcor Group, Inc~Industrials~Engineering & Construction
+VIK~Viking Holdings Ltd~Consumer Cyclical~Travel Services
+SYF~Synchrony Financial~Financial~Credit Services
+CRDO~Credo Technology Group Holding Ltd~Technology~Semiconductors
+TW~Tradeweb Markets Inc~Financial~Capital Markets
+CLS~Celestica, Inc~Technology~Electronic Components
+NTR~Nutrien Ltd~Basic Materials~Agricultural Inputs
+AFRM~Affirm Holdings Inc~Technology~Software - Infrastructure
+PSTG~Pure Storage Inc~Technology~Computer Hardware
+FIX~Comfort Systems USA, Inc~Industrials~Engineering & Construction
+HBAN~Huntington Bancshares, Inc~Financial~Banks - Regional
+HUBS~HubSpot Inc~Technology~Software - Application
+PTC~PTC Inc~Technology~Software - Application
+CBOE~Cboe Global Markets Inc~Financial~Financial Data & Stock Exchanges
+CG~Carlyle Group Inc~Financial~Asset Management
+PINS~Pinterest Inc~Communication Services~Internet Content & Information
+ESLT~Elbit Systems Ltd~Industrials~Aerospace & Defense
+LDOS~Leidos Holdings Inc~Technology~Information Technology Services
+TYL~Tyler Technologies, Inc~Technology~Software - Application
+SHG~Shinhan Financial Group Co. Ltd. ADR~Financial~Banks - Regional
+TOST~Toast Inc~Technology~Software - Infrastructure
+TPG~TPG Inc~Financial~Asset Management
+LH~Labcorp Holdings Inc~Healthcare~Diagnostics & Research
+JBL~Jabil Inc~Technology~Electronic Components
+EXE~Expand Energy Corp~Energy~Oil & Gas E&P
+CFG~Citizens Financial Group Inc~Financial~Banks - Regional
+IOT~Samsara Inc~Technology~Software - Infrastructure
+CPAY~Corpay Inc~Technology~Software - Infrastructure
+NBIS~Nebius Group N.V~Technology~Software - Infrastructure
+FLEX~Flex Ltd~Technology~Electronic Components
+SBAC~SBA Communications Corp~Real Estate~REIT - Specialty
+GWRE~Guidewire Software Inc~Technology~Software - Application
+BAP~Credicorp Ltd~Financial~Banks - Regional
+ZG~Zillow Group Inc~Communication Services~Internet Content & Information
+Z~Zillow Group Inc~Communication Services~Internet Content & Information
+FUTU~Futu Holdings Ltd ADR~Financial~Capital Markets
+KEY~Keycorp~Financial~Banks - Regional
+CASY~Casey's General Stores, Inc~Consumer Cyclical~Specialty Retail
+AS~Amer Sports Inc~Consumer Cyclical~Leisure
+BIP~Brookfield Infrastructure Partners L.P~Utilities~Utilities - Diversified
+PKG~Packaging Corp Of America~Consumer Cyclical~Packaging & Containers
+CW~Curtiss-Wright Corp~Industrials~Aerospace & Defense
+RL~Ralph Lauren Corp~Consumer Cyclical~Apparel Manufacturing
+CTRA~Coterra Energy Inc~Energy~Oil & Gas E&P
+INVH~Invitation Homes Inc~Real Estate~REIT - Residential
+CIEN~CIENA Corp~Technology~Communication Equipment
+IHG~Intercontinental Hotels Group ADR~Consumer Cyclical~Lodging
+FFIV~F5 Inc~Technology~Software - Infrastructure
+PFG~Principal Financial Group Inc~Financial~Asset Management
+USFD~US Foods Holding Corp~Consumer Defensive~Food Distribution
+FTAI~FTAI Aviation Ltd~Industrials~Rental & Leasing Services
+J~Jacobs Solutions Inc~Industrials~Engineering & Construction
+KEP~Korea Electric Power Corporation. ADR~Utilities~Utilities - Regulated Electric
+THC~Tenet Healthcare Corp~Healthcare~Medical Care Facilities
+BURL~Burlington Stores Inc~Consumer Cyclical~Apparel Retail
+ACM~AECOM~Industrials~Engineering & Construction
+JBS~JBS N.V~Consumer Defensive~Packaged Foods
+SNN~Smith & Nephew plc ADR~Healthcare~Medical Devices
+FTI~TechnipFMC plc~Energy~Oil & Gas Equipment & Services
+RIVN~Rivian Automotive Inc~Consumer Cyclical~Auto Manufacturers
+SUI~Sun Communities, Inc~Real Estate~REIT - Residential
+INCY~Incyte Corp~Healthcare~Biotechnology
+XPEV~XPeng Inc ADR~Consumer Cyclical~Auto Manufacturers
+SN~SharkNinja Inc~Consumer Cyclical~Furnishings, Fixtures & Appliances
+OKTA~Okta Inc~Technology~Software - Infrastructure
+BE~Bloom Energy Corp~Industrials~Electrical Equipment & Parts
+TWLO~Twilio Inc~Technology~Software - Infrastructure
+CPT~Camden Property Trust~Real Estate~REIT - Residential
+PAAS~Pan American Silver Corp~Basic Materials~Gold
+KIM~Kimco Realty Corporation~Real Estate~REIT - Retail
+TEM~Tempus AI Inc~Healthcare~Health Information Services
+MTZ~Mastec Inc~Industrials~Engineering & Construction
+CELH~Celsius Holdings Inc~Consumer Defensive~Beverages - Non-Alcoholic
+JLL~Jones Lang Lasalle Inc~Real Estate~Real Estate Services
+DT~Dynatrace Inc~Technology~Software - Application
+RBRK~Rubrik Inc~Technology~Software - Infrastructure
+FMS~Fresenius Medical Care AG ADR~Healthcare~Medical Care Facilities
+TME~Tencent Music Entertainment Group ADR~Communication Services~Internet Content & Information
+DUOL~Duolingo Inc~Technology~Software - Application
+NBIX~Neurocrine Biosciences, Inc~Healthcare~Drug Manufacturers - Specialty & Generic
+QXO~QXO Inc~Industrials~Industrial Distribution
+BALL~Ball Corp~Consumer Cyclical~Packaging & Containers
+ROKU~Roku Inc~Communication Services~Entertainment
+LTM~LATAM Airlines Group S.A. ADR~Industrials~Airlines
+ASTS~AST SpaceMobile Inc~Technology~Communication Equipment
+AGI~Alamos Gold Inc~Basic Materials~Gold
+MEDP~Medpace Holdings Inc~Healthcare~Diagnostics & Research
+BXP~BXP Inc~Real Estate~REIT - Office
+SFM~Sprouts Farmers Market Inc~Consumer Defensive~Grocery Stores
+EVR~Evercore Inc~Financial~Capital Markets
+ALLY~Ally Financial Inc~Financial~Credit Services
+LAMR~Lamar Advertising Co~Real Estate~REIT - Specialty
+PAYC~Paycom Software Inc~Technology~Software - Application
+UDR~UDR Inc~Real Estate~REIT - Residential
+EHC~Encompass Health Corp~Healthcare~Medical Care Facilities
+YMM~Full Truck Alliance Co Ltd ADR~Technology~Software - Application
+STN~Stantec Inc~Industrials~Engineering & Construction
+RGLD~Royal Gold, Inc~Basic Materials~Gold
+BAX~Baxter International Inc~Healthcare~Medical Instruments & Supplies
+CART~Maplebear Inc~Consumer Cyclical~Internet Retail
+OKLO~Oklo Inc~Utilities~Utilities - Regulated Electric
+UHS~Universal Health Services, Inc~Healthcare~Medical Care Facilities
+BSAC~Banco Santander Chile SA ADR~Financial~Banks - Regional
+SAIL~Sailpoint Inc~Technology~Software - Infrastructure
+CRS~Carpenter Technology Corp~Industrials~Metal Fabrication
+ASND~Ascendis Pharma A/S ADR~Healthcare~Biotechnology
+RBC~RBC Bearings Inc~Industrials~Tools & Accessories
+FHN~First Horizon Corporation~Financial~Banks - Regional
+LITE~Lumentum Holdings Inc~Technology~Communication Equipment
+W~Wayfair Inc~Consumer Cyclical~Internet Retail
+HTHT~H World Group Limited ADR~Consumer Cyclical~Lodging
+DRS~Leonardo DRS Inc~Industrials~Aerospace & Defense
+MBLY~Mobileye Global Inc~Consumer Cyclical~Auto Parts
+GME~Gamestop Corporation~Consumer Cyclical~Specialty Retail
+MLI~Mueller Industries, Inc~Industrials~Metal Fabrication
+DAY~Dayforce Inc~Technology~Software - Application
+MORN~Morningstar Inc~Financial~Financial Data & Stock Exchanges
+SEIC~SEI Investments Co~Financial~Asset Management
+MOS~Mosaic Company~Basic Materials~Agricultural Inputs
+PEN~Penumbra Inc~Healthcare~Medical Devices
+BROS~Dutch Bros Inc~Consumer Cyclical~Restaurants
+TTAN~ServiceTitan Inc~Technology~Software - Application
+CR~Crane Co~Industrials~Specialty Industrial Machinery
+ATI~ATI Inc~Industrials~Metal Fabrication
+BMRN~Biomarin Pharmaceutical Inc~Healthcare~Biotechnology
+SMR~NuScale Power Corporation~Industrials~Specialty Industrial Machinery
+TIMB~TIM SA ADR~Communication Services~Telecom Services
+REXR~Rexford Industrial Realty Inc~Real Estate~REIT - Industrial
+AR~Antero Resources Corp~Energy~Oil & Gas E&P
+EXAS~Exact Sciences Corp~Healthcare~Diagnostics & Research
+ARMK~Aramark~Industrials~Specialty Business Services
+IONS~Ionis Pharmaceuticals Inc~Healthcare~Biotechnology
+KNSL~Kinsale Capital Group Inc~Financial~Insurance - Property & Casualty
+CDE~Coeur Mining Inc~Basic Materials~Gold
+XP~XP Inc~Financial~Capital Markets
+PEGA~Pegasystems Inc~Technology~Software - Application
+APPF~Appfolio Inc~Technology~Software - Application
+MTSI~MACOM Technology Solutions Holdings Inc~Technology~Semiconductors
+WAL~Western Alliance Bancorp~Financial~Banks - Regional
+ENSG~Ensign Group Inc~Healthcare~Medical Care Facilities
+ALV~Autoliv Inc~Consumer Cyclical~Auto Parts
+MDGL~Madrigal Pharmaceuticals Inc~Healthcare~Biotechnology
+BZ~Kanzhun Ltd ADR~Communication Services~Internet Content & Information
+NYT~New York Times Co~Communication Services~Publishing
+DINO~HF Sinclair Corp~Energy~Oil & Gas Refining & Marketing
+LINE~Lineage Inc~Real Estate~REIT - Industrial
+STRL~Sterling Infrastructure Inc~Industrials~Engineering & Construction
+KT~KT Corporation ADR~Communication Services~Telecom Services
+TTEK~Tetra Tech, Inc~Industrials~Engineering & Construction
+SRAD~Sportradar Group AG~Technology~Software - Application
+WTS~Watts Water Technologies, Inc~Industrials~Specialty Industrial Machinery
+HMY~Harmony Gold Mining Co Ltd ADR~Basic Materials~Gold
+FSV~FirstService Corp~Real Estate~Real Estate Services
+MMYT~MakeMyTrip Ltd~Consumer Cyclical~Travel Services
+ESTC~Elastic N.V~Technology~Software - Application
+RMBS~Rambus Inc~Technology~Semiconductors
+IREN~IREN Ltd~Financial~Capital Markets
+UMBF~UMB Financial Corp~Financial~Banks - Regional
+VRNA~Verona Pharma Plc ADR~Healthcare~Biotechnology
+SARO~StandardAero Inc~Industrials~Aerospace & Defense
+HALO~Halozyme Therapeutics Inc~Healthcare~Biotechnology
+VNO~Vornado Realty Trust~Real Estate~REIT - Office
+KMX~Carmax Inc~Consumer Cyclical~Auto & Truck Dealerships
+GTLS~Chart Industries Inc~Industrials~Specialty Industrial Machinery
+ALB~Albemarle Corp~Basic Materials~Specialty Chemicals
+AM~Antero Midstream Corp~Energy~Oil & Gas Midstream
+FRT~Federal Realty Investment Trust~Real Estate~REIT - Retail
+NICE~NICE Ltd ADR~Technology~Software - Application
+SPXC~SPX Technologies Inc~Industrials~Building Products & Equipment
+NVMI~Nova Ltd~Technology~Semiconductor Equipment & Materials
+ZION~Zions Bancorporation N.A~Financial~Banks - Regional
+AA~Alcoa Corp~Basic Materials~Aluminum
+PLNT~Planet Fitness Inc~Consumer Cyclical~Leisure
+LAD~Lithia Motors, Inc~Consumer Cyclical~Auto & Truck Dealerships
+KRMN~Karman Holdings Inc~Industrials~Aerospace & Defense
+BIRK~Birkenstock Holding Plc~Consumer Cyclical~Footwear & Accessories
+AWI~Armstrong World Industries Inc~Industrials~Building Products & Equipment
+RRC~Range Resources Corp~Energy~Oil & Gas E&P
+BPOP~Popular Inc~Financial~Banks - Regional
+BILI~Bilibili Inc ADR~Communication Services~Internet Content & Information
+OLLI~Ollies Bargain Outlet Holdings Inc~Consumer Defensive~Discount Stores
+GIL~Gildan Activewear Inc~Consumer Cyclical~Apparel Manufacturing
+MASI~Masimo Corp~Healthcare~Medical Devices
+NFG~National Fuel Gas Co~Energy~Oil & Gas Integrated
+HQY~Healthequity Inc~Healthcare~Health Information Services
+CBSH~Commerce Bancshares, Inc~Financial~Banks - Regional
+TIGO~Millicom International Cellular S.A~Communication Services~Telecom Services
+CVLT~Commvault Systems Inc~Technology~Software - Application
+ZWS~Zurn Elkay Water Solutions Corp~Industrials~Pollution & Treatment Controls
+LIF~Life360 Inc~Technology~Software - Application
+CTRE~CareTrust REIT Inc~Real Estate~REIT - Healthcare Facilities
+FSS~Federal Signal Corp~Industrials~Pollution & Treatment Controls
+LYFT~Lyft Inc~Technology~Software - Application
+PNFP~Pinnacle Financial Partners Inc~Financial~Banks - Regional
+HL~Hecla Mining Co~Basic Materials~Other Precious Metals & Mining
+LNW~Light & Wonder Inc~Consumer Cyclical~Gambling
+DY~Dycom Industries, Inc~Industrials~Engineering & Construction
+CGNX~Cognex Corp~Technology~Scientific & Technical Instruments
+KD~Kyndryl Holdings Inc~Technology~Information Technology Services
+ZK~ZEEKR Intelligent Technology Holding Ltd. ADR~Consumer Cyclical~Auto Manufacturers
+FLS~Flowserve Corp~Industrials~Specialty Industrial Machinery
+AHR~American Healthcare REIT Inc~Real Estate~REIT - Healthcare Facilities
+OMF~OneMain Holdings Inc~Financial~Credit Services
+BEP~Brookfield Renewable Partners LP~Utilities~Utilities - Renewable
+SNV~Synovus Financial Corp~Financial~Banks - Regional
+LOAR~Loar Holdings Inc~Industrials~Aerospace & Defense
+AL~Air Lease Corp~Industrials~Rental & Leasing Services
+EXLS~ExlService Holdings Inc~Technology~Information Technology Services
+ROAD~Construction Partners Inc~Industrials~Engineering & Construction
+FAF~First American Financial Corp~Financial~Insurance - Specialty
+EAT~Brinker International, Inc~Consumer Cyclical~Restaurants
+TX~Ternium S.A. ADR~Basic Materials~Steel
+KNX~Knight-Swift Transportation Holdings Inc~Industrials~Trucking
+OR~OR Royalties Inc~Basic Materials~Gold
+SITM~SiTime Corp~Technology~Semiconductors
+AMG~Affiliated Managers Group Inc~Financial~Asset Management
+CFLT~Confluent Inc~Technology~Software - Infrastructure
+PRIM~Primoris Services Corp~Industrials~Engineering & Construction
+LFUS~Littelfuse, Inc~Technology~Electronic Components
+WAY~Waystar Holding Corp~Healthcare~Health Information Services
+FCFS~FirstCash Holdings Inc~Financial~Credit Services
+OLED~Universal Display Corp~Technology~Electronic Components
+RRR~Red Rock Resorts Inc~Consumer Cyclical~Resorts & Casinos
+THG~Hanover Insurance Group Inc~Financial~Insurance - Property & Casualty
+BFAM~Bright Horizons Family Solutions, Inc~Consumer Cyclical~Personal Services
+PB~Prosperity Bancshares Inc~Financial~Banks - Regional
+PFSI~PennyMac Financial Services Inc~Financial~Mortgage Finance
+PJT~PJT Partners Inc~Financial~Capital Markets
+VNT~Vontier Corporation~Technology~Scientific & Technical Instruments
+LTH~Life Time Group Holdings Inc~Consumer Cyclical~Leisure
+SANM~Sanmina Corp~Technology~Electronic Components
+PIPR~Piper Sandler Co's~Financial~Capital Markets
+URBN~Urban Outfitters, Inc~Consumer Cyclical~Apparel Retail
+UPST~Upstart Holdings Inc~Financial~Credit Services
+PATH~UiPath Inc~Technology~Software - Infrastructure
+TRNO~Terreno Realty Corp~Real Estate~REIT - Industrial
+GLBE~Global E Online Ltd~Consumer Cyclical~Internet Retail
+GATX~GATX Corp~Industrials~Rental & Leasing Services
+VLY~Valley National Bancorp~Financial~Banks - Regional
+MC~Moelis & Co~Financial~Capital Markets
+AEIS~Advanced Energy Industries Inc~Industrials~Electrical Equipment & Parts
+LCID~Lucid Group Inc~Consumer Cyclical~Auto Manufacturers
+TFPM~Triple Flag Precious Metals Corp~Basic Materials~Other Precious Metals & Mining
+AXSM~Axsome Therapeutics Inc~Healthcare~Biotechnology
+LOPE~Grand Canyon Education Inc~Consumer Defensive~Education & Training Services
+HOMB~Home Bancshares Inc~Financial~Banks - Regional
+GBCI~Glacier Bancorp, Inc~Financial~Banks - Regional
+IRTC~iRhythm Technologies Inc~Healthcare~Medical Devices
+POST~Post Holdings Inc~Consumer Defensive~Packaged Foods
+RDNT~Radnet Inc~Healthcare~Diagnostics & Research
+VIRT~Virtu Financial Inc~Financial~Capital Markets
+ALGM~Allegro Microsystems Inc~Technology~Semiconductors
+BOOT~Boot Barn Holdings Inc~Consumer Cyclical~Apparel Retail
+HBM~Hudbay Minerals Inc~Basic Materials~Copper
+MTN~Vail Resorts Inc~Consumer Cyclical~Resorts & Casinos
+MIR~Mirion Technologies Inc~Industrials~Specialty Industrial Machinery
+UBSI~United Bankshares, Inc~Financial~Banks - Regional
+FLG~Flagstar Financial Inc~Financial~Banks - Regional
+SMTC~Semtech Corp~Technology~Semiconductors
+CZR~Caesars Entertainment Inc~Consumer Cyclical~Resorts & Casinos
+BDC~Belden Inc~Technology~Communication Equipment
+FFIN~First Financial Bankshares, Inc~Financial~Banks - Regional
+AG~First Majestic Silver Corporation~Basic Materials~Silver
+QTWO~Q2 Holdings Inc~Technology~Software - Application
+TGTX~TG Therapeutics Inc~Healthcare~Biotechnology
+ABCB~Ameris Bancorp~Financial~Banks - Regional
+BCPC~Balchem Corp~Basic Materials~Specialty Chemicals
+TAL~TAL Education Group ADR~Consumer Defensive~Education & Training Services
+MMS~Maximus Inc~Industrials~Specialty Business Services
+STNE~StoneCo Ltd~Technology~Software - Infrastructure
+KRG~Kite Realty Group Trust~Real Estate~REIT - Retail
+CUZ~Cousins Properties Inc~Real Estate~REIT - Office
+ATGE~Adtalem Global Education Inc~Consumer Defensive~Education & Training Services
+DORM~Dorman Products Inc~Consumer Cyclical~Auto Parts
+ENPH~Enphase Energy Inc~Technology~Solar
+CPA~Copa Holdings S.A~Industrials~Airlines
+PTCT~PTC Therapeutics Inc~Healthcare~Biotechnology
+ZETA~Zeta Global Holdings Corp~Technology~Software - Infrastructure
+CORZ~Core Scientific Inc~Technology~Software - Infrastructure
+RSI~Rush Street Interactive Inc~Consumer Cyclical~Gambling
+IFS~Intercorp Financial Services Inc~Financial~Banks - Regional
+TTMI~TTM Technologies Inc~Technology~Electronic Components
+FTDR~Frontdoor Inc~Consumer Cyclical~Personal Services
+BGC~BGC Group Inc~Financial~Capital Markets
+SIGI~Selective Insurance Group Inc~Financial~Insurance - Property & Casualty
+KEX~Kirby Corp~Industrials~Marine Shipping
+MAC~Macerich Co~Real Estate~REIT - Retail
+GKOS~Glaukos Corporation~Healthcare~Medical Devices
+GVA~Granite Construction Inc~Industrials~Engineering & Construction
+BTSG~BrightSpring Health Services Inc~Healthcare~Health Information Services
+CRK~Comstock Resources, Inc~Energy~Oil & Gas E&P
+ACA~Arcosa Inc~Industrials~Engineering & Construction
+SFBS~ServisFirst Bancshares Inc~Financial~Banks - Regional
+SBRA~Sabra Healthcare REIT Inc~Real Estate~REIT - Healthcare Facilities
+OGS~ONE Gas Inc~Utilities~Utilities - Regulated Gas
+SSRM~SSR Mining Inc~Basic Materials~Gold
+WTM~White Mountains Insurance Group, Ltd~Financial~Insurance - Property & Casualty
+SXT~Sensient Technologies Corp~Basic Materials~Specialty Chemicals
+ATAT~Atour Lifestyle Holdings Ltd ADR~Consumer Cyclical~Lodging
+KTB~Kontoor Brands Inc~Consumer Cyclical~Apparel Manufacturing
+NNI~Nelnet Inc~Financial~Credit Services
+EPR~EPR Properties~Real Estate~REIT - Specialty
+BANF~Bancfirst Corp~Financial~Banks - Regional
+AD~Array Digital Infrastructure Inc~Communication Services~Telecom Services
+SLAB~Silicon Laboratories Inc~Technology~Semiconductors
+SKYW~Skywest Inc~Industrials~Airlines
+MRCY~Mercury Systems Inc~Industrials~Aerospace & Defense
+CVCO~Cavco Industries Inc~Consumer Cyclical~Residential Construction
+SHAK~Shake Shack Inc~Consumer Cyclical~Restaurants
+AROC~Archrock Inc~Energy~Oil & Gas Equipment & Services
+CNX~CNX Resources Corp~Energy~Oil & Gas E&P
+TDS~Telephone And Data Systems, Inc~Communication Services~Telecom Services
+CUK~Carnival plc ADR~Consumer Cyclical~Travel Services
+FHI~Federated Hermes Inc~Financial~Asset Management
+CAMT~Camtek Ltd~Technology~Semiconductor Equipment & Materials
+KRYS~Krystal Biotech Inc~Healthcare~Biotechnology
+PAY~Paymentus Holdings Inc~Technology~Software - Infrastructure
+LB~Landbridge Company LLC~Energy~Oil & Gas Equipment & Services
+RH~RH~Consumer Cyclical~Specialty Retail
+CLBT~Cellebrite DI Ltd~Technology~Software - Infrastructure
+CALX~Calix Inc~Technology~Software - Infrastructure
+TNL~Travel+Leisure Co~Consumer Cyclical~Travel Services
+TCBI~Texas Capital Bancshares, Inc~Financial~Banks - Regional
+UCB~United Community Banks Inc~Financial~Banks - Regional
+COLD~Americold Realty Trust Inc~Real Estate~REIT - Industrial
+MWA~Mueller Water Products Inc~Industrials~Specialty Industrial Machinery
+TMDX~Transmedics Group Inc~Healthcare~Medical Devices
+CWK~Cushman & Wakefield plc~Real Estate~Real Estate Services
+GSAT~Globalstar Inc~Communication Services~Telecom Services
+RELY~Remitly Global Inc~Technology~Software - Infrastructure
+MIRM~Mirum Pharmaceuticals Inc~Healthcare~Biotechnology
+PLXS~Plexus Corp~Technology~Electronic Components
+EEFT~Euronet Worldwide Inc~Technology~Software - Infrastructure
+VEON~VEON Ltd ADR~Communication Services~Telecom Services
+INTA~Intapp Inc~Technology~Software - Application
+RUN~Sunrun Inc~Technology~Solar
+BWIN~The Baldwin Insurance Group Inc~Financial~Insurance Brokers
+EBC~Eastern Bankshares Inc~Financial~Banks - Regional
+QFIN~Qfin Holdings Inc. ADR~Financial~Credit Services
+ZLAB~Zai Lab Limited ADR~Healthcare~Biotechnology
+USLM~United States Lime & Minerals Inc~Basic Materials~Building Materials
+FRSH~Freshworks Inc~Technology~Software - Application
+CARG~CarGurus Inc~Consumer Cyclical~Auto & Truck Dealerships
+WGS~GeneDx Holdings Corp~Healthcare~Diagnostics & Research
+ITGR~Integer Holdings Corp~Healthcare~Medical Devices
+AZZ~AZZ Inc~Industrials~Specialty Business Services
+SMG~Scotts Miracle-Gro Company~Basic Materials~Agricultural Inputs
+TBBK~Bancorp Inc~Financial~Banks - Regional
+NVST~Envista Holdings Corp~Healthcare~Medical Instruments & Supplies
+SAND~Sandstorm Gold Ltd~Basic Materials~Gold
+AMBA~Ambarella Inc~Technology~Semiconductor Equipment & Materials
+FIBK~First Interstate BancSystem Inc~Financial~Banks - Regional
+NMRK~Newmark Group Inc~Real Estate~Real Estate Services
+VSEC~VSE Corp~Industrials~Aerospace & Defense
+MGNI~Magnite Inc~Communication Services~Advertising Agencies
+CATY~Cathay General Bancorp~Financial~Banks - Regional
+TPC~Tutor Perini Corp~Industrials~Engineering & Construction
+BXMT~Blackstone Mortgage Trust Inc~Real Estate~REIT - Mortgage
+TGLS~Tecnoglass Inc~Basic Materials~Building Materials
+AVPT~AvePoint Inc~Technology~Software - Infrastructure
+LGND~Ligand Pharmaceuticals, Inc~Healthcare~Biotechnology
+ICUI~ICU Medical, Inc~Healthcare~Medical Instruments & Supplies
+AGX~Argan, Inc~Industrials~Engineering & Construction
+ALHC~Alignment Healthcare Inc~Healthcare~Healthcare Plans
+WOR~Worthington Enterprises Inc~Industrials~Metal Fabrication
+AMRX~Amneal Pharmaceuticals Inc~Healthcare~Drug Manufacturers - Specialty & Generic
+WSFS~WSFS Financial Corp~Financial~Banks - Regional
+PLMR~Palomar Holdings Inc~Financial~Insurance - Property & Casualty
+GEO~Geo Group, Inc~Industrials~Security & Protection Services
+ASAN~Asana Inc~Technology~Software - Application
+DAVE~Dave Inc~Technology~Software - Application
+GRND~Grindr Inc~Technology~Software - Application
+MGEE~MGE Energy, Inc~Utilities~Utilities - Regulated Electric
+KAR~Openlane Inc~Consumer Cyclical~Auto & Truck Dealerships
+LIVN~LivaNova PLC~Healthcare~Medical Devices
+PRGO~Perrigo Company plc~Healthcare~Drug Manufacturers - Specialty & Generic
+GPOR~Gulfport Energy Corp~Energy~Oil & Gas E&P
+PGY~Pagaya Technologies Ltd~Technology~Software - Infrastructure
+WSBC~Wesbanco, Inc~Financial~Banks - Regional
+MCHB~Mechanics Bancorp~Financial~Banks - Regional
+REVG~REV Group Inc~Industrials~Farm & Heavy Construction Machinery
+HSAI~Hesai Group ADR~Consumer Cyclical~Auto Parts
+CBZ~Cbiz Inc~Industrials~Specialty Business Services
+SFNC~Simmons First National Corp~Financial~Banks - Regional
+BKU~BankUnited Inc~Financial~Banks - Regional
+EXTR~Extreme Networks Inc~Technology~Communication Equipment
+BFH~Bread Financial Holdings Inc~Financial~Credit Services
+CPK~Chesapeake Utilities Corp~Utilities~Utilities - Regulated Gas
+WD~Walker & Dunlop Inc~Financial~Mortgage Finance
+RARE~Ultragenyx Pharmaceutical Inc~Healthcare~Biotechnology
+CLSK~Cleanspark Inc~Financial~Capital Markets
+IAC~IAC Inc~Communication Services~Internet Content & Information
+KGS~Kodiak Gas Services Inc~Energy~Oil & Gas Equipment & Services
+ENVA~Enova International Inc~Financial~Credit Services
+MLYS~Mineralys Therapeutics Inc~Healthcare~Biotechnology
+PENN~PENN Entertainment Inc~Consumer Cyclical~Resorts & Casinos
+NATL~NCR Atleos Corp~Technology~Software - Application
+SLNO~Soleno Therapeutics Inc~Healthcare~Biotechnology
+BUR~Burford Capital Limited~Financial~Asset Management
+MANU~Manchester United Plc~Communication Services~Entertainment
+DAN~Dana Inc~Consumer Cyclical~Auto Parts
+KNSA~Kiniksa Pharmaceuticals International Plc~Healthcare~Drug Manufacturers - Specialty & Generic
+RNG~RingCentral Inc~Technology~Software - Application
+MYRG~MYR Group Inc~Industrials~Engineering & Construction
+NAMS~NewAmsterdam Pharma Company NV~Healthcare~Biotechnology
+PRK~Park National Corp~Financial~Banks - Regional
+RXO~RXO Inc~Industrials~Trucking
+SBCF~Seacoast Banking Corp. Of Florida~Financial~Banks - Regional
+BOH~Bank of Hawaii Corp~Financial~Banks - Regional
+CHEF~Chefs' Warehouse Inc~Consumer Defensive~Food Distribution
+VIAV~Viavi Solutions Inc~Technology~Communication Equipment
+AKR~Acadia Realty Trust~Real Estate~REIT - Retail
+FRPT~Freshpet Inc~Consumer Defensive~Packaged Foods
+AIR~AAR Corp~Industrials~Aerospace & Defense
+AUGO~Aura Minerals Inc~Basic Materials~Gold
+PFS~Provident Financial Services Inc~Financial~Banks - Regional
+AMSC~American Superconductor Corp~Industrials~Specialty Industrial Machinery
+MAG~MAG Silver Corp~Basic Materials~Silver
+WWW~Wolverine World Wide, Inc~Consumer Cyclical~Footwear & Accessories
+CPRX~Catalyst Pharmaceuticals Inc~Healthcare~Biotechnology
+CPRI~Capri Holdings Ltd~Consumer Cyclical~Luxury Goods
+OII~Oceaneering International, Inc~Energy~Oil & Gas Equipment & Services
+TRMK~Trustmark Corp~Financial~Banks - Regional
+BBU~Brookfield Business Partners L.P~Industrials~Conglomerates
+CURB~Curbline Properties Corp~Real Estate~REIT - Retail
+HCI~HCI Group Inc~Financial~Insurance - Property & Casualty
+IVT~InvenTrust Properties Corp~Real Estate~REIT - Retail
+FRME~First Merchants Corp~Financial~Banks - Regional
+SOC~Sable Offshore Corp~Energy~Oil & Gas Drilling
+FBNC~First Bancorp~Financial~Banks - Regional
+BANR~Banner Corp~Financial~Banks - Regional
+VICR~Vicor Corp~Technology~Electronic Components
+APPN~Appian Corp~Technology~Software - Infrastructure
+SYBT~Stock Yards Bancorp Inc~Financial~Banks - Regional
+PHIN~PHINIA Inc~Consumer Cyclical~Auto Parts
+CXW~CoreCivic Inc~Industrials~Security & Protection Services
+COCO~Vita Coco Company Inc~Consumer Defensive~Beverages - Non-Alcoholic
+OSW~OneSpaWorld Holdings Limited~Consumer Cyclical~Leisure
+EFSC~Enterprise Financial Services Corp~Financial~Banks - Regional
+UPWK~Upwork Inc~Communication Services~Internet Content & Information
+PSIX~Power Solutions International Inc~Industrials~Specialty Industrial Machinery
+BBT~Beacon Financial Corp~Financial~Banks - Regional
+EVCM~EverCommerce Inc~Technology~Software - Infrastructure
+NGVT~Ingevity Corp~Basic Materials~Specialty Chemicals
+ANIP~ANI Pharmaceuticals Inc~Healthcare~Drug Manufacturers - Specialty & Generic
+WT~WisdomTree Inc~Financial~Asset Management
+SEI~Solaris Energy Infrastructure Inc~Energy~Oil & Gas Equipment & Services
+TVTX~Travere Therapeutics Inc~Healthcare~Biotechnology
+AGM~Federal Agricultural Mortgage Corp~Financial~Credit Services
+LMAT~Lemaitre Vascular Inc~Healthcare~Medical Instruments & Supplies
+STC~Stewart Information Services Corp~Financial~Insurance - Property & Casualty
+TARS~Tarsus Pharmaceuticals Inc~Healthcare~Biotechnology
+HNI~HNI Corp~Consumer Cyclical~Furnishings, Fixtures & Appliances
+ARQT~Arcutis Biotherapeutics Inc~Healthcare~Biotechnology
+CENTA~Central Garden & Pet Co~Consumer Defensive~Packaged Foods
+CENT~Central Garden & Pet Co~Consumer Defensive~Packaged Foods
+PRCT~Procept BioRobotics Corp~Healthcare~Medical Devices
+NIC~Nicolet Bankshares Inc~Financial~Banks - Regional
+FIVN~Five9 Inc~Technology~Software - Infrastructure
+STRA~Strategic Education Inc~Consumer Defensive~Education & Training Services
+PBI~Pitney Bowes, Inc~Industrials~Integrated Freight & Logistics
+YELP~Yelp Inc~Communication Services~Internet Content & Information
+DRD~DRDGold Ltd. ADR~Basic Materials~Gold
+HMN~Horace Mann Educators Corp~Financial~Insurance - Property & Casualty
+AKO-B~Embotelladora Andina S.A. ADR~Consumer Defensive~Beverages - Non-Alcoholic
+TIGR~UP Fintech Holding Ltd ADR~Financial~Capital Markets
+AORT~Artivion Inc~Healthcare~Medical Devices
+ADPT~Adaptive Biotechnologies Corp~Healthcare~Biotechnology
+LC~LendingClub Corp~Financial~Banks - Regional
+KN~Knowles Corp~Technology~Electronic Components
+MESO~Mesoblast Ltd ADR~Healthcare~Biotechnology
+VBTX~Veritex Holdings Inc~Financial~Banks - Regional
+BKV~BKV Corp~Energy~Oil & Gas E&P
+ARDT~Ardent Health Inc~Healthcare~Medical Care Facilities
+TRUP~Trupanion Inc~Financial~Insurance - Property & Casualty
+SKWD~Skyward Specialty Insurance Group Inc~Financial~Insurance - Property & Casualty
+HRMY~Harmony Biosciences Holdings Inc~Healthcare~Biotechnology
+WBTN~Webtoon Entertainment Inc~Communication Services~Internet Content & Information
+NYAX~Nayax Ltd~Technology~Software - Infrastructure
+CDLR~Cadeler AS ADR~Industrials~Engineering & Construction
+DXPE~DXP Enterprises, Inc~Industrials~Industrial Distribution
+TPB~Turning Point Brands Inc~Consumer Defensive~Tobacco
+BLBD~Blue Bird Corp~Industrials~Farm & Heavy Construction Machinery
+NWBI~Northwest Bancshares Inc~Financial~Banks - Regional
+EYE~National Vision Holdings Inc~Consumer Cyclical~Specialty Retail
+ARLO~Arlo Technologies Inc~Industrials~Building Products & Equipment
+PRCH~Porch Group Inc~Technology~Software - Application
+COUR~Coursera Inc~Consumer Defensive~Education & Training Services
+IMCR~Immunocore Holdings plc ADR~Healthcare~Biotechnology
+VYX~NCR Voyix Corp~Technology~Information Technology Services
+UNFI~United Natural Foods Inc~Consumer Defensive~Food Distribution
+NTST~Netstreit Corp~Real Estate~REIT - Retail
+ERO~Ero Copper Corp~Basic Materials~Copper
+ATRC~Atricure Inc~Healthcare~Medical Instruments & Supplies
+IMAX~Imax Corp~Communication Services~Entertainment
+RAMP~LiveRamp Holdings Inc~Technology~Software - Infrastructure
+NWN~Northwest Natural Holding Co~Utilities~Utilities - Regulated Gas
+DQ~Daqo New Energy Corp ADR~Technology~Solar
+ACVA~ACV Auctions Inc~Consumer Cyclical~Auto & Truck Dealerships
+ADEA~Adeia Inc~Technology~Software - Application
+CWH~Camping World Holdings Inc~Consumer Cyclical~Auto & Truck Dealerships
+CECO~Ceco Environmental Corp~Industrials~Pollution & Treatment Controls
+AAOI~Applied Optoelectronics Inc~Technology~Communication Equipment
+AUPH~Aurinia Pharmaceuticals Inc~Healthcare~Biotechnology
+OUST~Ouster Inc~Technology~Electronic Components
+IDT~IDT Corp~Communication Services~Telecom Services
+PARR~Par Pacific Holdings Inc~Energy~Oil & Gas Refining & Marketing
+TILE~Interface Inc~Consumer Cyclical~Furnishings, Fixtures & Appliances
+CDTX~Cidara Therapeutics Inc~Healthcare~Biotechnology
+FLYW~Flywire Corp~Technology~Software - Infrastructure
+PAHC~Phibro Animal Health Corp~Healthcare~Drug Manufacturers - Specialty & Generic
+CLBK~Columbia Financial, Inc~Financial~Banks - Regional
+TRS~Trimas Corporation~Consumer Cyclical~Packaging & Containers
+TXG~10x Genomics Inc~Healthcare~Health Information Services
+AKO-A~Embotelladora Andina S.A. ADR~Consumer Defensive~Beverages - Non-Alcoholic
+TASK~TaskUs Inc~Technology~Information Technology Services
+PD~Pagerduty Inc~Technology~Software - Application
+TWST~Twist Bioscience Corp~Healthcare~Diagnostics & Research
+AVDL~Avadel Pharmaceuticals plc~Healthcare~Drug Manufacturers - Specialty & Generic
+VRE~Veris Residential Inc~Real Estate~REIT - Residential
+WLDN~Willdan Group Inc~Industrials~Engineering & Construction
+UTI~Universal Technical Institute Inc~Consumer Defensive~Education & Training Services
+BHVN~Biohaven Ltd~Healthcare~Biotechnology
+MLNK~MeridianLink Inc~Technology~Software - Application
+CYD~China Yuchai International~Consumer Cyclical~Auto Manufacturers
+HROW~Harrow Inc~Healthcare~Drug Manufacturers - Specialty & Generic
+PHR~Phreesia Inc~Healthcare~Health Information Services
+MD~Pediatrix Medical Group Inc~Healthcare~Medical Care Facilities
+DSGR~Distribution Solutions Group Inc~Industrials~Industrial Distribution
+LASR~nLIGHT Inc~Technology~Semiconductors
+XPRO~Expro Group Holdings N.V~Energy~Oil & Gas Equipment & Services
+GBX~Greenbrier Cos., Inc~Industrials~Railroads
+GIC~Global Industrial Co~Industrials~Industrial Distribution
+XHR~Xenia Hotels & Resorts Inc~Real Estate~REIT - Hotel & Motel
+DCO~Ducommun Inc~Industrials~Aerospace & Defense
+MXL~MaxLinear Inc~Technology~Semiconductors
+GRAL~GRAIL Inc~Healthcare~Diagnostics & Research
+DCOM~Dime Community Bancshares Inc~Financial~Banks - Regional
+RBCAA~Republic Bancorp, Inc. (KY)~Financial~Banks - Regional
+EFXT~Enerflex Ltd~Energy~Oil & Gas Equipment & Services
+UMH~UMH Properties Inc~Real Estate~REIT - Residential
+STOK~Stoke Therapeutics Inc~Healthcare~Biotechnology
+KALU~Kaiser Aluminum Corp~Basic Materials~Aluminum
+LMB~Limbach Holdings Inc~Industrials~Building Products & Equipment
+NTLA~Intellia Therapeutics Inc~Healthcare~Biotechnology
+PRA~Proassurance Corporation~Financial~Insurance - Property & Casualty
+INVA~Innoviva Inc~Healthcare~Biotechnology
+USPH~U.S. Physical Therapy, Inc~Healthcare~Medical Care Facilities
+HDL~Super Hi International Holding LTD. ADR~Consumer Cyclical~Restaurants
+ZYME~Zymeworks BC Inc~Healthcare~Biotechnology
+DAKT~Daktronics Inc~Technology~Electronic Components
+GRC~Gorman-Rupp Co~Industrials~Specialty Industrial Machinery
+SAFT~Safety Insurance Group, Inc~Financial~Insurance - Property & Casualty
+RDWR~Radware~Technology~Software - Infrastructure
+ATLC~Atlanticus Holdings Corp~Financial~Credit Services
+ASTE~Astec Industries Inc~Industrials~Farm & Heavy Construction Machinery
+MEG~Montrose Environmental Group Inc~Industrials~Waste Management
+AMLX~Amylyx Pharmaceuticals Inc~Healthcare~Biotechnology
+EZPW~EZCorp, Inc~Financial~Credit Services
+CTBI~Community Trust Bancorp, Inc~Financial~Banks - Regional
+ECPG~Encore Capital Group, Inc~Financial~Credit Services
+CTEV~Claritev Corp~Healthcare~Health Information Services
+PHAR~Pharming Group N.V. ADR~Healthcare~Biotechnology
+TMP~Tompkins Financial Corp~Financial~Banks - Regional
+IIIV~i3 Verticals Inc~Technology~Software - Infrastructure
+TREE~LendingTree Inc~Financial~Financial Conglomerates
+BRKL~Brookline Bancorp, Inc~Financial~Banks - Regional
+SCSC~Scansource, Inc~Technology~Electronics & Computer Distribution
+CRMD~CorMedix Inc~Healthcare~Biotechnology
+KRUS~Kura Sushi USA Inc~Consumer Cyclical~Restaurants
+FMBH~First Mid Bancshares Inc~Financial~Banks - Regional
+HIPO~Hippo Holdings Inc~Financial~Insurance - Property & Casualty
+QNST~QuinStreet Inc~Communication Services~Advertising Agencies
+GRPN~Groupon Inc~Communication Services~Internet Content & Information
+BOW~Bowhead Specialty Holdings Inc~Financial~Insurance - Property & Casualty
+IRMD~Iradimed Corp~Healthcare~Medical Devices
+IRS~Irsa Inversiones Y Representaciones S.A. ADR~Real Estate~Real Estate Services
+QURE~uniQure N.V~Healthcare~Biotechnology
+FWRD~Forward Air Corp~Industrials~Integrated Freight & Logistics
+EVER~EverQuote Inc~Communication Services~Internet Content & Information
+SMP~Standard Motor Products, Inc~Consumer Cyclical~Auto Parts
+NPKI~NPK International Inc~Energy~Oil & Gas Equipment & Services
+UVSP~Univest Financial Corp~Financial~Banks - Regional
+NBN~Northeast Bank~Financial~Banks - Regional
+AMTB~Amerant Bancorp Inc~Financial~Banks - Regional
+EMBC~Embecta Corp~Healthcare~Medical Instruments & Supplies
+LQDT~Liquidity Services Inc~Consumer Cyclical~Internet Retail
+PHAT~Phathom Pharmaceuticals Inc~Healthcare~Biotechnology
+HBNC~Horizon Bancorp Inc (IN)~Financial~Banks - Regional
+NTGR~Netgear Inc~Technology~Communication Equipment
+CPF~Central Pacific Financial Corp~Financial~Banks - Regional
+GLDD~Great Lakes Dredge & Dock Corporation~Industrials~Engineering & Construction
+ADTN~ADTRAN Holdings Inc~Technology~Communication Equipment
+MCB~Metropolitan Bank Holding Corp~Financial~Banks - Regional
+UFCS~United Fire Group Inc~Financial~Insurance - Property & Casualty
+SPT~Sprout Social Inc~Technology~Software - Application
+NRDS~Nerdwallet Inc~Communication Services~Internet Content & Information
+CTLP~Cantaloupe Inc~Technology~Software - Infrastructure
+NOAH~Noah Holdings Ltd ADR~Financial~Asset Management
+ALNT~Allient Inc~Technology~Electronic Components
+SKYH~Sky Harbour Group Corporation~Real Estate~Real Estate - Development
+ERII~Energy Recovery Inc~Industrials~Pollution & Treatment Controls
+HNRG~Hallador Energy Co~Energy~Thermal Coal
+HRTG~Heritage Insurance Holdings Inc~Financial~Insurance - Property & Casualty
+ANGI~Angi Inc~Communication Services~Internet Content & Information
+AXGN~Axogen Inc~Healthcare~Medical Devices
+IIIN~Insteel Industries, Inc~Industrials~Metal Fabrication
+MUX~McEwen Inc~Basic Materials~Other Precious Metals & Mining
+SSTK~Shutterstock Inc~Communication Services~Internet Content & Information
+LIND~Lindblad Expeditions Holdings Inc~Consumer Cyclical~Travel Services
+SNCY~Sun Country Airlines Holdings Inc~Industrials~Airlines
+TBPH~Theravance Biopharma Inc~Healthcare~Biotechnology
+VEL~Velocity Financial Inc~Financial~Mortgage Finance
+GSBC~Great Southern Bancorp, Inc~Financial~Banks - Regional
+BWMN~Bowman Consulting Group Ltd~Industrials~Engineering & Construction
+FSBC~Five Star Bancorp~Financial~Banks - Regional
+PRO~Pros Holdings Inc~Technology~Software - Application
+DGICA~Donegal Group Inc~Financial~Insurance - Property & Casualty
+THFF~First Financial Corp~Financial~Banks - Regional
+ORRF~Orrstown Financial Services, Inc~Financial~Banks - Regional
+BJRI~BJ's Restaurant Inc~Consumer Cyclical~Restaurants
+RIGL~Rigel Pharmaceuticals~Healthcare~Biotechnology
+NBBK~NB Bancorp Inc~Financial~Banks - Regional
+SIBN~SI-BONE Inc~Healthcare~Medical Devices
+CSV~Carriage Services, Inc~Consumer Cyclical~Personal Services
+CPS~Cooper-Standard Holdings Inc~Consumer Cyclical~Auto Parts
+NBR~Nabors Industries Ltd~Energy~Oil & Gas Drilling
+ANAB~AnaptysBio Inc~Healthcare~Biotechnology
+YSG~Yatsen Holding Ltd ADR~Consumer Defensive~Household & Personal Products
+SPFI~South Plains Financial Inc~Financial~Banks - Regional
+APEI~American Public Education Inc~Consumer Defensive~Education & Training Services
+CMCL~Caledonia Mining Corporation Plc~Basic Materials~Gold
+KROS~Keros Therapeutics Inc~Healthcare~Biotechnology
+VINP~Vinci Compass Investments Ltd~Financial~Asset Management
+PVLA~Palvella Therapeutics Inc~Healthcare~Biotechnology
+SMBK~SmartFinancial Inc~Financial~Banks - Regional
+LINC~Lincoln Educational Services Corp~Consumer Defensive~Education & Training Services
+FOA~Finance of America Companies Inc~Financial~Credit Services
+BBBY~Bed Bath & Beyond Inc~Consumer Cyclical~Internet Retail
+NUS~Nu Skin Enterprises, Inc~Consumer Defensive~Household & Personal Products
+DNA~Ginkgo Bioworks Holdings Inc~Healthcare~Biotechnology
+OFIX~Orthofix Medical Inc~Healthcare~Medical Devices
+ALRS~Alerus Financial Corp~Financial~Banks - Regional
+ORKA~Oruka Therapeutics Inc~Healthcare~Biotechnology
+SHBI~Shore Bancshares Inc~Financial~Banks - Regional
+CASS~Cass Information Systems Inc~Industrials~Specialty Business Services
+HONE~HarborOne Bancorp Inc~Financial~Banks - Regional
+BCAL~California BanCorp~Financial~Banks - Regional
+GNTY~Guaranty Bancshares, Inc. (TX)~Financial~Banks - Regional
+IBEX~IBEX Ltd~Technology~Information Technology Services
+FMNB~Farmers National Banc Corp~Financial~Banks - Regional
+CBNK~Capital Bancorp Inc~Financial~Banks - Regional
+THRY~Thryv Holdings Inc~Communication Services~Internet Content & Information
+TCBX~Third Coast Bancshares Inc~Financial~Banks - Regional
+GHM~Graham Corp~Industrials~Specialty Industrial Machinery
+PFIS~Peoples Financial Services Corp~Financial~Banks - Regional
+UNTY~Unity Bancorp, Inc~Financial~Banks - Regional
+LWAY~Lifeway Foods, Inc~Consumer Defensive~Packaged Foods
+NRIM~Northrim Bancorp, Inc~Financial~Banks - Regional
+MCS~Marcus Corp~Communication Services~Entertainment
+NFBK~Northfield Bancorp Inc~Financial~Banks - Regional
+CVGW~Calavo Growers, Inc~Consumer Defensive~Food Distribution
+PSTL~Postal Realty Trust Inc~Real Estate~REIT - Office
+AROW~Arrow Financial Corp~Financial~Banks - Regional
+FFIC~Flushing Financial Corp~Financial~Banks - Regional
+LE~Lands' End, Inc~Consumer Cyclical~Apparel Retail
+ETON~Eton Pharmaceuticals Inc~Healthcare~Drug Manufacturers - Specialty & Generic
+TATT~TAT Technologies Ltd~Industrials~Aerospace & Defense
+ARCT~Arcturus Therapeutics Holdings Inc~Healthcare~Biotechnology
+BWB~Bridgewater Bancshares Inc~Financial~Banks - Regional
+CLFD~Clearfield Inc~Technology~Communication Equipment
+CARE~Carter Bankshares Inc~Financial~Banks - Regional
+IDR~Idaho Strategic Resources Inc~Basic Materials~Gold
+HBCP~Home Bancorp Inc~Financial~Banks - Regional
+RRBI~Red River Bancshares Inc~Financial~Banks - Regional
+SD~Sandridge Energy Inc~Energy~Oil & Gas E&P
+RM~Regional Management Corp~Financial~Credit Services
+JOUT~Johnson Outdoors Inc~Consumer Cyclical~Leisure
+QSG~QuantaSing Group Ltd ADR~Consumer Defensive~Education & Training Services
+CWBC~Community West Bancshares~Financial~Banks - Regional
+CIVB~Civista Bancshares Inc~Financial~Banks - Regional
+BMRC~Bank of Marin Bancorp~Financial~Banks - Regional
+ATEX~Anterix Inc~Communication Services~Telecom Services
+IPI~Intrepid Potash Inc~Basic Materials~Agricultural Inputs
+DCTH~Delcath Systems Inc~Healthcare~Medical Devices
+ONIT~Onity Group Inc~Financial~Mortgage Finance
+SFST~Southern First Bancshares Inc~Financial~Banks - Regional
+BNTC~Benitec Biopharma Inc~Healthcare~Biotechnology
+MCFT~MasterCraft Boat Holdings Inc~Consumer Cyclical~Recreational Vehicles
+SPOK~Spok Holdings Inc~Healthcare~Health Information Services
+BWFG~Bankwell Financial Group Inc~Financial~Banks - Regional
+FMAO~Farmers & Merchants Bancorp Inc~Financial~Banks - Regional
+ZEPP~Zepp Health Corporation ADR~Technology~Consumer Electronics
+PDLB~Ponce Financial Group Inc~Financial~Banks - Regional
+USCB~USCB Financial Holdings Inc~Financial~Banks - Regional
+OBT~Orange County Bancorp Inc~Financial~Banks - Regional
+OOMA~Ooma Inc~Technology~Software - Application
+WTBA~West Bancorporation~Financial~Banks - Regional
+ASMB~Assembly Biosciences Inc~Healthcare~Biotechnology
+NGS~Natural Gas Services Group, Inc~Energy~Oil & Gas Equipment & Services
+TECX~Tectonic Therapeutic Inc~Healthcare~Biotechnology
+OPRX~OptimizeRx Corp~Healthcare~Health Information Services
+FET~Forum Energy Technologies Inc~Energy~Oil & Gas Equipment & Services
+GDEV~GDEV Inc~Communication Services~Electronic Gaming & Multimedia
+TRAK~ReposiTrak Inc~Technology~Software - Application
+CZFS~Citizens Financial Services, Inc~Financial~Banks - Regional
+PCB~PCB Bancorp~Financial~Banks - Regional
+AVNW~Aviat Networks Inc~Technology~Communication Equipment
+MPAA~Motorcar Parts of America Inc~Consumer Cyclical~Auto Parts
+CBAN~Colony Bankcorp, Inc~Financial~Banks - Regional
+MNPR~Monopar Therapeutics Inc~Healthcare~Biotechnology
+NEWT~NewtekOne Inc~Financial~Banks - Regional
+SMTI~Sanara MedTech Inc~Healthcare~Medical Instruments & Supplies
+TBRG~TruBridge Inc~Healthcare~Health Information Services
+NATR~Nature's Sunshine Products, Inc~Consumer Defensive~Packaged Foods
+TBCH~Turtle Beach Corp~Technology~Consumer Electronics
+BWAY~Brainsway Ltd ADR~Healthcare~Medical Devices
+CTRN~Citi Trends Inc~Consumer Cyclical~Apparel Retail
+CTGO~Contango Ore Inc~Basic Materials~Gold
+RAPT~RAPT Therapeutics Inc~Healthcare~Biotechnology
+BKTI~BK Technologies Corp~Technology~Communication Equipment
+FINW~FinWise Bancorp~Financial~Banks - Regional
+TNXP~Tonix Pharmaceuticals Holding Corp~Healthcare~Biotechnology
+WNEB~Western New England Bancorp Inc~Financial~Banks - Regional
+LYEL~Lyell Immunopharma Inc~Healthcare~Biotechnology
+NWFL~Norwood Financial Corp~Financial~Banks - Regional
+MBCN~Middlefield Banc Corp~Financial~Banks - Regional
+OM~Outset Medical Inc~Healthcare~Medical Devices
+CHPT~ChargePoint Holdings Inc~Consumer Cyclical~Specialty Retail
+LIEN~Chicago Atlantic BDC Inc~Financial~Asset Management
+FVCB~FVCBankcorp Inc~Financial~Banks - Regional
+FRGE~Forge Global Holdings Inc~Financial~Capital Markets
+ISBA~Isabella Bank Corp~Financial~Banks - Regional
+FUNC~First United Corp~Financial~Banks - Regional
+RDCM~Radcom~Communication Services~Telecom Services
+MYFW~First Western Financial Inc~Financial~Banks - Regional
+PVBC~Provident Bancorp Inc~Financial~Banks - Regional
+LCNB~LCNB Corp~Financial~Banks - Regional
+OPBK~OP Bancorp~Financial~Banks - Regional
+FCCO~First Community Corp~Financial~Banks - Regional
+CCRD~CoreCard Corporation~Technology~Software - Application
+ELMD~Electromed Inc~Healthcare~Medical Devices
+ISSC~Innovative Solutions And Support Inc~Industrials~Aerospace & Defense
+KINS~Kingstone Cos. Inc~Financial~Insurance - Property & Casualty
+NKSH~National Bankshares Inc~Financial~Banks - Regional
+FSFG~First Savings Financial Group Inc~Financial~Banks - Regional
+CBIO~Crescent Biopharma Inc~Healthcare~Biotechnology
+MNSB~MainStreet Bancshares Inc~Financial~Banks - Regional
+CBFV~CB Financial Services Inc~Financial~Banks - Regional
+AEYE~AudioEye Inc~Technology~Software - Application
+CFBK~CF Bankshares Inc~Financial~Banks - Regional
+HNVR~Hanover Bancorp Inc~Financial~Banks - Regional
+LGCY~Legacy Education Inc~Consumer Defensive~Education & Training Services
+JYNT~Joint Corp~Healthcare~Medical Care Facilities
+BSET~Bassett Furniture Industries Inc~Consumer Cyclical~Furnishings, Fixtures & Appliances
+LFVN~Lifevantage Corporation~Consumer Defensive~Packaged Foods
+AVTX~Avalo Therapeutics Inc~Healthcare~Biotechnology
+LAKE~Lakeland Industries, Inc~Consumer Cyclical~Apparel Manufacturing
+EBMT~Eagle Bancorp Montana Inc~Financial~Banks - Regional
+SBFG~SB Financial Group Inc~Financial~Banks - Regional
+FBRX~Forte Biosciences Inc~Healthcare~Biotechnology
+KALA~Kala Bio Inc~Healthcare~Biotechnology
+STEM~Stem Inc~Utilities~Utilities - Renewable
+ALAR~Alarum Technologies Ltd ADR~Technology~Software - Infrastructure
+SRZN~Surrozen Inc~Healthcare~Biotechnology
+ATRA~Atara Biotherapeutics Inc~Healthcare~Biotechnology
+CVM~Cel-Sci Corp~Healthcare~Biotechnology
+PXLW~Pixelworks Inc~Technology~Semiconductors
+FGEN~FibroGen Inc~Healthcare~Biotechnology
+CVKD~Cadrenal Therapeutics Inc~Healthcare~Biotechnology
+FLGC~Flora Growth Corp~Healthcare~Drug Manufacturers - Specialty & Generic

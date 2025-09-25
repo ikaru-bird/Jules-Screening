@@ -33,14 +33,22 @@ def main():
         default="_files/US/input.txt",
         help="Path to the input file containing tickers and company info. Defaults to _files/US/input.txt"
     )
+    parser_screen.add_argument(
+        "--top",
+        type=int,
+        default=None,
+        help="Only screen the top N tickers from the input file."
+    )
 
     args = parser.parse_args()
 
     if args.command == "screen":
         print("--- Executing Screen Command ---")
         print(f"Using input file: {args.input_file}")
+        if args.top:
+            print(f"Screening top {args.top} tickers.")
 
-        ticker_list = load_tickers_from_file(args.input_file)
+        ticker_list = load_tickers_from_file(args.input_file, num_tickers=args.top)
 
         if ticker_list is not None and not ticker_list.empty:
             run_screening(ticker_list)

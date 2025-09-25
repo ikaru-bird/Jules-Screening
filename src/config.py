@@ -54,3 +54,28 @@ HANDLE_DEPTH_MAX_FACTOR = 1.00 # Handle shouldn't be higher than the cup's high
 # Pivot (breakout) parameters
 PIVOT_LOOKAHEAD_DAYS = 30    # How many days to look for a pivot breakout after the handle
 VOLUME_BREAKOUT_FACTOR = 1.5 # Volume on breakout day must be 1.5x the 50-day average
+
+# -- Double Bottom (DB) Pattern Parameters --
+DB_LOOKBACK_PERIOD = "2y"
+
+# Prior Downtrend parameters
+DB_DOWNTREND_LOOKBACK_DAYS = 120 # Look back 4 months for a prior downtrend
+DB_DOWNTREND_MIN_DROP_FACTOR = 1.3 # Must have dropped at least 30%
+
+# W-Shape parameters
+DB_DURATION_MIN_DAYS = 42 # 6 weeks
+DB_DURATION_MAX_DAYS = 270 # ~9 months
+DB_TROUGH_MAX_DEVIATION = 1.05 # Second trough can be max 5% different from the first
+DB_PEAK_MIN_RISE_FACTOR = 1.10 # The peak between troughs must be at least 10% higher than the first trough
+DB_MIN_ROUNDED_POINTS = 3 # To ensure troughs are not too sharp (V-shaped)
+DB_PIVOT_PROXIMITY_FACTOR = 0.97 # Price must be within 3% of the pivot to be considered "consolidating"
+DB_VOLUME_DROP_FACTOR = 0.8 # Average volume on 2nd trough should be less than the 1st
+
+# -- Volatility Contraction Pattern (VCP) Parameters --
+VCP_LOOKBACK_PERIOD = "2y"
+
+# Defines the expected percentage contraction for each stage.
+# e.g., 1st contraction ~25%, 2nd ~15%, 3rd ~8%
+VCP_CONTRACTIONS = [0.25, 0.15, 0.08]
+VCP_CONTRACTION_MAX_DEVIATION = 1.5 # Allowable deviation from the expected contraction depth (e.g., 1.5 means 50% deviation)
+VCP_TIGHTENING_MAX_DAYS = 20 # Max days for the final tight consolidation before breakout
