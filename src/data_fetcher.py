@@ -1,12 +1,13 @@
 import pandas as pd
 from src import config
 
-def load_tickers_from_file(filepath):
+def load_tickers_from_file(filepath, num_tickers=None):
     """
     Loads tickers, company names, and industries from a tilde-separated file.
 
     Args:
         filepath (str): The path to the input file.
+        num_tickers (int, optional): The number of tickers to load. Defaults to None (all).
 
     Returns:
         pandas.DataFrame: A DataFrame with 'Ticker', 'Name', and 'Industry' columns,
@@ -20,7 +21,8 @@ def load_tickers_from_file(filepath):
             sep='~',
             header=None,
             usecols=[0, 1, 2, 3],
-            names=['Ticker', 'Name', 'Sector', 'Industry']
+            names=['Ticker', 'Name', 'Sector', 'Industry'],
+            nrows=num_tickers
         )
         print(f"Successfully loaded {len(df)} tickers from {filepath}")
         return df

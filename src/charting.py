@@ -58,7 +58,7 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     earnings_dates = stock_data.get('earnings_dates')
     financial_summary = ""
     if q_financials is not None and not q_financials.empty:
-        financial_summary += "Earnings | Rev | EPS(vs. Estimate):\n"
+        financial_summary += "Earnings | Rev | EPS(vs Estimate):\n"
         if earnings_dates is not None and not earnings_dates.empty:
             earnings_dates.index = pd.to_datetime(earnings_dates.index).tz_localize(None)
 
@@ -89,7 +89,7 @@ def _plot_price_and_info(ax, hist, stock_data, status):
                     estimate_eps = match['EPS Estimate'].iloc[0]
                     if pd.notna(estimate_eps):
                         indicator = "O" if eps > estimate_eps else "X"
-                        eps_beat_miss_str = f" vs {estimate_eps:.2f} ({indicator})"
+                        eps_beat_miss_str = f" (vs {estimate_eps:.2f}) {indicator}"
 
             q_date_str = q_date.strftime('%Y-%m')
             financial_summary += f" {q_date_str} | {rev_str:<8} | {eps_str}{eps_beat_miss_str}\n"

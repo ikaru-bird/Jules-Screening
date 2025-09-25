@@ -13,7 +13,7 @@ from src.criteria import (
     check_quarterly_eps_growth,
     check_annual_eps_growth,
 )
-from src.patterns import check_cup_with_handle
+from src.patterns import check_cup_with_handle, check_double_bottom, check_vcp
 
 def run_screening(ticker_df):
     """
@@ -72,33 +72,43 @@ def run_screening(ticker_df):
                 continue
 
             # --- Apply Chart Pattern Analysis ---
-            hist_df = ticker.history(period=config.CWH_LOOKBACK_PERIOD)
-            # Convert index to timezone-naive to prevent comparison errors
+            hist_df = ticker.history(period="2y")
             hist_df.index = hist_df.index.tz_localize(None)
 
-            status, reason = check_cup_with_handle(hist_df.copy())
+            pattern_checks = [
+                ("CWH", check_cup_with_handle),
+                ("DB", check_double_bottom),
+                ("VCP", check_vcp),
+            ]
 
-            if status == "FAIL":
-                logging.info(f"Skipping {symbol}: Failed CWH check. Reason: {reason}")
+            pattern_found = False
+            for pattern_name, check_function in pattern_checks:
+                status, reason = check_function(hist_df.copy())
+
+                if status != "FAIL":
+                    logging.info(f"MATCH ({status} / {pattern_name}): {symbol}. Reason: {reason}")
+                    print(f"\nMATCH ({status} / {pattern_name}): {symbol} - {reason}")
+
+                    qualified_stocks.append({
+                        'Ticker': symbol,
+                        'Name': stock.Name,
+                        'Sector': stock.Sector,
+                        'Industry': stock.Industry,
+                        'Status': f"{status} ({pattern_name})",
+                        'Reason': reason
+                    })
+
+                    print(f"Generating chart for {symbol} ({status} / {pattern_name})...")
+                    generate_stock_chart(stock_data, f"{status}_{pattern_name}")
+
+                    pattern_found = True
+                    break
+
+            if not pattern_found:
+                logging.info(f"Skipping {symbol}: No qualifying chart patterns found.")
                 continue
 
-            # --- Qualification (WATCH or BREAKOUT) ---
-            logging.info(f"MATCH ({status}): {symbol}. Reason: {reason}")
-            print(f"\nMATCH ({status}): {symbol} - {reason}")
-            qualified_stocks.append({
-                'Ticker': symbol,
-                'Name': stock.Name,
-                'Sector': stock.Sector,
-                'Industry': stock.Industry,
-                'Status': status,
-                'Reason': reason
-            })
-
-            # Generate chart for the qualified stock
-            print(f"Generating chart for {symbol} ({status})...")
-            generate_stock_chart(stock_data, status) # Pass the whole stock_data object
-
-            time.sleep(random.uniform(1, 3)) # Be polite to the API
+            time.sleep(random.uniform(1, 3))
 
         except Exception as e:
             logging.error(f"Could not process {symbol}: {e}", exc_info=True)
