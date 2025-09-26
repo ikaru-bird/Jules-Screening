@@ -123,6 +123,11 @@ def _check_pivot_breakout(df, handle_low_date, pivot_price):
     if pivot_df.empty:
         return False, "No pivot breakout within the lookahead period"
 
+    breakout_date = pivot_df.index[0]
+    one_month_ago = dt.datetime.now() - dt.timedelta(days=30)
+    if breakout_date < one_month_ago:
+        return False, f"Breakout on {breakout_date.date()} is older than 1 month"
+
     # Check for volume breakout on the first day it crosses the pivot
     breakout_day = pivot_df.iloc[0]
     # Ensure we have a valid index for volume lookup
