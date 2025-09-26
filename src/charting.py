@@ -163,7 +163,10 @@ def generate_stock_chart(stock_data, status=None):
         fig, axes = plt.subplots(3, 1, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [3, 1, 1.5]})
 
         # Add all data to the stock_data object to pass to the plotting function
-        stock_data['q_financials'] = ticker.quarterly_financials
+        q_financials = ticker.quarterly_financials
+        if not q_financials.empty:
+            q_financials = q_financials.sort_index(axis=1, ascending=False)
+        stock_data['q_financials'] = q_financials
         stock_data['info'] = ticker.info
         stock_data['calendar'] = ticker.calendar
         try:

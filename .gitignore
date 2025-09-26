@@ -1,25 +1,9 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+*.pyo
+*.pyd
 
-# Output directories
+# Output
 output/
-screener.log
-screening_results.csv
-run.log
-
-# Environment
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE / Editor specific
-.vscode/
-.idea/
-*.swp
-*.swo
+*.log

@@ -13,6 +13,9 @@ def get_quarterly_eps_growth_data(ticker: yf.Ticker):
     # Method 1: Use 'Basic EPS' from quarterly_financials
     try:
         q_financials = ticker.quarterly_financials
+        if not q_financials.empty:
+            q_financials = q_financials.sort_index(axis=1, ascending=False)
+
         if not q_financials.empty and 'Basic EPS' in q_financials.index and len(q_financials.columns) >= 5:
             eps_data = q_financials.loc['Basic EPS'].dropna()
             if len(eps_data) >= 5:
@@ -27,6 +30,8 @@ def get_quarterly_eps_growth_data(ticker: yf.Ticker):
     # Method 2: Manual calculation using Net Income and Shares Outstanding
     try:
         q_financials = ticker.quarterly_financials
+        if not q_financials.empty:
+            q_financials = q_financials.sort_index(axis=1, ascending=False)
         info = ticker.info
         if (not q_financials.empty and 'Net Income' in q_financials.index and len(q_financials.columns) >= 5 and
                 info and info.get('sharesOutstanding')):
@@ -72,6 +77,8 @@ def get_annual_eps_cagr_data(ticker: yf.Ticker, years: int = 3):
     # Method 1: Use 'Basic EPS' from financials
     try:
         financials = ticker.financials
+        if not financials.empty:
+            financials = financials.sort_index(axis=1, ascending=False)
         if not financials.empty and 'Basic EPS' in financials.index and len(financials.columns) >= required_data_points:
             eps_data = financials.loc['Basic EPS'].dropna()
             if len(eps_data) >= required_data_points:
@@ -86,6 +93,8 @@ def get_annual_eps_cagr_data(ticker: yf.Ticker, years: int = 3):
     # Method 2: Manual calculation using Net Income and Shares Outstanding
     try:
         financials = ticker.financials
+        if not financials.empty:
+            financials = financials.sort_index(axis=1, ascending=False)
         info = ticker.info
         if (not financials.empty and 'Net Income' in financials.index and len(financials.columns) >= required_data_points and
                 info and info.get('sharesOutstanding')):
