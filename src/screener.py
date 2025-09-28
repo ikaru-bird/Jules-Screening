@@ -12,6 +12,7 @@ from src.criteria import (
     check_roe,
     check_quarterly_eps_growth,
     check_annual_eps_growth,
+    check_annual_eps_yoy_growth,
 )
 from src.patterns import check_cup_with_handle, check_double_bottom, check_vcp
 
@@ -56,10 +57,10 @@ def run_screening(ticker_df):
 
             # --- Apply Screening Criteria ---
             criteria_to_check = [
-                ("Price", check_price, info),
                 ("ROE", check_roe, info),
-                ("Quarterly EPS", check_quarterly_eps_growth, ticker),
-                ("Annual EPS", check_annual_eps_growth, ticker)
+                ("EPS Annual Growth", check_annual_eps_growth, ticker),
+                ("EPS YoY Growth", check_annual_eps_yoy_growth, ticker),
+                ("EPS Quarterly Growth", check_quarterly_eps_growth, ticker),
             ]
 
             criteria_results = []
@@ -71,11 +72,12 @@ def run_screening(ticker_df):
                 criteria_results.append((name, is_ok, reason))
                 if is_ok:
                     passed_count += 1
-                # The first check that fails is enough to disqualify the stock
-                if not is_ok and reason != "--": # "--" means data is unavailable, treat as pass
+
+                # The first check that fails is enough to disqualify the stock, unless data is unavailable
+                if not is_ok and reason != "--":
                     logging.info(f"Skipping {symbol}: Failed financial check '{name}'. Reason: {reason}")
                     all_financials_ok = False
-                    break # Stop checking further criteria
+                    break
 
             # Add results to stock_data to be passed to the chart generator
             stock_data['criteria_results'] = criteria_results

@@ -25,6 +25,7 @@ MIN_PRICE = 10.00
 MIN_ROE = 0.12 # Strict: 0.15
 MIN_Q_EPS_GROWTH = 0.15 # Strict: 0.25
 MIN_ANNUAL_EPS_GROWTH_CAGR = 0.15 # Strict: 0.25
+MIN_ANNUAL_EPS_YOY_GROWTH = 0.15 # Strict: 0.25
 
 # -- Cup With Handle (CWH) Pattern Parameters (REVISED) --
 CWH_LOOKBACK_PERIOD = "2y" # Data period to fetch for pattern analysis
