@@ -44,7 +44,7 @@ CUP_LIP_MIN_DEVIATION = 0.90 # Right lip can be min 10% lower than left
 CUP_MIN_ROUNDED_POINTS = 5 # At least 5 days must be near the cup's low point
 
 # Handle parameters
-HANDLE_MAX_DURATION_DAYS = 60 # 12 weeks
+HANDLE_MAX_DURATION_DAYS = 35 # 7 weeks
 HANDLE_MIN_DURATION_DAYS = 5   # 1 week
 # Defines the allowable pullback of the handle relative to the cup's high.
 # e.g., MIN=0.85 allows a pullback of up to 15%.

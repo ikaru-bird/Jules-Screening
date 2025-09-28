@@ -27,34 +27,35 @@ def _find_cup_shape(df):
     This is a more robust method than finding the absolute low first.
     """
     if len(df) < config.CUP_MIN_DURATION_DAYS:
-        return None, None, None, "Not enough historical data to form a cup"
+        return None, None, None, None, "Not enough historical data to form a cup"
 
     # Find the high point (left lip) in the first 75% of the lookback period
     left_side_df = df.iloc[:int(len(df) * 0.75)]
     left_lip_date = left_side_df['High'].idxmax()
     left_lip_price = left_side_df['High'].max()
 
-    # The cup bottom must occur after the left lip
-    cup_df = df.loc[left_lip_date:]
+    # The cup bottom must occur after the left lip, within a reasonable timeframe
+    cup_search_end_date = left_lip_date + dt.timedelta(days=config.CUP_MAX_DURATION_DAYS)
+    cup_df = df.loc[left_lip_date:cup_search_end_date]
     if len(cup_df) < config.CUP_MIN_DURATION_DAYS:
-        return None, None, None, "Not enough data after left lip to form a cup"
+        return None, None, None, None, "Not enough data after left lip to form a cup"
 
     cup_bottom_date = cup_df['Low'].idxmin()
     cup_bottom_price = cup_df['Low'].min()
 
     # Check cup depth
     if not left_lip_price >= cup_bottom_price * config.CUP_MIN_DEPTH_FACTOR:
-        return None, None, None, f"Cup is not deep enough. Depth must be >{config.CUP_MIN_DEPTH_FACTOR}x"
+        return None, None, None, None, f"Cup is not deep enough. Depth must be >{config.CUP_MIN_DEPTH_FACTOR}x"
 
     # Check cup duration
     cup_duration = (cup_bottom_date - left_lip_date).days
     if not (config.CUP_MIN_DURATION_DAYS <= cup_duration <= config.CUP_MAX_DURATION_DAYS):
-        return None, None, None, f"Cup duration ({cup_duration} days) is out of range"
+        return None, None, None, None, f"Cup duration ({cup_duration} days) is out of range"
 
     # Find the right lip of the cup
     right_side_df = df.loc[cup_bottom_date:]
     if right_side_df.empty:
-        return None, None, None, "No data available to form the right side of the cup"
+        return None, None, None, None, "No data available to form the right side of the cup"
 
     # The right lip should be close in price to the left lip
     price_match_upper = left_lip_price * config.CUP_LIP_MAX_DEVIATION
@@ -62,7 +63,7 @@ def _find_cup_shape(df):
 
     potential_right_lips = right_side_df[right_side_df['High'].between(price_match_lower, price_match_upper)]
     if potential_right_lips.empty:
-        return None, None, None, "Could not find a matching right lip for the cup"
+        return None, None, None, None, "Could not find a matching right lip for the cup"
 
     right_lip_date = potential_right_lips.index[0]
     right_lip_price = potential_right_lips['High'].iloc[0]
@@ -71,12 +72,12 @@ def _find_cup_shape(df):
     cup_period_df = df.loc[left_lip_date:right_lip_date]
     low_points_count = cup_period_df[cup_period_df['Low'] < cup_bottom_price * 1.1].shape[0]
     if low_points_count < config.CUP_MIN_ROUNDED_POINTS:
-         return None, None, None, f"Cup bottom is too sharp (V-shaped), not enough rounding ({low_points_count} points)"
+         return None, None, None, None, f"Cup bottom is too sharp (V-shaped), not enough rounding ({low_points_count} points)"
 
-    return left_lip_date, cup_bottom_date, right_lip_date, None
+    return left_lip_date, cup_bottom_date, cup_bottom_price, right_lip_date, None
 
 
-def _check_handle_formation(df, right_lip_date, cup_high_price):
+def _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price):
     """
     Checks for the handle formation after the right lip of the cup.
     The handle is a slight pullback before the breakout.
@@ -89,10 +90,7 @@ def _check_handle_formation(df, right_lip_date, cup_high_price):
         return None, None, "Not enough data to form a handle"
 
     # Handle should be a shallow pullback from the right lip's high
-    handle_pullback_max_price = cup_high_price * config.HANDLE_DEPTH_MAX_FACTOR
-    handle_pullback_min_price = cup_high_price * config.HANDLE_DEPTH_MIN_FACTOR
-
-    pullback_df = handle_df[handle_df['Low'] < handle_pullback_max_price]
+    pullback_df = handle_df[handle_df['Low'] < cup_high_price]
     if pullback_df.empty:
         # If no pullback, it might be breaking out directly. Pivot is the cup high.
         return right_lip_date, cup_high_price, "No classic handle pullback found; watching for breakout from lip"
@@ -103,10 +101,19 @@ def _check_handle_formation(df, right_lip_date, cup_high_price):
     if not (config.HANDLE_MIN_DURATION_DAYS <= handle_duration <= config.HANDLE_MAX_DURATION_DAYS):
         return None, None, f"Handle duration ({handle_duration} days) is out of range"
 
-    # The handle's low should not be too deep
+    # The handle's low should not be too deep.
+    # The pullback is not allowed to be more than 1/3rd of the cup's depth.
     handle_low_price = pullback_df['Low'].min()
-    if handle_low_price < handle_pullback_min_price:
-        return None, None, f"Handle pullback is too deep ({handle_low_price:.2f} vs min {handle_pullback_min_price:.2f})"
+    cup_depth = cup_high_price - cup_bottom_price
+    min_handle_low_price = cup_high_price - (cup_depth / 3)
+
+    if handle_low_price < min_handle_low_price:
+        return None, None, f"Handle pullback is too deep. Low: {handle_low_price:.2f}, Min Allowable: {min_handle_low_price:.2f}"
+
+    # Final check: Ensure the pattern hasn't broken down. The latest close must be above the handle's low.
+    last_close = df['Close'].iloc[-1]
+    if last_close < handle_low_price:
+        return None, None, f"Pattern invalidated. Current price ({last_close:.2f}) is below handle low ({handle_low_price:.2f})"
 
     # The pivot point for the breakout is the high of the right lip
     pivot_price = cup_high_price
@@ -156,7 +163,7 @@ def check_cup_with_handle(df_hist):
         df['MA200'] = df['Close'].rolling(window=200).mean()
 
     # Stage 1: Find a valid cup shape (left lip, bottom, right lip).
-    left_lip_date, cup_bottom_date, right_lip_date, err = _find_cup_shape(df)
+    left_lip_date, cup_bottom_date, cup_bottom_price, right_lip_date, err = _find_cup_shape(df)
     if err:
         return "FAIL", f"Stage 1 (Cup Shape): {err}"
 
@@ -169,7 +176,7 @@ def check_cup_with_handle(df_hist):
     cup_high_price = max(df.loc[left_lip_date, 'High'], df.loc[right_lip_date, 'High'])
 
     # Stage 3: Check for the handle formation.
-    handle_low_date, pivot_price, err = _check_handle_formation(df, right_lip_date, cup_high_price)
+    handle_low_date, pivot_price, err = _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price)
     if err and "No classic handle" not in err: # Allow to proceed if no handle, just watching
         return "FAIL", f"Stage 3 (Handle): {err}"
 
