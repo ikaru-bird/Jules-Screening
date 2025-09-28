@@ -174,9 +174,9 @@ def check_roe(ticker_info):
         if roe is None:
             return True, "--" # Treat as OK if data is missing
         if roe >= config.MIN_ROE:
-            return True, f"ROE {roe:.2%} >= {config.MIN_ROE:.0%}"
+            return True, f"{roe:.2%} >= {config.MIN_ROE:.0%}"
         else:
-            return False, f"ROE {roe:.2%} < {config.MIN_ROE:.0%}"
+            return False, f"{roe:.2%} < {config.MIN_ROE:.0%}"
     except Exception:
         return True, "--" # Treat as OK on error
 
@@ -191,9 +191,9 @@ def check_quarterly_eps_growth(ticker: yf.Ticker):
         return True, "--"  # Treat as OK if data is missing
 
     if growth >= config.MIN_Q_EPS_GROWTH:
-        return True, f"Q EPS Growth {growth:.2%} >= {config.MIN_Q_EPS_GROWTH:.0%}"
+        return True, f"{growth:.2%} >= {config.MIN_Q_EPS_GROWTH:.0%}"
     else:
-        return False, f"Q EPS Growth {growth:.2%} < {config.MIN_Q_EPS_GROWTH:.0%}"
+        return False, f"{growth:.2%} < {config.MIN_Q_EPS_GROWTH:.0%}"
 
 def check_annual_eps_growth(ticker: yf.Ticker):
     """
@@ -206,9 +206,9 @@ def check_annual_eps_growth(ticker: yf.Ticker):
         return True, "--"  # Treat as OK if data is missing
 
     if cagr >= config.MIN_ANNUAL_EPS_GROWTH_CAGR:
-        return True, f"3Y EPS CAGR {cagr:.2%} >= {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
+        return True, f"{cagr:.2%} >= {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
     else:
-        return False, f"3Y EPS CAGR {cagr:.2%} < {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
+        return False, f"{cagr:.2%} < {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
 
 def check_annual_eps_yoy_growth(ticker: yf.Ticker):
     """
@@ -221,6 +221,6 @@ def check_annual_eps_yoy_growth(ticker: yf.Ticker):
         return True, "--"  # Treat as OK if data is missing
 
     if growth >= config.MIN_ANNUAL_EPS_YOY_GROWTH:
-        return True, f"Annual EPS YoY Growth {growth:.2%} >= {config.MIN_ANNUAL_EPS_YOY_GROWTH:.0%}"
+        return True, f"{growth:.2%} >= {config.MIN_ANNUAL_EPS_YOY_GROWTH:.0%}"
     else:
-        return False, f"Annual EPS YoY Growth {growth:.2%} < {config.MIN_ANNUAL_EPS_YOY_GROWTH:.0%}"
+        return False, f"{growth:.2%} < {config.MIN_ANNUAL_EPS_YOY_GROWTH:.0%}"
