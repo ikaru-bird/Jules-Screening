@@ -7,6 +7,7 @@ of the scraper, financial checks, and pattern recognition logic.
 """
 
 # -- General Settings --
+DEFAULT_INPUT_FILE = '_files/US/input.txt'
 TICKERS_FILE = 'tickers.csv'
 RESULTS_FILE = 'screening_results.csv'
 LOG_FILE = 'screener.log'
