@@ -104,6 +104,50 @@ def get_annual_eps_cagr_data(ticker: yf.Ticker, years: int = 3):
     return None, f"Failure: Not enough annual data for {years}-year CAGR"
 
 
+def get_annual_eps_yoy_growth_data(ticker: yf.Ticker):
+    """
+    Tries to calculate Year-over-Year annual EPS growth for the most recent year.
+
+    Returns:
+        A tuple containing:
+        - The calculated growth rate (e.g., 0.25 for 25%) or None if it fails.
+        - A string describing the method used or the reason for failure.
+    """
+    # Method 1: Use 'Basic EPS' from financials
+    try:
+        financials = ticker.financials
+        if not financials.empty and 'Basic EPS' in financials.index and len(financials.columns) >= 2:
+            eps_data = financials.loc['Basic EPS'].dropna()
+            if len(eps_data) >= 2:
+                latest_eps = eps_data.iloc[0]
+                previous_eps = eps_data.iloc[1]
+                if previous_eps > 0:
+                    growth = (latest_eps - previous_eps) / previous_eps
+                    return growth, "Method: financials['Basic EPS']"
+    except Exception:
+        pass  # Silently try next method
+
+    # Method 2: Manual calculation using Net Income and Shares Outstanding
+    try:
+        financials = ticker.financials
+        info = ticker.info
+        if (not financials.empty and 'Net Income' in financials.index and len(financials.columns) >= 2 and
+                info and info.get('sharesOutstanding')):
+            net_income = financials.loc['Net Income'].dropna()
+            shares = info['sharesOutstanding']
+            if len(net_income) >= 2 and shares > 0:
+                manual_eps = net_income / shares
+                latest_eps = manual_eps.iloc[0]
+                previous_eps = manual_eps.iloc[1]
+                if previous_eps > 0:
+                    growth = (latest_eps - previous_eps) / previous_eps
+                    return growth, "Method: Manual (Net Income / Shares)"
+    except Exception:
+        pass
+
+    return None, "Failure: Not enough annual data for YoY growth"
+
+
 def check_price(ticker_info):
     """
     Checks if the stock price is above the minimum threshold.
@@ -130,9 +174,9 @@ def check_roe(ticker_info):
         if roe is None:
             return True, "--" # Treat as OK if data is missing
         if roe >= config.MIN_ROE:
-            return True, f"ROE {roe:.2%} >= {config.MIN_ROE:.0%}"
+            return True, f"{roe:.2%} >= {config.MIN_ROE:.0%}"
         else:
-            return False, f"ROE {roe:.2%} < {config.MIN_ROE:.0%}"
+            return False, f"{roe:.2%} < {config.MIN_ROE:.0%}"
     except Exception:
         return True, "--" # Treat as OK on error
 
@@ -147,9 +191,9 @@ def check_quarterly_eps_growth(ticker: yf.Ticker):
         return True, "--"  # Treat as OK if data is missing
 
     if growth >= config.MIN_Q_EPS_GROWTH:
-        return True, f"Q EPS Growth {growth:.2%} >= {config.MIN_Q_EPS_GROWTH:.0%}"
+        return True, f"{growth:.2%} >= {config.MIN_Q_EPS_GROWTH:.0%}"
     else:
-        return False, f"Q EPS Growth {growth:.2%} < {config.MIN_Q_EPS_GROWTH:.0%}"
+        return False, f"{growth:.2%} < {config.MIN_Q_EPS_GROWTH:.0%}"
 
 def check_annual_eps_growth(ticker: yf.Ticker):
     """
@@ -162,6 +206,21 @@ def check_annual_eps_growth(ticker: yf.Ticker):
         return True, "--"  # Treat as OK if data is missing
 
     if cagr >= config.MIN_ANNUAL_EPS_GROWTH_CAGR:
-        return True, f"3Y EPS CAGR {cagr:.2%} >= {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
+        return True, f"{cagr:.2%} >= {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
     else:
-        return False, f"3Y EPS CAGR {cagr:.2%} < {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
+        return False, f"{cagr:.2%} < {config.MIN_ANNUAL_EPS_GROWTH_CAGR:.0%}"
+
+def check_annual_eps_yoy_growth(ticker: yf.Ticker):
+    """
+    Checks if the most recent annual EPS has grown sufficiently YoY.
+    Returns (True, '--') if data is unavailable.
+    """
+    growth, reason = get_annual_eps_yoy_growth_data(ticker)
+
+    if growth is None:
+        return True, "--"  # Treat as OK if data is missing
+
+    if growth >= config.MIN_ANNUAL_EPS_YOY_GROWTH:
+        return True, f"{growth:.2%} >= {config.MIN_ANNUAL_EPS_YOY_GROWTH:.0%}"
+    else:
+        return False, f"{growth:.2%} < {config.MIN_ANNUAL_EPS_YOY_GROWTH:.0%}"

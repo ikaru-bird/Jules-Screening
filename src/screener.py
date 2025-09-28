@@ -12,6 +12,7 @@ from src.criteria import (
     check_roe,
     check_quarterly_eps_growth,
     check_annual_eps_growth,
+    check_annual_eps_yoy_growth,
 )
 from src.patterns import check_cup_with_handle, check_double_bottom, check_vcp
 
@@ -55,19 +56,33 @@ def run_screening(ticker_df):
                 continue
 
             # --- Apply Screening Criteria ---
-            criteria_checks = [
-                check_price(info),
-                check_roe(info),
-                check_quarterly_eps_growth(ticker),
-                check_annual_eps_growth(ticker)
+            criteria_to_check = [
+                ("ROE", check_roe, info),
+                ("EPS Annual Growth", check_annual_eps_growth, ticker),
+                ("EPS 3Y Avg.Growth", check_annual_eps_yoy_growth, ticker),
+                ("EPS Quarterly Growth", check_quarterly_eps_growth, ticker),
             ]
 
+            criteria_results = []
+            passed_count = 0
             all_financials_ok = True
-            for is_ok, reason in criteria_checks:
-                if not is_ok:
-                    logging.info(f"Skipping {symbol}: Failed financial check. Reason: {reason}")
+
+            for name, check_func, arg in criteria_to_check:
+                is_ok, reason = check_func(arg)
+                criteria_results.append((name, is_ok, reason))
+                if is_ok:
+                    passed_count += 1
+
+                # The first check that fails is enough to disqualify the stock, unless data is unavailable
+                if not is_ok and reason != "--":
+                    logging.info(f"Skipping {symbol}: Failed financial check '{name}'. Reason: {reason}")
                     all_financials_ok = False
                     break
+
+            # Add results to stock_data to be passed to the chart generator
+            stock_data['criteria_results'] = criteria_results
+            stock_data['criteria_passed_count'] = passed_count
+
             if not all_financials_ok:
                 continue
 

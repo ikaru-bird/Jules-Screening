@@ -41,16 +41,17 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     criteria_results = stock_data.get('criteria_results', [])
     passed_count = stock_data.get('criteria_passed_count', 0)
     if criteria_results:
-        info_text += f"Fundamental Analysis ({passed_count}/4 Passed):\n"
+        total_criteria = len(criteria_results)
+        info_text += f"Fundamental Analysis ({passed_count}/{total_criteria} Passed):\n"
         for name, is_ok, reason in criteria_results:
-            name_short = name.replace("Annual", "A.").replace("Quarterly", "Q.")
             if reason == "--":
                 status_icon = "-"
             elif is_ok:
                 status_icon = "O"
             else:
                 status_icon = "X"
-            info_text += f" {status_icon} {name_short:<10}: {reason}\n"
+            # Use the full name and adjust padding for longer strings
+            info_text += f" {status_icon} {name:<22}: {reason}\n"
         info_text += "\n"
 
     # 3. Recent Financials (Revenue/EPS) with Beat/Miss
