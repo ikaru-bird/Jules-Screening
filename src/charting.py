@@ -178,7 +178,7 @@ def generate_stock_chart(stock_data, status=None):
         plt.xlabel("Date")
         fig.tight_layout(rect=[0, 0, 1, 0.96])
 
-        output_dir = "output"
+        output_dir = "Output"
         os.makedirs(output_dir, exist_ok=True)
         filename_status = f"_{status}" if status else ""
         filename = f"{symbol}{filename_status}.png"
