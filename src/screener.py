@@ -59,7 +59,7 @@ def run_screening(ticker_df):
             criteria_to_check = [
                 ("ROE", check_roe, info),
                 ("EPS Annual Growth", check_annual_eps_growth, ticker),
-                ("EPS YoY Growth", check_annual_eps_yoy_growth, ticker),
+                ("EPS 3Y Avg.Growth", check_annual_eps_yoy_growth, ticker),
                 ("EPS Quarterly Growth", check_quarterly_eps_growth, ticker),
             ]
 
