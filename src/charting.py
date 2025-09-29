@@ -110,7 +110,7 @@ def generate_stock_chart(stock_data, status=None):
 
         # --- 1. Manually Create Figure and Axes ---
         fig = plt.figure(figsize=(16, 9))
-        gs = gridspec.GridSpec(3, 1, height_ratios=[3, 1, 1.5])
+        gs = gridspec.GridSpec(3, 1, height_ratios=[4.5, 1, 1.5])
 
         ax_price = fig.add_subplot(gs[0])
         ax_vol = fig.add_subplot(gs[1], sharex=ax_price)
@@ -121,17 +121,17 @@ def generate_stock_chart(stock_data, status=None):
 
         # --- 2. Plot data onto the pre-configured axes ---
         s = mpf.make_mpf_style(base_mpf_style='yahoo', gridstyle='-')
-        # Plot price data only, volume will be plotted manually
         mpf.plot(hist, type='candle', ax=ax_price, style=s, show_nontrading=True)
 
-        # Manually plot Volume
-        colors = ['g' if c >= o else 'r' for o, c in zip(hist['Open'], hist['Close'])]
-        ax_vol.bar(hist.index, hist['Volume'], color=colors, width=0.8, align='center')
+        # Manually plot Volume to match candle colors
+        price_colors = ['#26a69a' if c >= o else '#ef5350' for o, c in zip(hist['Open'], hist['Close'])]
+        ax_vol.bar(hist.index, hist['Volume'], color=price_colors, width=0.8, align='center')
 
-        # Manually plot MACD
+        # Manually plot MACD and color histogram to match candle colors
+        macd_hist = hist['MACDh_12_26_9']
+        ax_macd.bar(hist.index, macd_hist, color=price_colors, width=0.7, label='Histogram')
         ax_macd.plot(hist.index, hist['MACD_12_26_9'], color='green', label='MACD')
         ax_macd.plot(hist.index, hist['MACDs_12_26_9'], color='red', linestyle='--', label='Signal')
-        ax_macd.bar(hist.index, hist['MACDh_12_26_9'], color='purple', alpha=0.5, width=0.7, label='Histogram')
         ax_macd.legend()
 
         # --- 3. Configure Layout, Titles, and Margins ---
@@ -152,7 +152,6 @@ def generate_stock_chart(stock_data, status=None):
         ax_vol.set_ylabel("Volume")
         ax_macd.set_ylabel("MACD")
 
-        # Move Volume and MACD Y-axis to the right
         ax_vol.yaxis.tick_right()
         ax_vol.yaxis.set_label_position("right")
         ax_macd.yaxis.tick_right()
@@ -172,7 +171,7 @@ def generate_stock_chart(stock_data, status=None):
 
         info_text = _build_info_text(stock_data)
         ax_price.text(0.015, 0.98, info_text, transform=ax_price.transAxes, fontsize=9,
-                      verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.4),
+                      verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='#f0f0f0', alpha=0.8),
                       fontfamily='monospace')
 
         for ax in [ax_price, ax_vol, ax_macd]:
