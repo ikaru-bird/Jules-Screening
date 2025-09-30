@@ -1,11 +1,14 @@
 import yfinance as yf
 import pandas_ta as ta
 import pandas as pd
-import matplotlib.pyplot as plt
+import mplfinance as mpf
 import matplotlib.font_manager
 import sys
 import os
 import warnings
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import matplotlib.dates as mdates
 
 # Suppress known, harmless warnings from dependencies for a cleaner output
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -20,41 +23,25 @@ def _get_jp_font():
             return font
     return None
 
-def _plot_price_and_info(ax, hist, stock_data, status):
-    """Plots the price chart and info box on the given axes."""
-    symbol = stock_data['ticker']
-    name = stock_data['name']
-    sector = stock_data['sector']
-    industry = stock_data['industry']
-
-    # --- Build Financial Summary String ---
+def _build_info_text(stock_data):
+    """
+    Builds the text for the information box.
+    This version specifically excludes the Company, Sector, and Industry lines.
+    """
     info_text = ""
 
-    # 1. Basic Info
-    info_text += (
-        f"Company: {name}\n"
-        f"Sector: {sector}\n"
-        f"Industry: {industry}\n\n"
-    )
-
-    # 2. Fundamental Analysis Results
+    # 1. Fundamental Analysis Results
     criteria_results = stock_data.get('criteria_results', [])
     passed_count = stock_data.get('criteria_passed_count', 0)
     if criteria_results:
         total_criteria = len(criteria_results)
         info_text += f"Fundamental Analysis ({passed_count}/{total_criteria} Passed):\n"
         for name, is_ok, reason in criteria_results:
-            if reason == "--":
-                status_icon = "-"
-            elif is_ok:
-                status_icon = "O"
-            else:
-                status_icon = "X"
-            # Use the full name and adjust padding for longer strings
+            status_icon = "-" if reason == "--" else "O" if is_ok else "X"
             info_text += f" {status_icon} {name:<22}: {reason}\n"
         info_text += "\n"
 
-    # 3. Recent Financials (Revenue/EPS) with Beat/Miss
+    # 2. Recent Financials (Revenue/EPS) with Beat/Miss
     q_financials = stock_data.get('q_financials')
     earnings_dates = stock_data.get('earnings_dates')
     financial_summary = ""
@@ -70,34 +57,21 @@ def _plot_price_and_info(ax, hist, stock_data, status):
 
             rev_str = f"${rev/1e9:.2f}B" if isinstance(rev, (int, float)) else "--"
             eps_str = f"${eps:.2f}" if isinstance(eps, (int, float)) else "--"
-
             eps_beat_miss_str = ""
             if eps is not None and earnings_dates is not None and not earnings_dates.empty:
-                # DEBUG: Print dates to diagnose matching issues
-                # print(f"--- Matching for {symbol} ---")
-                # print(f"DEBUG: Quarter-end date from financials: {q_date}")
-
-                # Widen the window to 45 days as report dates and announcement dates can differ significantly
                 match = earnings_dates[
-                    (earnings_dates.index > q_date) &
-                    (earnings_dates.index < q_date + pd.Timedelta(days=60))
+                    (earnings_dates.index > q_date) & (earnings_dates.index < q_date + pd.Timedelta(days=60))
                 ]
-
-                # print(f"DEBUG: Available earnings_dates index: {earnings_dates.index}")
-                # print(f"DEBUG: Found {len(match)} match(es) in window.")
-
                 if not match.empty:
                     estimate_eps = match['EPS Estimate'].iloc[0]
                     if pd.notna(estimate_eps):
                         indicator = "O" if eps > estimate_eps else "X"
                         eps_beat_miss_str = f" (vs {estimate_eps:.2f}) {indicator}"
-
             q_date_str = q_date.strftime('%Y-%m')
             financial_summary += f" {q_date_str} | {rev_str} | {eps_str}{eps_beat_miss_str}\n"
-
     info_text += financial_summary.strip()
 
-    # 4. Future Estimates
+    # 3. Future Estimates
     info = stock_data.get('info', {})
     calendar = stock_data.get('calendar', {})
     estimates_summary = "\n\nGuidance | Revenue | EPS:\n"
@@ -105,50 +79,25 @@ def _plot_price_and_info(ax, hist, stock_data, status):
     next_q_rev = calendar.get('Revenue Average', '--')
     fwd_eps = info.get('forwardEps', '--')
     rev_growth = info.get('revenueGrowth', '--')
-
     eps_q_str = f"${next_q_eps:.2f}" if isinstance(next_q_eps, (int, float)) else "--"
     rev_q_str = f"${next_q_rev/1e9:.2f}B" if isinstance(next_q_rev, (int, float)) else "--"
     eps_y_str = f"${fwd_eps:.2f}" if isinstance(fwd_eps, (int, float)) else "--"
     rev_y_str = f"{rev_growth:.2%}" if isinstance(rev_growth, (int, float)) else "--"
-
     estimates_summary += f"  Next Q | {rev_q_str:<5} | {eps_q_str:<5}\n"
     estimates_summary += f"  Annual | {rev_y_str:<5} | {eps_y_str:<5}\n"
     info_text += estimates_summary
 
-    # Plotting
-    title_status = f" - {status}" if status else ""
-    ax.set_title(f"{symbol} - {name}{title_status}\nPrice, Volume, MACD")
-    ax.plot(hist.index, hist['Close'], label='Close Price', color='blue')
-    ax.set_ylabel("Price (USD)")
-    ax.grid(True)
-    ax.text(0.01, 0.98, info_text, transform=ax.transAxes, fontsize=9,
-             verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.1),
-             fontfamily='monospace')
-
-def _plot_volume(ax, hist):
-    """Plots the volume chart on the given axes."""
-    ax.bar(hist.index, hist['Volume'], color='gray', alpha=0.7)
-    ax.set_ylabel("Volume")
-    ax.grid(True)
-
-def _plot_macd(ax, hist):
-    """Plots the MACD indicator on the given axes."""
-    ax.plot(hist.index, hist['MACD_12_26_9'], label='MACD', color='green')
-    ax.plot(hist.index, hist['MACDs_12_26_9'], label='Signal', color='red', linestyle='--')
-    ax.bar(hist.index, hist['MACDh_12_26_9'], label='Histogram', color='purple', alpha=0.5)
-    ax.set_ylabel("MACD")
-    ax.legend()
-    ax.grid(True)
+    return info_text
 
 def generate_stock_chart(stock_data, status=None):
     """
-    Generates and saves a detailed stock chart for a given stock.
+    Generates and saves a detailed stock chart using a manual matplotlib layout
+    and mplfinance for plotting. This provides maximum control over the final output.
     """
     symbol = stock_data['ticker']
     try:
         ticker = yf.Ticker(symbol)
         hist = ticker.history(period="1y", interval="1d")
-
         if hist.empty:
             print(f"Error: No historical data found for {symbol}", file=sys.stderr)
             return
@@ -156,14 +105,62 @@ def generate_stock_chart(stock_data, status=None):
         hist.ta.macd(append=True)
 
         jp_font = _get_jp_font()
-        if jp_font:
-            plt.rcParams['font.family'] = jp_font
-        else:
-            print(f"Warning: No Japanese font found. Japanese characters may not render correctly.", file=sys.stderr)
+        font_props = {'family': jp_font} if jp_font else {}
+        if jp_font: plt.rcParams['font.family'] = jp_font
 
-        fig, axes = plt.subplots(3, 1, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [3, 1, 1.5]})
+        # --- 1. Manually Create Figure and Axes ---
+        fig = plt.figure(figsize=(16, 9))
+        gs = gridspec.GridSpec(3, 1, height_ratios=[4.5, 1, 1.5])
 
-        # Add all data to the stock_data object to pass to the plotting function
+        ax_price = fig.add_subplot(gs[0])
+        ax_vol = fig.add_subplot(gs[1], sharex=ax_price)
+        ax_macd = fig.add_subplot(gs[2], sharex=ax_price)
+
+        plt.setp(ax_price.get_xticklabels(), visible=False)
+        plt.setp(ax_vol.get_xticklabels(), visible=False)
+
+        # --- 2. Plot data onto the pre-configured axes ---
+        s = mpf.make_mpf_style(base_mpf_style='yahoo', gridstyle='-')
+        mpf.plot(hist, type='candle', ax=ax_price, style=s, show_nontrading=True)
+
+        # Manually plot Volume to match candle colors
+        price_colors = ['#26a69a' if c >= o else '#ef5350' for o, c in zip(hist['Open'], hist['Close'])]
+        ax_vol.bar(hist.index, hist['Volume'], color=price_colors, width=0.8, align='center')
+
+        # Manually plot MACD and color histogram to match candle colors
+        macd_hist = hist['MACDh_12_26_9']
+        ax_macd.bar(hist.index, macd_hist, color=price_colors, width=0.7, label='Histogram')
+        ax_macd.plot(hist.index, hist['MACD_12_26_9'], color='green', label='MACD')
+        ax_macd.plot(hist.index, hist['MACDs_12_26_9'], color='red', linestyle='--', label='Signal')
+        ax_macd.legend()
+
+        # --- 3. Configure Layout, Titles, and Margins ---
+        name = stock_data['name']
+        sector = stock_data.get('sector', 'N/A')
+        industry = stock_data.get('industry', 'N/A')
+
+        main_title = f"{symbol}, {name}"
+        subtitle = f"Sector: {sector} :: Industry: {industry}"
+
+        fig.text(0.5, 0.97, main_title, ha='center', va='center', fontsize=16, **font_props)
+        fig.text(0.5, 0.93, subtitle, ha='center', va='center', fontsize=12, **font_props)
+
+        fig.subplots_adjust(left=0.04, right=0.95, top=0.90, bottom=0.07)
+
+        # --- 4. Configure Axes (Labels, Ticks, Info Box, Grid) ---
+        ax_price.set_ylabel("Price (USD)")
+        ax_vol.set_ylabel("Volume")
+        ax_macd.set_ylabel("MACD")
+
+        ax_vol.yaxis.tick_right()
+        ax_vol.yaxis.set_label_position("right")
+        ax_macd.yaxis.tick_right()
+        ax_macd.yaxis.set_label_position("right")
+
+        ax_macd.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+        ax_macd.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+        fig.autofmt_xdate(rotation=0, ha='center')
+
         stock_data['q_financials'] = ticker.quarterly_financials
         stock_data['info'] = ticker.info
         stock_data['calendar'] = ticker.calendar
@@ -172,13 +169,15 @@ def generate_stock_chart(stock_data, status=None):
         except Exception:
             stock_data['earnings_dates'] = None
 
-        _plot_price_and_info(axes[0], hist, stock_data, status)
-        _plot_volume(axes[1], hist)
-        _plot_macd(axes[2], hist)
+        info_text = _build_info_text(stock_data)
+        ax_price.text(0.015, 0.98, info_text, transform=ax_price.transAxes, fontsize=9,
+                      verticalalignment='top', bbox=dict(boxstyle='round,pad=0.5', fc='#f0f0f0', alpha=0.8),
+                      fontfamily='monospace')
 
-        plt.xlabel("Date")
-        fig.tight_layout(rect=[0, 0, 1, 0.96])
+        for ax in [ax_price, ax_vol, ax_macd]:
+            ax.grid(True, linestyle='--', alpha=0.6)
 
+        # --- 5. Save Figure ---
         output_dir = "Output"
         os.makedirs(output_dir, exist_ok=True)
         filename_status = f"_{status}" if status else ""
@@ -191,3 +190,5 @@ def generate_stock_chart(stock_data, status=None):
 
     except Exception as e:
         print(f"An error occurred while generating chart for {symbol}: {e}", file=sys.stderr)
+        if 'fig' in locals() and plt.fignum_exists(fig.number):
+            plt.close(fig)
