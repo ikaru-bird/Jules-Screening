@@ -98,7 +98,7 @@ def run_screening(ticker_df):
 
             pattern_found = False
             for pattern_name, check_function in pattern_checks:
-                status, reason = check_function(hist_df.copy())
+                status, reason, pattern_data = check_function(hist_df.copy())
 
                 if status != "FAIL":
                     logging.info(f"MATCH ({status} / {pattern_name}): {symbol}. Reason: {reason}")
@@ -114,10 +114,10 @@ def run_screening(ticker_df):
                     })
 
                     print(f"Generating chart for {symbol} ({status} / {pattern_name})...")
-                    generate_stock_chart(stock_data, f"{status}_{pattern_name}")
+                    generate_stock_chart(stock_data, f"{status}_{pattern_name}", pattern_data)
 
                     pattern_found = True
-                    break
+                    break # Stop after the first matching pattern
 
             if not pattern_found:
                 logging.info(f"Skipping {symbol}: No qualifying chart patterns found.")

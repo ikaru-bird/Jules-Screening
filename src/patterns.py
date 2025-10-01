@@ -121,19 +121,22 @@ def _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price
 
 
 def _check_pivot_breakout(df, handle_low_date, pivot_price):
-    """Checks for a breakout above the pivot point with high volume."""
+    """
+    Checks for a breakout above the pivot point with high volume.
+    Returns a status and a reason.
+    """
     breakout_lookahead_end_date = handle_low_date + dt.timedelta(days=config.PIVOT_LOOKAHEAD_DAYS)
 
     # Look for breakout in the days following the handle's low
     pivot_df = df.query('index > @handle_low_date and index <= @breakout_lookahead_end_date and High >= @pivot_price')
 
     if pivot_df.empty:
-        return False, "No pivot breakout within the lookahead period"
+        return False, "NO_BREAKOUT"
 
     breakout_date = pivot_df.index[0]
     one_month_ago = dt.datetime.now() - dt.timedelta(days=30)
     if breakout_date < one_month_ago:
-        return False, f"Breakout on {breakout_date.date()} is older than 1 month"
+        return False, f"OLD_BREAKOUT: Breakout on {breakout_date.date()} is older than 1 month"
 
     # Check for volume breakout on the first day it crosses the pivot
     breakout_day = pivot_df.iloc[0]
@@ -148,12 +151,13 @@ def _check_pivot_breakout(df, handle_low_date, pivot_price):
 
 def check_cup_with_handle(df_hist):
     """
-    Checks for a Cup With Handle (CWH) chart pattern with a more robust and redefined logic.
+    Checks for a Cup With Handle (CWH) chart pattern.
 
     Returns:
         A tuple containing:
         - status (str): "FAIL", "WATCH", or "BREAKOUT"
         - reason (str): A description of the result.
+        - pattern_data (dict): Contains pivot price and key points for charting.
     """
     # Ensure data is sorted and has the required moving averages
     df = df_hist.sort_index()
@@ -165,38 +169,67 @@ def check_cup_with_handle(df_hist):
     # Stage 1: Find a valid cup shape (left lip, bottom, right lip).
     left_lip_date, cup_bottom_date, cup_bottom_price, right_lip_date, err = _find_cup_shape(df)
     if err:
-        return "FAIL", f"Stage 1 (Cup Shape): {err}"
+        return "FAIL", f"Stage 1 (Cup Shape): {err}", None
 
     # Stage 2: Check for a prior uptrend before the cup.
     is_uptrend, reason = _check_prior_uptrend(df, left_lip_date)
     if not is_uptrend:
-        return "FAIL", f"Stage 2 (Prior Trend): {reason}"
+        return "FAIL", f"Stage 2 (Prior Trend): {reason}", None
 
-    # The high of the cup is the higher of the two lips
-    cup_high_price = max(df.loc[left_lip_date, 'High'], df.loc[right_lip_date, 'High'])
+    # Per user request, the pivot point is the high of the right lip (the start of the handle).
+    # The handle pullback and depth checks are also relative to this price.
+    cup_high_price = df.loc[right_lip_date, 'High']
 
     # Stage 3: Check for the handle formation.
-    handle_low_date, pivot_price, err = _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price)
-    if err and "No classic handle" not in err: # Allow to proceed if no handle, just watching
-        return "FAIL", f"Stage 3 (Handle): {err}"
+    handle_low_date, returned_pivot, err = _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price)
 
-    # If no handle was found, the "handle_low_date" is the right lip.
-    if handle_low_date is None:
+    # The pivot price for a CWH is ALWAYS the high of the cup (the right lip, as per user request).
+    # This ensures pivot_price is always set, even if no classic handle forms.
+    pivot_price = cup_high_price
+    if pivot_price is None:
+        return "FAIL", "Could not determine pivot price", None
+
+    # First, check for disqualifying errors from the handle formation.
+    if err and "No classic handle" not in err:
+        return "FAIL", f"Stage 3 (Handle): {err}", None
+
+    # Determine the reason and handle details for charting
+    handle_low_price = None
+    current_reason = ""
+    if err and "No classic handle" in err:
+        current_reason = err # Use the specific reason from the function (e.g., "No classic handle pullback found...")
+        # If no handle, the breakout check should start from the right lip
         handle_low_date = right_lip_date
-        pivot_price = cup_high_price
-        reason = "Awaiting breakout from cup lip"
-    else:
-        reason = "Awaiting breakout from handle"
+    else: # A valid handle was found
+        current_reason = "Awaiting breakout from handle"
+        handle_low_price = df.loc[handle_low_date, 'Low']
 
+
+    # Prepare data for charting. This is created regardless of WATCH or BREAKOUT status.
+    pattern_data = {
+        'type': 'CWH',
+        'pivot': pivot_price,
+        'pivot_date': right_lip_date,
+        'points': {
+            'cup_left_lip': (left_lip_date, df.loc[left_lip_date, 'High']),
+            'cup_bottom': (cup_bottom_date, cup_bottom_price),
+            'cup_right_lip': (right_lip_date, df.loc[right_lip_date, 'High']),
+            # Only include handle_low if it was actually found
+            'handle_low': (handle_low_date, handle_low_price) if handle_low_price is not None else None,
+        }
+    }
 
     # Stage 4: Look for a pivot breakout.
     is_breakout, breakout_reason = _check_pivot_breakout(df, handle_low_date, pivot_price)
-    if not is_breakout:
-        # Passed stages 1-3, but hasn't broken out yet.
-        return "WATCH", reason
+    if is_breakout:
+        return "BREAKOUT", breakout_reason, pattern_data
 
-    # Passed all stages, including breakout.
-    return "BREAKOUT", breakout_reason
+    # If it didn't break out, check if it's because the breakout is old.
+    if "OLD_BREAKOUT" in breakout_reason:
+        return "FAIL", breakout_reason, None
+
+    # Otherwise, it's a valid pattern to watch.
+    return "WATCH", current_reason, pattern_data
 
 
 def _check_prior_downtrend(df, first_trough_date):
@@ -303,80 +336,125 @@ def _find_double_bottom_shape(df):
 def check_double_bottom(df_hist):
     """
     Checks for a Double Bottom (DB) chart pattern.
+
+    Returns:
+        A tuple containing:
+        - status (str): "FAIL", "WATCH", or "BREAKOUT"
+        - reason (str): A description of the result.
+        - pattern_data (dict): Contains pivot price and key points for charting.
     """
     df = df_hist.sort_index()
 
     first_trough_date, peak_date, second_trough_date, pivot_price, err = _find_double_bottom_shape(df)
     if err:
-        return "FAIL", f"Stage 1 (W-Shape): {err}"
+        return "FAIL", f"Stage 1 (W-Shape): {err}", None
 
     is_downtrend, reason = _check_prior_downtrend(df, first_trough_date)
     if not is_downtrend:
-        return "FAIL", f"Stage 2 (Prior Trend): {reason}"
+        return "FAIL", f"Stage 2 (Prior Trend): {reason}", None
+
+    # A valid W-shape was found, so prepare the data for charting.
+    pattern_data = {
+        'type': 'DB',
+        'pivot': pivot_price,
+        'pivot_date': peak_date,
+        'points': {
+            'first_trough': (first_trough_date, df.loc[first_trough_date, 'Low']),
+            'peak': (peak_date, pivot_price), # The pivot is the peak's high
+            'second_trough': (second_trough_date, df.loc[second_trough_date, 'Low']),
+        }
+    }
 
     is_breakout, breakout_reason = _check_pivot_breakout(df, second_trough_date, pivot_price)
     if is_breakout:
-        return "BREAKOUT", breakout_reason
+        return "BREAKOUT", breakout_reason, pattern_data
+
+    # If it didn't break out, check if it's because the breakout is old.
+    if "OLD_BREAKOUT" in breakout_reason:
+        return "FAIL", breakout_reason, None
 
     last_close = df['Close'].iloc[-1]
     if last_close >= pivot_price * config.DB_PIVOT_PROXIMITY_FACTOR:
-        return "WATCH", f"Price consolidating near pivot point of {pivot_price:.2f}"
+        return "WATCH", f"Price consolidating near pivot point of {pivot_price:.2f}", pattern_data
 
-    return "FAIL", "W-shape formed but price is not near pivot"
+    # A valid W-shape was found, but the price has moved away from the pivot.
+    # We return FAIL but include the data so it could potentially be charted for analysis.
+    return "FAIL", "W-shape formed but price is not near pivot", pattern_data
 
 
 def _find_vcp_contractions(df):
     """
     Identifies a series of volatility contractions (VCP).
+    Returns the key points, the pivot price, and the last date for breakout checks.
     """
-    if df.empty:
-        return None, None, "No data for VCP"
+    if df.empty or len(df) < config.VCP_TIGHTENING_MAX_DAYS * len(config.VCP_CONTRACTIONS):
+        return None, None, None, "Not enough data for VCP"
 
-    initial_high_price = df['High'].max()
-    initial_high_date = df['High'].idxmax()
+    # Start with the highest point in the entire lookback period
+    overall_high_price = df['High'].max()
+    overall_high_date = df['High'].idxmax()
 
-    contractions = []
-    current_date = initial_high_date
+    points = [('peak', overall_high_date, overall_high_price)]
+    current_high_date = overall_high_date
+    current_high_price = overall_high_price
 
+    # Find the sequence of contractions
     for i, expected_contraction in enumerate(config.VCP_CONTRACTIONS):
-        search_df = df.loc[current_date:]
-        if search_df.empty or len(search_df) < 5:
-            return None, None, f"Not enough data to find contraction {i+1}"
+        # Search for the next trough after the last high point
+        trough_search_df = df.loc[current_high_date:]
+        if trough_search_df.empty or len(trough_search_df) < 5:
+            return None, None, None, f"Not enough data to find contraction trough {i+1}"
 
-        trough_date = search_df['Low'].idxmin()
-        trough_price = search_df['Low'].min()
+        trough_date = trough_search_df['Low'].idxmin()
+        trough_price = trough_search_df['Low'].min()
 
-        contraction_depth = (initial_high_price - trough_price) / initial_high_price
-
+        # Validate contraction depth against the initial high
+        contraction_depth = (overall_high_price - trough_price) / overall_high_price
         if not (expected_contraction / config.VCP_CONTRACTION_MAX_DEVIATION <= contraction_depth <= expected_contraction * config.VCP_CONTRACTION_MAX_DEVIATION):
-            return None, None, f"Contraction {i+1} depth ({contraction_depth:.2%}) is out of range for expected {expected_contraction:.2%}"
+            return None, None, None, f"Contraction {i+1} depth ({contraction_depth:.2%}) is out of range for expected {expected_contraction:.2%}"
+        points.append(('trough', trough_date, trough_price))
 
-        contractions.append({'trough_date': trough_date, 'depth': contraction_depth})
+        # Search for the next peak after the trough
+        # The next peak must be lower than the previous one and within the lookahead period of the trough
+        peak_search_df = df.loc[trough_date : trough_date + dt.timedelta(days=90)]
+        potential_peaks = peak_search_df[peak_search_df['High'] < current_high_price]
 
-        recovery_df = df.loc[trough_date:]
-        if recovery_df.empty:
-            return None, None, "No data after last trough"
+        if potential_peaks.empty:
+            return None, None, None, f"Could not find a lower high for peak {i+1}"
 
-        peak_date = recovery_df['High'].idxmax()
+        peak_date = potential_peaks['High'].idxmax()
+        peak_price = potential_peaks['High'].max()
 
-        if recovery_df['High'].max() > initial_high_price * 1.03:
-             return None, None, "Price broke out prematurely"
+        # The new peak shouldn't be too low either, must show some recovery
+        if peak_price < trough_price * 1.05:
+            return None, None, None, f"Recovery peak {i+1} is not significant enough"
+        points.append(('peak', peak_date, peak_price))
 
-        current_date = peak_date
+        current_high_date = peak_date
+        current_high_price = peak_price
 
-    final_tightening_df = df.loc[current_date:]
-    if final_tightening_df.empty or len(final_tightening_df) > config.VCP_TIGHTENING_MAX_DAYS:
-        return None, None, "Final consolidation is too long or no data"
+    # After all contractions, define the pivot and final consolidation area
+    pivot_price = current_high_price # Pivot is the last peak found
+    final_consolidation_df = df.loc[current_high_date:]
 
-    pivot_price = initial_high_price
-    last_date = final_tightening_df.index[-1]
+    if final_consolidation_df.empty or len(final_consolidation_df) > config.VCP_TIGHTENING_MAX_DAYS:
+        return None, None, None, "Final consolidation is too long or no data"
 
-    return last_date, pivot_price, None
+    # The last date for the breakout check is the end of the data period we analyzed
+    last_date = final_consolidation_df.index[-1]
+
+    return points, pivot_price, last_date, None
 
 
 def check_vcp(df_hist):
     """
     Checks for a Volatility Contraction Pattern (VCP).
+
+    Returns:
+        A tuple containing:
+        - status (str): "FAIL", "WATCH", or "BREAKOUT"
+        - reason (str): A description of the result.
+        - pattern_data (dict): Contains pivot price and key points for charting.
     """
     df = df_hist.sort_index()
     if 'MA50' not in df:
@@ -384,19 +462,36 @@ def check_vcp(df_hist):
     if 'MA200' not in df:
         df['MA200'] = df['Close'].rolling(window=200).mean()
 
-    last_date, pivot_price, err = _find_vcp_contractions(df)
+    # Stage 1: Find the VCP contractions and pivot point.
+    points, pivot_price, last_date, err = _find_vcp_contractions(df)
     if err:
-        return "FAIL", f"Stage 1 (Contractions): {err}"
+        return "FAIL", f"Stage 1 (Contractions): {err}", None
 
-    if df.empty:
-        return "FAIL", "No data for VCP"
-    vcp_start_date = df['High'].idxmax()
+    # Stage 2: Check for a prior uptrend before the pattern started.
+    if not points:
+         return "FAIL", "Stage 1 (Contractions): No points found", None
+    vcp_start_date = points[0][1] # Date of the first peak
     is_uptrend, reason = _check_prior_uptrend(df, vcp_start_date)
     if not is_uptrend:
-        return "FAIL", f"Stage 2 (Prior Trend): {reason}"
+        return "FAIL", f"Stage 2 (Prior Trend): {reason}", None
 
+    # If pattern is found, prepare data for charting
+    # The pivot date is the date of the last peak found.
+    pivot_date = [p[1] for p in points if p[0] == 'peak'][-1]
+    pattern_data = {
+        'type': 'VCP',
+        'pivot': pivot_price,
+        'pivot_date': pivot_date,
+        'points': points
+    }
+
+    # Stage 3: Look for a pivot breakout.
     is_breakout, breakout_reason = _check_pivot_breakout(df, last_date, pivot_price)
-    if not is_breakout:
-        return "WATCH", "Awaiting breakout from VCP consolidation"
+    if is_breakout:
+        return "BREAKOUT", breakout_reason, pattern_data
 
-    return "BREAKOUT", breakout_reason
+    # If it didn't break out, check if it's because the breakout is old.
+    if "OLD_BREAKOUT" in breakout_reason:
+        return "FAIL", breakout_reason, None
+
+    return "WATCH", "Awaiting breakout from VCP consolidation", pattern_data

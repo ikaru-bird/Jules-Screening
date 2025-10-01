@@ -9,6 +9,7 @@ import warnings
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.dates as mdates
+import numpy as np
 
 # Suppress known, harmless warnings from dependencies for a cleaner output
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -89,7 +90,91 @@ def _build_info_text(stock_data):
 
     return info_text
 
-def generate_stock_chart(stock_data, status=None):
+def _draw_pivot_line(ax, pivot_price, pivot_date, hist_df):
+    """Draws the pivot line on the price chart from the pivot date onwards."""
+    if pivot_date is None or pivot_date not in hist_df.index:
+        return
+
+    # Get the date range from the pivot date to the last date in the history
+    line_dates = hist_df.loc[pivot_date:].index
+    # Create an array of the pivot price with the same length as the date range
+    line_values = [pivot_price] * len(line_dates)
+
+    # Plot a line segment
+    ax.plot(line_dates, line_values, color='red', linestyle='--', linewidth=1.2, label=f'Pivot: {pivot_price:.2f}')
+
+    # To make sure the legend is shown
+    ax.legend()
+
+def _draw_cwh_pattern(ax, points, hist_df):
+    """Draws the Cup with Handle pattern outline."""
+    # Extract points, ignoring any that are None
+    cup_points = [p for p in [points.get('cup_left_lip'), points.get('cup_bottom'), points.get('cup_right_lip')] if p]
+    handle_low = points.get('handle_low')
+    cup_right_lip = points.get('cup_right_lip')
+
+    # Draw the cup arc if we have all three points
+    if len(cup_points) == 3:
+        dates = [p[0] for p in cup_points]
+        prices = [p[1] for p in cup_points]
+
+        # Convert dates to numerical values for polynomial fitting
+        date_nums = mdates.date2num(dates)
+
+        # Fit a 2nd degree polynomial (parabola) to the three points
+        coeffs = np.polyfit(date_nums, prices, 2)
+        poly = np.poly1d(coeffs)
+
+        # Generate smooth x-values (dates) between the left and right lip for the curve
+        arc_date_nums = np.linspace(date_nums[0], date_nums[2], 100)
+        arc_dates = mdates.num2date(arc_date_nums)
+        arc_prices = poly(arc_date_nums)
+
+        ax.plot(arc_dates, arc_prices, color='blue', linestyle='--', linewidth=1)
+
+    # Draw the handle
+    if handle_low and cup_right_lip:
+        handle_dates = [cup_right_lip[0], handle_low[0]]
+        handle_prices = [cup_right_lip[1], handle_low[1]]
+        ax.plot(handle_dates, handle_prices, color='blue', linestyle='--', linewidth=1)
+
+def _draw_db_pattern(ax, points, hist_df):
+    """Draws the Double Bottom (W-shape) pattern outline."""
+    first_trough = points.get('first_trough')
+    peak = points.get('peak')
+    second_trough = points.get('second_trough')
+
+    if not all([first_trough, peak, second_trough]):
+        return # Not enough points to draw
+
+    # Find a suitable starting point for the "W"
+    start_search_end = first_trough[0] - pd.Timedelta(days=5)
+    start_search_start = first_trough[0] - pd.Timedelta(days=60)
+    entry_df = hist_df.loc[start_search_start:start_search_end]
+    if entry_df.empty:
+        return
+
+    start_point_date = entry_df['High'].idxmax()
+    start_point_price = entry_df['High'].max()
+
+    # Assemble the points of the "W"
+    w_dates = [start_point_date, first_trough[0], peak[0], second_trough[0]]
+    w_prices = [start_point_price, first_trough[1], peak[1], second_trough[1]]
+
+    ax.plot(w_dates, w_prices, color='blue', linestyle='--', linewidth=1)
+
+def _draw_vcp_pattern(ax, points, hist_df):
+    """Draws the Volatility Contraction Pattern outline."""
+    if not points or len(points) < 2:
+        return
+
+    vcp_dates = [p[1] for p in points]
+    vcp_prices = [p[2] for p in points]
+
+    ax.plot(vcp_dates, vcp_prices, color='blue', linestyle='--', linewidth=1, marker='o', markersize=3)
+
+
+def generate_stock_chart(stock_data, status=None, pattern_data=None):
     """
     Generates and saves a detailed stock chart using a manual matplotlib layout
     and mplfinance for plotting. This provides maximum control over the final output.
@@ -101,6 +186,8 @@ def generate_stock_chart(stock_data, status=None):
         if hist.empty:
             print(f"Error: No historical data found for {symbol}", file=sys.stderr)
             return
+        # Align timezone-awareness with the data used for pattern detection
+        hist.index = hist.index.tz_localize(None)
 
         hist.ta.macd(append=True)
 
@@ -177,7 +264,25 @@ def generate_stock_chart(stock_data, status=None):
         for ax in [ax_price, ax_vol, ax_macd]:
             ax.grid(True, linestyle='--', alpha=0.6)
 
-        # --- 5. Save Figure ---
+        # --- 5. Draw Pattern and Pivot Line ---
+        if pattern_data:
+            pivot = pattern_data.get('pivot')
+            pivot_date = pattern_data.get('pivot_date')
+            points = pattern_data.get('points')
+            pattern_type = pattern_data.get('type')
+
+            if pivot and pivot_date:
+                _draw_pivot_line(ax_price, pivot, pivot_date, hist)
+
+            if points:
+                if pattern_type == 'CWH':
+                    _draw_cwh_pattern(ax_price, points, hist)
+                elif pattern_type == 'DB':
+                    _draw_db_pattern(ax_price, points, hist)
+                elif pattern_type == 'VCP':
+                    _draw_vcp_pattern(ax_price, points, hist)
+
+        # --- 6. Save Figure ---
         output_dir = "Output"
         os.makedirs(output_dir, exist_ok=True)
         filename_status = f"_{status}" if status else ""
