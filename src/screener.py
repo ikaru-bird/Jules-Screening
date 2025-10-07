@@ -87,17 +87,21 @@ def run_screening(ticker_df):
                 continue
 
             # --- Apply Chart Pattern Analysis ---
-            hist_df = ticker.history(period="2y")
-            hist_df.index = hist_df.index.tz_localize(None)
-
             pattern_checks = [
-                ("CWH", check_cup_with_handle),
-                ("DB", check_double_bottom),
-                ("VCP", check_vcp),
+                ("CWH", check_cup_with_handle, config.CWH_LOOKBACK_PERIOD),
+                ("DB", check_double_bottom, config.DB_LOOKBACK_PERIOD),
+                ("VCP", check_vcp, config.VCP_LOOKBACK_PERIOD),
             ]
 
             pattern_found = False
-            for pattern_name, check_function in pattern_checks:
+            for pattern_name, check_function, lookback_period in pattern_checks:
+                # Fetch data using the specific lookback period for the pattern
+                hist_df = ticker.history(period=lookback_period)
+                if hist_df.empty:
+                    logging.warning(f"Skipping {pattern_name} for {symbol}: No data for lookback '{lookback_period}'.")
+                    continue
+                hist_df.index = hist_df.index.tz_localize(None)
+
                 status, reason, pattern_data = check_function(hist_df.copy())
 
                 if status != "FAIL":

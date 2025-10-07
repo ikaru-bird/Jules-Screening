@@ -58,7 +58,7 @@ PIVOT_LOOKAHEAD_DAYS = 30    # How many days to look for a pivot breakout after 
 VOLUME_BREAKOUT_FACTOR = 1.5 # Volume on breakout day must be 1.5x the 50-day average
 
 # -- Double Bottom (DB) Pattern Parameters --
-DB_LOOKBACK_PERIOD = "2y"
+DB_LOOKBACK_PERIOD = "1y"
 
 # Prior Downtrend parameters
 DB_DOWNTREND_LOOKBACK_DAYS = 120 # Look back 4 months for a prior downtrend
@@ -74,7 +74,7 @@ DB_PIVOT_PROXIMITY_FACTOR = 0.97 # Price must be within 3% of the pivot to be co
 DB_VOLUME_DROP_FACTOR = 0.8 # Average volume on 2nd trough should be less than the 1st
 
 # -- Volatility Contraction Pattern (VCP) Parameters --
-VCP_LOOKBACK_PERIOD = "2y"
+VCP_LOOKBACK_PERIOD = "1y"
 
 # Defines the expected percentage contraction for each stage.
 # e.g., 1st contraction ~25%, 2nd ~15%, 3rd ~8%
