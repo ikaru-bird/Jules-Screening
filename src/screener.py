@@ -65,7 +65,6 @@ def run_screening(ticker_df):
 
             criteria_results = []
             passed_count = 0
-            all_financials_ok = True
 
             for name, check_func, arg in criteria_to_check:
                 is_ok, reason = check_func(arg)
@@ -73,17 +72,14 @@ def run_screening(ticker_df):
                 if is_ok:
                     passed_count += 1
 
-                # The first check that fails is enough to disqualify the stock, unless data is unavailable
-                if not is_ok and reason != "--":
-                    logging.info(f"Skipping {symbol}: Failed financial check '{name}'. Reason: {reason}")
-                    all_financials_ok = False
-                    break
-
             # Add results to stock_data to be passed to the chart generator
             stock_data['criteria_results'] = criteria_results
             stock_data['criteria_passed_count'] = passed_count
 
-            if not all_financials_ok:
+            # --- New Rule: Qualify if 3 out of 4 criteria are met ---
+            MIN_PASSED_CRITERIA = 3
+            if passed_count < MIN_PASSED_CRITERIA:
+                logging.info(f"Skipping {symbol}: Did not meet financial criteria (Passed {passed_count}/{len(criteria_to_check)}).")
                 continue
 
             # --- Apply Chart Pattern Analysis ---
