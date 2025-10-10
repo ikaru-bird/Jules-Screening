@@ -54,7 +54,7 @@ HANDLE_DEPTH_MIN_FACTOR = 0.85 # Max pullback depth
 HANDLE_DEPTH_MAX_FACTOR = 1.00 # Handle shouldn't be higher than the cup's high
 
 # Pivot (breakout) parameters
-PIVOT_LOOKAHEAD_DAYS = 30    # How many days to look for a pivot breakout after the handle
+PIVOT_LOOKAHEAD_DAYS = 180   # How many days to look for a pivot breakout after the handle
 VOLUME_BREAKOUT_FACTOR = 1.5 # Volume on breakout day must be 1.5x the 50-day average
 
 # -- Double Bottom (DB) Pattern Parameters --
