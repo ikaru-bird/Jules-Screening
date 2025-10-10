@@ -123,30 +123,39 @@ def _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price
 def _check_pivot_breakout(df, handle_low_date, pivot_price):
     """
     Checks for a breakout above the pivot point with high volume.
-    Returns a status and a reason.
+    Returns a status and a reason, distinguishing between recent breakouts,
+    old breakouts, and stale watch-list items.
     """
     breakout_lookahead_end_date = handle_low_date + dt.timedelta(days=config.PIVOT_LOOKAHEAD_DAYS)
 
-    # Look for breakout in the days following the handle's low
+    # Look for the first day price crossed the pivot
     pivot_df = df.query('index > @handle_low_date and index <= @breakout_lookahead_end_date and High >= @pivot_price')
 
     if pivot_df.empty:
         return False, "NO_BREAKOUT"
 
     breakout_date = pivot_df.index[0]
-    one_month_ago = dt.datetime.now() - dt.timedelta(days=30)
-    if breakout_date < one_month_ago:
-        return False, f"OLD_BREAKOUT: Breakout on {breakout_date.date()} is older than 1 month"
-
-    # Check for volume breakout on the first day it crosses the pivot
     breakout_day = pivot_df.iloc[0]
-    # Ensure we have a valid index for volume lookup
+    one_month_ago = dt.datetime.now() - dt.timedelta(days=30)
+
+    # Check for volume on the breakout day
+    volume_ok = False
     if breakout_day.name in df.index:
         mean_volume_50d = df['Volume'].rolling(window=50).mean().loc[breakout_day.name]
         if pd.notna(mean_volume_50d) and breakout_day['Volume'] > mean_volume_50d * config.VOLUME_BREAKOUT_FACTOR:
-            return True, f"Pattern detected with volume breakout on {pivot_df.index[0].date()}"
+            volume_ok = True
 
-    return False, "Pivot breakout occurred but without sufficient volume"
+    # Evaluate based on volume and date
+    if volume_ok:
+        # High-volume breakout: success, unless it's old
+        if breakout_date < one_month_ago:
+            return False, f"OLD_BREAKOUT: Breakout on {breakout_date.date()} is older than 1 month"
+        return True, f"Pattern detected with volume breakout on {breakout_date.date()}"
+    else:
+        # Low-volume crossing: potential WATCH, unless it's old
+        if breakout_date < one_month_ago:
+            return False, f"STALE_WATCH: Low-volume pivot cross on {breakout_date.date()} is older than 1 month"
+        return False, "Pivot breakout occurred but without sufficient volume"
 
 
 def check_cup_with_handle(df_hist):
@@ -224,11 +233,15 @@ def check_cup_with_handle(df_hist):
     if is_breakout:
         return "BREAKOUT", breakout_reason, pattern_data
 
-    # If it didn't break out, check if it's because the breakout is old.
-    if "OLD_BREAKOUT" in breakout_reason:
+    # If it didn't break out, check if it's because the breakout is old or stale.
+    if "OLD_BREAKOUT" in breakout_reason or "STALE_WATCH" in breakout_reason:
         return "FAIL", breakout_reason, None
 
-    # Otherwise, it's a valid pattern to watch.
+    # If breakout occurred without volume, status is WATCH.
+    if "without sufficient volume" in breakout_reason:
+        return "WATCH", breakout_reason, pattern_data
+
+    # Otherwise, it's a valid pattern still forming and awaiting a breakout attempt.
     return "WATCH", current_reason, pattern_data
 
 
@@ -369,10 +382,15 @@ def check_double_bottom(df_hist):
     if is_breakout:
         return "BREAKOUT", breakout_reason, pattern_data
 
-    # If it didn't break out, check if it's because the breakout is old.
-    if "OLD_BREAKOUT" in breakout_reason:
+    # If it didn't break out, check if it's because the breakout is old or stale.
+    if "OLD_BREAKOUT" in breakout_reason or "STALE_WATCH" in breakout_reason:
         return "FAIL", breakout_reason, None
 
+    # If a pivot cross occurred without sufficient volume, it's a WATCH.
+    if "without sufficient volume" in breakout_reason:
+        return "WATCH", breakout_reason, pattern_data
+
+    # Check if price is still consolidating near the pivot; if so, it's a WATCH.
     last_close = df['Close'].iloc[-1]
     if last_close >= pivot_price * config.DB_PIVOT_PROXIMITY_FACTOR:
         return "WATCH", f"Price consolidating near pivot point of {pivot_price:.2f}", pattern_data
@@ -490,8 +508,12 @@ def check_vcp(df_hist):
     if is_breakout:
         return "BREAKOUT", breakout_reason, pattern_data
 
-    # If it didn't break out, check if it's because the breakout is old.
-    if "OLD_BREAKOUT" in breakout_reason:
+    # If it didn't break out, check if it's because the breakout is old or stale.
+    if "OLD_BREAKOUT" in breakout_reason or "STALE_WATCH" in breakout_reason:
         return "FAIL", breakout_reason, None
+
+    # If a pivot cross occurred without sufficient volume, it's a WATCH.
+    if "without sufficient volume" in breakout_reason:
+        return "WATCH", breakout_reason, pattern_data
 
     return "WATCH", "Awaiting breakout from VCP consolidation", pattern_data
