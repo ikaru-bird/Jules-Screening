@@ -182,7 +182,7 @@ def generate_stock_chart(stock_data, status=None, pattern_data=None):
     symbol = stock_data['ticker']
     try:
         ticker = yf.Ticker(symbol)
-        hist = ticker.history(period="1y", interval="1d")
+        hist = ticker.history(period="2y", interval="1d")
         if hist.empty:
             print(f"Error: No historical data found for {symbol}", file=sys.stderr)
             return
