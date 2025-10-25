@@ -1,9 +1,6 @@
 pandas
 yfinance
 tqdm
-requests
-beautifulsoup4
 pandas-ta
 matplotlib
-lxml
 mplfinance
