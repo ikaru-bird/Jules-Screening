@@ -28,13 +28,11 @@ def check_power_play(df, sp500_data=None):
 
     # --- Stage 1: Trend Filter ---
     trend_ok, trend_reason = _check_trend_filter(df, sp500_data)
-    logging.info(f"[{ticker_symbol}] Trend Filter: {'PASS' if trend_ok else 'FAIL'} - {trend_reason}")
     if not trend_ok:
         return "FAIL", f"Trend Filter: {trend_reason}", {}
 
     # --- Stage 2: Setup Detection ---
     setup_ok, setup_reason = _check_setup_detection(df)
-    logging.info(f"[{ticker_symbol}] Setup Detection: {'PASS' if setup_ok else 'FAIL'} - {setup_reason}")
     if not setup_ok:
         return "FAIL", f"Setup Detection: {setup_reason}", {}
 
