@@ -15,6 +15,7 @@ from src.criteria import (
     check_annual_eps_yoy_growth,
 )
 from src.patterns import check_cup_with_handle, check_double_bottom, check_vcp
+from src.power_play import check_power_play
 
 def run_screening(ticker_df):
     """
@@ -35,6 +36,18 @@ def run_screening(ticker_df):
 
     print(f"Starting screening for {len(ticker_df)} candidate tickers...")
     logging.info(f"Screening initiated for {len(ticker_df)} tickers.")
+
+    # --- Pre-fetch S&P 500 data for relative strength calculations ---
+    try:
+        sp500_ticker = yf.Ticker("^GSPC")
+        sp500_hist = sp500_ticker.history(period=config.PP_RS_LOOKBACK)
+        if sp500_hist.empty:
+            logging.warning("Could not fetch S&P 500 data. Relative Strength check will be skipped.")
+            sp500_hist = None
+    except Exception as e:
+        logging.error(f"Failed to fetch S&P 500 data: {e}", exc_info=True)
+        sp500_hist = None
+
 
     # Use itertuples for efficient iteration over DataFrame rows
     for stock in tqdm(ticker_df.itertuples(), total=len(ticker_df), desc="Screening Stocks"):
@@ -84,6 +97,7 @@ def run_screening(ticker_df):
 
             # --- Apply Chart Pattern Analysis ---
             pattern_checks = [
+                ("PP", check_power_play, config.PP_LOOKBACK_PERIOD),
                 ("CWH", check_cup_with_handle, config.CWH_LOOKBACK_PERIOD),
                 ("DB", check_double_bottom, config.DB_LOOKBACK_PERIOD),
                 ("VCP", check_vcp, config.VCP_LOOKBACK_PERIOD),
@@ -98,7 +112,12 @@ def run_screening(ticker_df):
                     continue
                 hist_df.index = hist_df.index.tz_localize(None)
 
-                status, reason, pattern_data = check_function(hist_df.copy())
+                # Pass S&P500 data only to the relevant checker
+                if pattern_name == "PP":
+                    status, reason, pattern_data = check_function(hist_df.copy(), sp500_data=sp500_hist)
+                else:
+                    status, reason, pattern_data = check_function(hist_df.copy())
+
 
                 if status != "FAIL":
                     logging.info(f"MATCH ({status} / {pattern_name}): {symbol}. Reason: {reason}")
