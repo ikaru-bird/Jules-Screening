@@ -282,14 +282,20 @@ def generate_stock_chart(stock_data, status=None, pattern_data=None):
 
             # --- Draw Power Play Indicators ---
             if 'sma_short' in pattern_data and 'sma_long' in pattern_data:
-                ax_price.plot(hist.index, pattern_data['sma_short'], color='orange', linestyle='-', linewidth=1, label=f'SMA {config.PP_TREND_SMA_SHORT}')
-                ax_price.plot(hist.index, pattern_data['sma_long'], color='purple', linestyle='-', linewidth=1, label=f'SMA {config.PP_TREND_SMA_LONG}')
+                # Reindex indicator data to match the main chart's date range to prevent dimension mismatch
+                sma_short = pattern_data['sma_short'].reindex(hist.index)
+                sma_long = pattern_data['sma_long'].reindex(hist.index)
+                ax_price.plot(hist.index, sma_short, color='orange', linestyle='-', linewidth=1, label=f'SMA {config.PP_TREND_SMA_SHORT}')
+                ax_price.plot(hist.index, sma_long, color='purple', linestyle='-', linewidth=1, label=f'SMA {config.PP_TREND_SMA_LONG}')
 
             if 'bbands' in pattern_data:
                 bb = pattern_data['bbands']
-                ax_price.plot(hist.index, bb['upper'], color='cyan', linestyle='--', linewidth=0.7, label='BBands Upper')
-                ax_price.plot(hist.index, bb['lower'], color='cyan', linestyle='--', linewidth=0.7)
-                ax_price.fill_between(hist.index, bb['lower'], bb['upper'], color='cyan', alpha=0.1)
+                # Reindex each band to the main chart's date range
+                bb_upper = bb['upper'].reindex(hist.index)
+                bb_lower = bb['lower'].reindex(hist.index)
+                ax_price.plot(hist.index, bb_upper, color='cyan', linestyle='--', linewidth=0.7, label='BBands Upper')
+                ax_price.plot(hist.index, bb_lower, color='cyan', linestyle='--', linewidth=0.7)
+                ax_price.fill_between(hist.index, bb_lower, bb_upper, color='cyan', alpha=0.1)
 
             # --- 5a. Consolidate and draw legend ---
             # Only draw legend if there are items with labels to display
