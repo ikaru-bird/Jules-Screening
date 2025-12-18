@@ -81,3 +81,33 @@ VCP_LOOKBACK_PERIOD = "1y"
 VCP_CONTRACTIONS = [0.25, 0.15, 0.08]
 VCP_CONTRACTION_MAX_DEVIATION = 1.5 # Allowable deviation from the expected contraction depth (e.g., 1.5 means 50% deviation)
 VCP_TIGHTENING_MAX_DAYS = 20 # Max days for the final tight consolidation before breakout
+
+
+# -- Power Play Setup Parameters --
+PP_LOOKBACK_PERIOD = "1y"  # Data period to fetch for analysis
+
+# 1. Trend Filter
+PP_TREND_SMA_LONG = 200
+PP_TREND_SMA_SHORT = 50
+PP_TREND_52W_HIGH_THRESHOLD = 0.75  # Price must be within 25% of 52-week high
+PP_RS_LOOKBACK = "6mo" # Relative Strength lookback period vs. S&P500
+
+# 2. Setup Detection (Volatility & Volume)
+PP_SETUP_BB_LENGTH = 20
+PP_SETUP_BB_STD = 2.0
+PP_SETUP_BBW_LOOKBACK = "6mo" # Lookback to find min Bollinger Band Width
+PP_SETUP_ATR_LENGTH = 14
+PP_SETUP_VOL_SMA_SHORT = 5
+PP_SETUP_VOL_SMA_LONG = 50
+
+# 3. Entry Trigger (Breakout)
+PP_TRIGGER_HIGH_LOOKBACK = 50 # Days to look back for a new high
+PP_TRIGGER_VOL_INCREASE_FACTOR = 1.5 # Breakout day volume must be >= 1.5x average
+
+# 4. Confirmation (Indicators)
+PP_CONFIRM_RSI_LENGTH = 14
+PP_CONFIRM_RSI_MIN = 50.0
+PP_CONFIRM_RSI_MAX = 70.0
+PP_CONFIRM_MACD_FAST = 12
+PP_CONFIRM_MACD_SLOW = 26
+PP_CONFIRM_MACD_SIGNAL = 9

@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.dates as mdates
 import numpy as np
+from src import config
 
 # Suppress known, harmless warnings from dependencies for a cleaner output
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -102,9 +103,6 @@ def _draw_pivot_line(ax, pivot_price, pivot_date, hist_df):
 
     # Plot a line segment
     ax.plot(line_dates, line_values, color='red', linestyle='--', linewidth=1.2, label=f'Pivot: {pivot_price:.2f}')
-
-    # To make sure the legend is shown
-    ax.legend()
 
 def _draw_cwh_pattern(ax, points, hist_df):
     """Draws the Cup with Handle pattern outline."""
@@ -281,6 +279,30 @@ def generate_stock_chart(stock_data, status=None, pattern_data=None):
                     _draw_db_pattern(ax_price, points, hist)
                 elif pattern_type == 'VCP':
                     _draw_vcp_pattern(ax_price, points, hist)
+
+            # --- Draw Power Play Indicators ---
+            if 'sma_short' in pattern_data and 'sma_long' in pattern_data:
+                # Reindex indicator data to match the main chart's date range to prevent dimension mismatch
+                sma_short = pattern_data['sma_short'].reindex(hist.index)
+                sma_long = pattern_data['sma_long'].reindex(hist.index)
+                ax_price.plot(hist.index, sma_short, color='orange', linestyle='-', linewidth=1, label=f'SMA {config.PP_TREND_SMA_SHORT}')
+                ax_price.plot(hist.index, sma_long, color='purple', linestyle='-', linewidth=1, label=f'SMA {config.PP_TREND_SMA_LONG}')
+
+            if 'bbands' in pattern_data:
+                bb = pattern_data['bbands']
+                # Reindex each band to the main chart's date range
+                bb_upper = bb['upper'].reindex(hist.index)
+                bb_lower = bb['lower'].reindex(hist.index)
+                ax_price.plot(hist.index, bb_upper, color='cyan', linestyle='--', linewidth=0.7, label='BBands Upper')
+                ax_price.plot(hist.index, bb_lower, color='cyan', linestyle='--', linewidth=0.7)
+                ax_price.fill_between(hist.index, bb_lower, bb_upper, color='cyan', alpha=0.1)
+
+            # --- 5a. Consolidate and draw legend ---
+            # Only draw legend if there are items with labels to display
+            handles, labels = ax_price.get_legend_handles_labels()
+            if handles:
+                ax_price.legend()
+
 
         # --- 6. Save Figure ---
         output_dir = "Output"
