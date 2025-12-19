@@ -86,6 +86,10 @@ VCP_TIGHTENING_MAX_DAYS = 20 # Max days for the final tight consolidation before
 # -- Power Play Setup Parameters --
 PP_LOOKBACK_PERIOD = "1y"  # Data period to fetch for analysis
 
+# 0. Explosive Uptrend (The defining characteristic of a Power Play)
+PP_UPTREND_MIN_RISE = 2.0  # Must have at least doubled (100% rise)
+PP_UPTREND_MAX_DAYS = 40   # ...within a maximum of 40 trading days (8 weeks)
+
 # 1. Trend Filter
 PP_TREND_SMA_LONG = 200
 PP_TREND_SMA_SHORT = 50

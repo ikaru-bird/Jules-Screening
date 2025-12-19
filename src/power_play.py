@@ -26,6 +26,11 @@ def check_power_play(df, sp500_data=None):
     # --- Calculate all necessary indicators ---
     _calculate_indicators(df)
 
+    # --- Stage 0: Explosive Uptrend ---
+    uptrend_ok, uptrend_reason = _check_explosive_uptrend(df)
+    if not uptrend_ok:
+        return "FAIL", f"Explosive Uptrend: {uptrend_reason}", {}
+
     # --- Stage 1: Trend Filter ---
     trend_ok, trend_reason = _check_trend_filter(df, sp500_data)
     if not trend_ok:
@@ -93,6 +98,25 @@ def _calculate_indicators(df):
     # Confirmation indicators
     df['RSI'] = ta.rsi(df['Close'], length=config.PP_CONFIRM_RSI_LENGTH)
     df.ta.macd(fast=config.PP_CONFIRM_MACD_FAST, slow=config.PP_CONFIRM_MACD_SLOW, signal=config.PP_CONFIRM_MACD_SIGNAL, append=True)
+
+
+def _check_explosive_uptrend(df):
+    """
+    Checks if the stock experienced a rapid price increase (e.g., 100% in 8 weeks)
+    which is the main characteristic of a Power Play.
+    """
+    # Use a rolling window to find the minimum price over the lookback period
+    rolling_min = df['Close'].rolling(window=config.PP_UPTREND_MAX_DAYS, min_periods=config.PP_UPTREND_MAX_DAYS).min()
+
+    # Calculate the price rise factor from the rolling minimum to the current price
+    price_rise_factor = df['Close'] / rolling_min
+
+    # Check if this factor ever exceeded the minimum required rise
+    if (price_rise_factor >= config.PP_UPTREND_MIN_RISE).any():
+        return True, "Explosive uptrend detected."
+    else:
+        max_rise = price_rise_factor.max()
+        return False, f"No explosive uptrend found (max rise was {max_rise:.2f}x)."
 
 
 def _check_trend_filter(df, sp500_data):
