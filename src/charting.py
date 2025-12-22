@@ -141,23 +141,31 @@ def _draw_db_pattern(ax, points, hist_df):
     first_trough = points.get('first_trough')
     peak = points.get('peak')
     second_trough = points.get('second_trough')
+    breakout_point = points.get('breakout_point') # Get the breakout point
 
     if not all([first_trough, peak, second_trough]):
-        return # Not enough points to draw
+        return # Not enough points to draw the basic W
 
     # Find a suitable starting point for the "W"
     start_search_end = first_trough[0] - pd.Timedelta(days=5)
     start_search_start = first_trough[0] - pd.Timedelta(days=60)
     entry_df = hist_df.loc[start_search_start:start_search_end]
     if entry_df.empty:
-        return
-
-    start_point_date = entry_df['High'].idxmax()
-    start_point_price = entry_df['High'].max()
+        # If no data before the first trough, start the line from the first trough itself
+        start_point_date = first_trough[0]
+        start_point_price = first_trough[1]
+    else:
+        start_point_date = entry_df['High'].idxmax()
+        start_point_price = entry_df['High'].max()
 
     # Assemble the points of the "W"
     w_dates = [start_point_date, first_trough[0], peak[0], second_trough[0]]
     w_prices = [start_point_price, first_trough[1], peak[1], second_trough[1]]
+
+    # If a breakout has occurred, extend the line to the breakout point
+    if breakout_point:
+        w_dates.append(breakout_point[0])
+        w_prices.append(breakout_point[1])
 
     ax.plot(w_dates, w_prices, color='blue', linestyle='--', linewidth=1)
 
