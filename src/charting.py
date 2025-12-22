@@ -136,6 +136,13 @@ def _draw_cwh_pattern(ax, points, hist_df):
         handle_prices = [cup_right_lip[1], handle_low[1]]
         ax.plot(handle_dates, handle_prices, color='blue', linestyle='--', linewidth=1)
 
+    # If a breakout has occurred, draw a line from the handle low to the breakout point
+    breakout_point = points.get('breakout_point')
+    if handle_low and breakout_point:
+        breakout_line_dates = [handle_low[0], breakout_point[0]]
+        breakout_line_prices = [handle_low[1], breakout_point[1]]
+        ax.plot(breakout_line_dates, breakout_line_prices, color='blue', linestyle='--', linewidth=1)
+
 def _draw_db_pattern(ax, points, hist_df):
     """Draws the Double Bottom (W-shape) pattern outline."""
     first_trough = points.get('first_trough')
