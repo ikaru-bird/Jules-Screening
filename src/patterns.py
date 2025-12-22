@@ -123,8 +123,7 @@ def _check_handle_formation(df, right_lip_date, cup_high_price, cup_bottom_price
 def _check_pivot_breakout(df, handle_low_date, pivot_price):
     """
     Checks for a breakout above the pivot point with high volume.
-    Returns a status and a reason, distinguishing between recent breakouts,
-    old breakouts, and stale watch-list items.
+    Returns a status, a reason, and the date of the breakout if found.
     """
     breakout_lookahead_end_date = handle_low_date + dt.timedelta(days=config.PIVOT_LOOKAHEAD_DAYS)
 
@@ -132,7 +131,7 @@ def _check_pivot_breakout(df, handle_low_date, pivot_price):
     pivot_df = df.query('index > @handle_low_date and index <= @breakout_lookahead_end_date and High >= @pivot_price')
 
     if pivot_df.empty:
-        return False, "NO_BREAKOUT"
+        return False, "NO_BREAKOUT", None
 
     breakout_date = pivot_df.index[0]
     breakout_day = pivot_df.iloc[0]
@@ -149,13 +148,13 @@ def _check_pivot_breakout(df, handle_low_date, pivot_price):
     if volume_ok:
         # High-volume breakout: success, unless it's old
         if breakout_date < one_month_ago:
-            return False, f"OLD_BREAKOUT: Breakout on {breakout_date.date()} is older than 1 month"
-        return True, f"Pattern detected with volume breakout on {breakout_date.date()}"
+            return False, f"OLD_BREAKOUT: Breakout on {breakout_date.date()} is older than 1 month", None
+        return True, f"Pattern detected with volume breakout on {breakout_date.date()}", breakout_date
     else:
         # Low-volume crossing: potential WATCH, unless it's old
         if breakout_date < one_month_ago:
-            return False, f"STALE_WATCH: Low-volume pivot cross on {breakout_date.date()} is older than 1 month"
-        return False, "Pivot breakout occurred but without sufficient volume"
+            return False, f"STALE_WATCH: Low-volume pivot cross on {breakout_date.date()} is older than 1 month", None
+        return False, "Pivot breakout occurred but without sufficient volume", None
 
 
 def check_cup_with_handle(df_hist):
@@ -229,7 +228,7 @@ def check_cup_with_handle(df_hist):
     }
 
     # Stage 4: Look for a pivot breakout.
-    is_breakout, breakout_reason = _check_pivot_breakout(df, handle_low_date, pivot_price)
+    is_breakout, breakout_reason, _ = _check_pivot_breakout(df, handle_low_date, pivot_price)
     if is_breakout:
         return "BREAKOUT", breakout_reason, pattern_data
 
@@ -378,8 +377,10 @@ def check_double_bottom(df_hist):
         }
     }
 
-    is_breakout, breakout_reason = _check_pivot_breakout(df, second_trough_date, pivot_price)
+    is_breakout, breakout_reason, breakout_date = _check_pivot_breakout(df, second_trough_date, pivot_price)
     if is_breakout:
+        # Add the breakout point to the pattern data for charting
+        pattern_data['points']['breakout_point'] = (breakout_date, df.loc[breakout_date, 'High'])
         return "BREAKOUT", breakout_reason, pattern_data
 
     # If it didn't break out, check if it's because the breakout is old or stale.
@@ -504,7 +505,7 @@ def check_vcp(df_hist):
     }
 
     # Stage 3: Look for a pivot breakout.
-    is_breakout, breakout_reason = _check_pivot_breakout(df, last_date, pivot_price)
+    is_breakout, breakout_reason, _ = _check_pivot_breakout(df, last_date, pivot_price)
     if is_breakout:
         return "BREAKOUT", breakout_reason, pattern_data
 
