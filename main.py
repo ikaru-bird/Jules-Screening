@@ -32,6 +32,18 @@ def main():
         default=None,
         help="Screen only the top N stocks from the input file."
     )
+    screen_parser.add_argument(
+        '--output-file',
+        type=str,
+        default=config.RESULTS_FILE,
+        help=f"Path to the output CSV file for screening results. Defaults to {config.RESULTS_FILE}"
+    )
+    screen_parser.add_argument(
+        '--output-charts',
+        type=str,
+        default="Output",
+        help="Directory to save the output charts. Defaults to 'Output'."
+    )
 
     args = parser.parse_args()
 
@@ -63,7 +75,11 @@ def main():
             ticker_df = ticker_df.head(args.top)
 
         # Run the main screening logic
-        run_screening(ticker_df)
+        run_screening(
+            ticker_df,
+            output_file=args.output_file,
+            output_charts=args.output_charts
+        )
 
 if __name__ == "__main__":
     main()

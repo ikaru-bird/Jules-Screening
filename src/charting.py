@@ -187,7 +187,7 @@ def _draw_vcp_pattern(ax, points, hist_df):
     ax.plot(vcp_dates, vcp_prices, color='blue', linestyle='--', linewidth=1, marker='o', markersize=3)
 
 
-def generate_stock_chart(stock_data, status=None, pattern_data=None):
+def generate_stock_chart(stock_data, status=None, pattern_data=None, output_dir="Output"):
     """
     Generates and saves a detailed stock chart using a manual matplotlib layout
     and mplfinance for plotting. This provides maximum control over the final output.
@@ -320,7 +320,6 @@ def generate_stock_chart(stock_data, status=None, pattern_data=None):
 
 
         # --- 6. Save Figure ---
-        output_dir = "Output"
         os.makedirs(output_dir, exist_ok=True)
         filename_status = f"_{status}" if status else ""
         filename = f"{symbol}{filename_status}.png"

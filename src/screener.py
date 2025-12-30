@@ -17,7 +17,7 @@ from src.criteria import (
 from src.patterns import check_cup_with_handle, check_double_bottom, check_vcp
 from src.power_play import check_power_play
 
-def run_screening(ticker_df):
+def run_screening(ticker_df, output_file=config.RESULTS_FILE, output_charts="Output"):
     """
     Runs the full screening process on a DataFrame of tickers.
 
@@ -133,7 +133,12 @@ def run_screening(ticker_df):
                     })
 
                     print(f"Generating chart for {symbol} ({status} / {pattern_name})...")
-                    generate_stock_chart(stock_data, f"{status}_{pattern_name}", pattern_data)
+                    generate_stock_chart(
+                        stock_data,
+                        f"{status}_{pattern_name}",
+                        pattern_data,
+                        output_dir=output_charts
+                    )
 
                     pattern_found = True
                     break # Stop after the first matching pattern
@@ -151,10 +156,10 @@ def run_screening(ticker_df):
     # --- Save Results ---
     if qualified_stocks:
         results_df = pd.DataFrame(qualified_stocks)
-        results_df.to_csv(config.RESULTS_FILE, index=False)
+        results_df.to_csv(output_file, index=False)
         print(f"\nScreening complete. Found {len(qualified_stocks)} stocks to watch or that broke out.")
-        print(f"Final list saved to {config.RESULTS_FILE}")
-        print("Charts for these stocks have been generated in the root directory.")
+        print(f"Final list saved to {output_file}")
+        print(f"Charts for these stocks have been generated in the '{output_charts}' directory.")
     else:
         print("\nScreening complete. No stocks met all the criteria.")
 
